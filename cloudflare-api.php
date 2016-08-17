@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  */
 class CloudFlareAPI {
 
+
+
 	/**
 	 * Response code message.
 	 *
@@ -40,10 +42,10 @@ class CloudFlareAPI {
 				$msg = __( 'Unsupported Media Type: Response is not valid JSON.','textdomain' );
 				break;
 			case 429:
-				$msg = __( 'Too many requests: client is rate limited.','textdomain' );
+				$msg = __( 'Too many requests: Client is rate limited.','textdomain' );
 				break;
 			default:
-				$msg = __( 'Response code unknown', 'textdomain' );
+				$msg = __( 'Response code unknown.', 'textdomain' );
 				break;
 		}
 		return $msg;
