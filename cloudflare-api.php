@@ -41,7 +41,7 @@ class CloudFlareAPI {
 				$msg = __( 'Too many requests: client is rate limited.','textdomain' );
 				break;
 			default:
-				$msg = __( 'Response code unkown' );
+				$msg = __( 'Response code unknown', 'textdomain' );
 				break;
 		}
 		return $msg;
