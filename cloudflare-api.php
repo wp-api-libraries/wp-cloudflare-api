@@ -16,7 +16,7 @@ class CloudFlareAPI {
 
 
 	/**
-	 * Response code message.
+	 * HTTP response code messages.
 	 *
 	 * @param  [String] $code : Response code to get message from.
 	 * @return [String]       : Message corresponding to response code sent in.
