@@ -8,8 +8,10 @@
 /* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/**
+ * CloudFlareAPI class.
+ */
 class CloudFlareAPI {
-
 
 	/**
 	 * Response code message.
@@ -46,5 +48,4 @@ class CloudFlareAPI {
 		}
 		return $msg;
 	}
-
 }
