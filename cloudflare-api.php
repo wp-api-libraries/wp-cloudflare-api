@@ -16,6 +16,53 @@ class CloudFlareAPI {
 
 
 	/**
+	 * Get User Properties (https://api.cloudflare.com/#user-properties).
+	 *
+	 * @accountaccess FREE, PRO, Business, Enterprise
+	 * @access public
+	 * @return void
+	 */
+	function get_user() {
+
+	}
+
+
+	/**
+	 * Update User (https://api.cloudflare.com/#user-update-user).
+	 *
+	 * @accountaccess FREE, PRO, Business, Enterprise
+	 * @access public
+	 * @return void
+	 */
+	function update_user() {
+
+	}
+
+
+	/**
+	 * Get User Billing Profile (https://api.cloudflare.com/#user-billing-profile-properties).
+	 *
+	 * @access public
+	 * @return void
+	 */
+	function get_user_billing_profile() {
+
+	}
+
+
+	/**
+	 * Get User Billing History (https://api.cloudflare.com/#user-billing-history-properties).
+	 *
+	 * @access public
+	 * @return void
+	 */
+	function get_user_billing_history() {
+
+	}
+
+
+
+	/**
 	 * HTTP response code messages.
 	 *
 	 * @param  [String] $code : Response code to get message from.
