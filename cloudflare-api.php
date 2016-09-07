@@ -182,163 +182,327 @@ class CloudFlareAPI {
 				break;
 
 			/* DNS Records for a Zone Error Codes. */
-			/*
-1000	Invalid user
-1002	Invalid or missing zone_id
-1003	per_page must be a positive integer
-1004	Invalid or missing zone
-1005	Invalid or missing record
-1007	name required
-1008	content required
-1009	Invalid or missing record id
-1010	Invalid or missing record
-1011	Zone file for '<domain name>' could not be found
-1012	Zone file for '<domain name>' is not modifiable
-1013	The record could not be found
-1014	You do not have permission to modify this zone
-1015	Unknown error
-1017	Content for A record is invalid. Must be a valid IPv4 address
-1018	Content for AAAA record is invalid. Must be a valid IPv6 address
-1019	Content for CNAME record is invalid
-1024	Invalid priority, priority must be set and be between 0 and 65535
-1025	Invalid content for an MX record
-1026	Invalid format for a SPF record. A valid example is 'v=spf1 a mx -all'. You should not include either the word TXT or the domain name here in the content
-1027	Invalid service value
-1028	Invalid service value. Must be less than 100 characters
-1029	Invalid protocol value
-1030	Invalid protocol value. Must be less than 12 characters
-1031	Invalid SRV name
-1032	Invalid SRV name. Must be less than 90 characters
-1033	Invalid weight value. Must be between 0 and 65,535
-1034	Invalid port value. Must be between 0 and 65,535
-1037	Invalid domain name for a SRV target host
-1038	Invalid DNS record type
-1039	Invalid TTL. Must be between 120 and 4,294,967,295 seconds, or 1 for automatic
-1041	Priority must be set for SRV record
-1042	Zone file for '<domain name>' could not be found
-1043	Zone file for '<domain name>' is not editable
-1044	A record with these exact values already exists. Please modify or remove this record
-1045	The record could not be found
-1046	A record with these exact values already exists. Please modify or cancel this edit
-1047	You do not have permission to modify this zone
-1048	You have reached the record limit for this zone
-1049	The record content is missing
-1050	Could not find record
-1052	You can not point a CNAME to itself
-1053	Invalid lat_degrees, must be an integer between 0 and 90 inclusive
-1054	Invalid lat_minutes, must be an integer between 0 and 59 inclusive
-1055	Invalid lat_seconds, must be a floating point number between 0 and 60, including 0 but not including 60
-1056	Invalid or missing lat_direction. Values must be N or S
-1057	Invalid long_degrees, must be an integer between 0 and 180
-1058	Invalid long_minutes, must be an integer between 0 and 59
-1059	Invalid long_seconds, must be a floating point number between 0 and 60, including 0 but not including 60
-1060	Invalid or missing long_direction. Values must be E or S
-1061	Invalid altitude, must be a floating point number between -100000.00 and 42849672.95
-1062	Invalid size, must be a floating point number between 0 and 90000000.00
-1063	Invalid precision_horz, must be a floating point number between 0 and 90000000.00
-1064	Invalid precision_vert, must be a floating point number between 0 and 90000000.00
-1065	Invalid or missing data for <type> record
-1067	Invalid content for a NS record
-1068	Target cannot be an IP address
-1069	CNAME content cannot reference itself
-1070	CNAME content cannot be an IP
-1071	Invalid proxied mode. Record cannot be proxied
-1072	Invalid record identifier
-1073	Invalid TXT record. Must be less than 255 characters
-1074	Invalid TXT record. Record may only contain printable ASCII!
+
+
+			case 1000;
+				$msg = __( 'Invalid user.','text-domain' );
+				break;
+			case 1002;
+				$msg = __( 'Invalid or missing zone_id.','text-domain' );
+				break;
+			case 1003;
+				$msg = __( 'The per_page must be a positive integer.','text-domain' );
+				break;
+			case 1004;
+				$msg = __( 'Invalid or missing zone.','text-domain' );
+				break;
+			case 1005;
+				$msg = __( 'Invalid or missing record.','text-domain' );
+				break;
+			case 1007;
+				$msg = __( 'Name required.','text-domain' );
+				break;
+			case 1008;
+				$msg = __( 'Content required.','text-domain' );
+				break;
+			case 1009;
+				$msg = __( 'Invalid or missing record id.','text-domain' );
+				break;
+			case 1010;
+				$msg = __( 'Invalid or missing record.','text-domain' );
+				break;
+			case 1011;
+				$msg = __( 'Zone file for \'<domain name>\' could not be found.','text-domain' );
+				break;
+			case 1012;
+				$msg = __( 'Zone file for \'<domain name>\' is not modifiable.','text-domain' );
+				break;
+			case 1013;
+				$msg = __( 'The record could not be found.','text-domain' );
+				break;
+			case 1014;
+				$msg = __( 'You do not have permission to modify this zone.','text-domain' );
+				break;
+
+
+		/*
+case 1015;
+	$msg = __( 'Unknown error','text-domain' );
+case 1017;
+	$msg = __( 'Content for A record is invalid. Must be a valid IPv4 address','text-domain' );
+case 1018;
+	$msg = __( 'Content for AAAA record is invalid. Must be a valid IPv6 address','text-domain' );
+case 1019;
+	$msg = __( 'Content for CNAME record is invalid','text-domain' );
+case 1024;
+	$msg = __( 'Invalid priority, priority must be set and be between 0 and 65535','text-domain' );
+case 1025;
+	$msg = __( 'Invalid content for an MX record','text-domain' );
+case 1026;
+	$msg = __( 'Invalid format for a SPF record. A valid example is \'v=spf1 a mx -all\'. You should not include either the word TXT or the domain name here in the content','text-domain' );
+case 1027;
+	$msg = __( 'Invalid service value','text-domain' );
+case 1028;
+	$msg = __( 'Invalid service value. Must be less than 100 characters','text-domain' );
+case 1029;
+	$msg = __( 'Invalid protocol value','text-domain' );
+case 1030;
+	$msg = __( 'Invalid protocol value. Must be less than 12 characters','text-domain' );
+case 1031;
+	$msg = __( 'Invalid SRV name','text-domain' );
+case 1032;
+	$msg = __( 'Invalid SRV name. Must be less than 90 characters','text-domain' );
+case 1033;
+	$msg = __( 'Invalid weight value. Must be between 0 and 65,535','text-domain' );
+case 1034;
+	$msg = __( 'Invalid port value. Must be between 0 and 65,535','text-domain' );
+case 1037;
+	$msg = __( 'Invalid domain name for a SRV target host','text-domain' );
+case 1038;
+	$msg = __( 'Invalid DNS record type','text-domain' );
+case 1039;
+	$msg = __( 'Invalid TTL. Must be between 120 and 4,294,967,295 seconds, or 1 for automatic','text-domain' );
+case 1041;
+	$msg = __( 'Priority must be set for SRV record','text-domain' );
+case 1042;
+	$msg = __( 'Zone file for \'<domain name>\' could not be found','text-domain' );
+case 1043;
+	$msg = __( 'Zone file for \'<domain name>\' is not editable','text-domain' );
+case 1044;
+	$msg = __( 'A record with these exact values already exists. Please modify or remove this record','text-domain' );
+case 1045;
+	$msg = __( 'The record could not be found','text-domain' );
+case 1046;
+	$msg = __( 'A record with these exact values already exists. Please modify or cancel this edit','text-domain' );
+case 1047;
+	$msg = __( 'You do not have permission to modify this zone','text-domain' );
+case 1048;
+	$msg = __( 'You have reached the record limit for this zone','text-domain' );
+case 1049;
+	$msg = __( 'The record content is missing','text-domain' );
+case 1050;
+	$msg = __( 'Could not find record','text-domain' );
+case 1052;
+	$msg = __( 'You can not point a CNAME to itself','text-domain' );
+case 1053;
+	$msg = __( 'Invalid lat_degrees, must be an integer between 0 and 90 inclusive','text-domain' );
+case 1054;
+	$msg = __( 'Invalid lat_minutes, must be an integer between 0 and 59 inclusive','text-domain' );
+case 1055;
+	$msg = __( 'Invalid lat_seconds, must be a floating point number between 0 and 60, including 0 but not including 60','text-domain' );
+case 1056;
+	$msg = __( 'Invalid or missing lat_direction. Values must be N or S','text-domain' );
+case 1057;
+	$msg = __( 'Invalid long_degrees, must be an integer between 0 and 180','text-domain' );
+case 1058;
+	$msg = __( 'Invalid long_minutes, must be an integer between 0 and 59','text-domain' );
+case 1059;
+	$msg = __( 'Invalid long_seconds, must be a floating point number between 0 and 60, including 0 but not including 60','text-domain' );
+case 1060;
+	$msg = __( 'Invalid or missing long_direction. Values must be E or S','text-domain' );
+case 1061;
+	$msg = __( 'Invalid altitude, must be a floating point number between -100000.00 and 42849672.95','text-domain' );
+case 1062;
+	$msg = __( 'Invalid size, must be a floating point number between 0 and 90000000.00','text-domain' );
+case 1063;
+	$msg = __( 'Invalid precision_horz, must be a floating point number between 0 and 90000000.00','text-domain' );
+case 1064;
+	$msg = __( 'Invalid precision_vert, must be a floating point number between 0 and 90000000.00','text-domain' );
+case 1065;
+	$msg = __( 'Invalid or missing data for <type> record','text-domain' );
+case 1067;
+	$msg = __( 'Invalid content for a NS record','text-domain' );
+case 1068;
+	$msg = __( 'Target cannot be an IP address','text-domain' );
+case 1069;
+	$msg = __( 'CNAME content cannot reference itself','text-domain' );
+case 1070;
+	$msg = __( 'CNAME content cannot be an IP','text-domain' );
+case 1071;
+	$msg = __( 'Invalid proxied mode. Record cannot be proxied','text-domain' );
+case 1072;
+	$msg = __( 'Invalid record identifier','text-domain' );
+case 1073;
+	$msg = __( 'Invalid TXT record. Must be less than 255 characters','text-domain' );
+case 1074;
+	$msg = __( 'Invalid TXT record. Record may only contain printable ASCII!','text-domain' );
 */
 
 			/* Zone Error Codes */
-			/*
-1000	Invalid or missing user
-1002	'name' must be a valid domain
-1003	'jump_start' must be boolean
-1004	Failed to assign name servers
-1006	Invalid or missing zone
-1008	Invalid or missing Zone id
-1010	Invalid Zone
-1011	Invalid or missing zone
-1012	Request must contain one of 'purge_everything' or 'files'
-1013	'purge_everything' must be true
-1014	'files' must be an array of urls
-1015	Unable to purge <url>
-1016	Unable to purge any urls
-1017	Unable to purge all
-1018	Invalid zone status
-1019	Zone is already paused
-1020	Invalid or missing zone
-1021	Invalid zone status
-1022	Zone is already unpaused
-1023	Invalid or missing zone
-1024	<domain> already exists
-1049	<domain> is not a registered domain
-1050	<domain> is currently being tasted. It is not currently a registered domain
-1051	CloudFlare is already hosting <domain>
-1052	An error has occurred and it has been logged. We will fix this problem promptly. We apologize for the inconvenience
-1053	<domain> is already disabled
-1054	<domain> is already enabled
-1055	Failed to disable <domain>
-1056	preserve_ini must be a boolean
-1057	Zone must be in 'initializing' status
-1059	Unable to delete zone
-1061	<domain> already exists
-1062	Not allowed to update zone status
-1063	Not allowed to update zone step
-1064	Not allowed to update zone step. Bad zone status
-1065	Not allowed to update zone step. Zone has already been set up
-1066	Could not promote zone to step 3
-1067	Invalid organization identifier passed in your organization variable
-1068	Permission denied
-1069	organization variable should be an organization object
-1070	This operation requires a Business or Enterprise account.
-1071	Vanity name server array expected.
-1072	Vanity name server array cannot be empty.
-1073	A name server provided is in the wrong format.
-1074	Could not find a valid zone.
-1075	Vanity name server array count is invalid
-1076	Name servers have invalid IP addresses
-1077	Could not find a valid zone.
-1078	This zone has no valid vanity IPs.
-1079	This zone has no valid vanity name servers.
-1080	There is a conflict with one of the name servers.
-1081	There are no valid vanity name servers to disable.
-1082	Unable to purge '<url>'. You can only purge files for this zone
-1083	Unable to purge '<url>'. Rate limit reached. Please wait if you need to perform more operations
-1084	Unable to purge '<url>'.
-1085	Only one property can be updated at a time
-1086	Invalid property
-1087	Zone is in an invalid state
+		/*
+case 1000;
+  $msg = __( 'Invalid or missing user','text-domain' );
+case 1002;
+	$msg = __( 'The \'name\' must be a valid domain','text-domain' );
+case 1003;
+	$msg = __( 'The \'jump_start\' must be boolean','text-domain' );
+case 1004;
+	$msg = __( 'Failed to assign name servers','text-domain' );
+case 1006;
+	$msg = __( 'Invalid or missing zone','text-domain' );
+case 1008;
+	$msg = __( 'Invalid or missing Zone id','text-domain' );
+case 1010;
+	$msg = __( 'Invalid Zone','text-domain' );
+case 1011;
+	$msg = __( 'Invalid or missing zone','text-domain' );
+case 1012;
+	$msg = __( 'Request must contain one of \'purge_everything\' or \'files\'','text-domain' );
+case 1013;
+	$msg = __( '\'purge_everything\' must be true','text-domain' );
+case 1014;
+	$msg = __( '\'files\' must be an array of urls','text-domain' );
+case 1015;
+	$msg = __( 'Unable to purge <url>','text-domain' );
+case 1016;
+	$msg = __( 'Unable to purge any urls','text-domain' );
+case 1017;
+	$msg = __( 'Unable to purge all','text-domain' );
+case 1018;
+	$msg = __( 'Invalid zone status','text-domain' );
+case 1019;
+	$msg = __( 'Zone is already paused','text-domain' );
+case 1020;
+	$msg = __( 'Invalid or missing zone','text-domain' );
+case 1021;
+	$msg = __( 'Invalid zone status','text-domain' );
+case 1022;
+	$msg = __( 'Zone is already unpaused','text-domain' );
+case 1023;
+	$msg = __( 'Invalid or missing zone','text-domain' );
+case 1024;
+	$msg = __( '<domain> already exists','text-domain' );
+case 1049;
+	$msg = __( '<domain> is not a registered domain','text-domain' );
+case 1050;
+	$msg = __( '<domain> is currently being tasted. It is not currently a registered domain','text-domain' );
+case 1051;
+	$msg = __( 'CloudFlare is already hosting <domain>','text-domain' );
+case 1052;
+	$msg = __( 'An error has occurred and it has been logged. We will fix this problem promptly. We apologize for the inconvenience','text-domain' );
+case 1053;
+	$msg = __( '<domain> is already disabled','text-domain' );
+case 1054;
+	$msg = __( '<domain> is already enabled','text-domain' );
+case 1055;
+	$msg = __( 'Failed to disable <domain>','text-domain' );
+case 1056;
+	$msg = __( 'preserve_ini must be a boolean','text-domain' );
+case 1057;
+	$msg = __( 'Zone must be in \'initializing\' status','text-domain' );
+case 1059;
+	$msg = __( 'Unable to delete zone','text-domain' );
+case 1061;
+	$msg = __( '<domain> already exists','text-domain' );
+case 1062;
+	$msg = __( 'Not allowed to update zone status','text-domain' );
+case 1063;
+	$msg = __( 'Not allowed to update zone step','text-domain' );
+case 1064;
+	$msg = __( 'Not allowed to update zone step. Bad zone status','text-domain' );
+case 1065;
+	$msg = __( 'Not allowed to update zone step. Zone has already been set up','text-domain' );
+case 1066;
+	$msg = __( 'Could not promote zone to step 3','text-domain' );
+case 1067;
+	$msg = __( 'Invalid organization identifier passed in your organization variable','text-domain' );
+case 1068;
+	$msg = __( 'Permission denied','text-domain' );
+case 1069;
+	$msg = __( 'organization variable should be an organization object','text-domain' );
+case 1070;
+	$msg = __( 'This operation requires a Business or Enterprise account.','text-domain' );
+case 1071;
+	$msg = __( 'Vanity name server array expected.','text-domain' );
+case 1072;
+	$msg = __( 'Vanity name server array cannot be empty.','text-domain' );
+case 1073;
+	$msg = __( 'A name server provided is in the wrong format.','text-domain' );
+case 1074;
+	$msg = __( 'Could not find a valid zone.','text-domain' );
+case 1075;
+	$msg = __( 'Vanity name server array count is invalid','text-domain' );
+case 1076;
+	$msg = __( 'Name servers have invalid IP addresses','text-domain' );
+case 1077;
+	$msg = __( 'Could not find a valid zone.','text-domain' );
+case 1078;
+	$msg = __( 'This zone has no valid vanity IPs.','text-domain' );
+case 1079;
+	$msg = __( 'This zone has no valid vanity name servers.','text-domain' );
+case 1080;
+	$msg = __( 'There is a conflict with one of the name servers.','text-domain' );
+case 1081;
+	$msg = __( 'There are no valid vanity name servers to disable.','text-domain' );
+case 1082;
+	$msg = __( 'Unable to purge \'<url>\'. You can only purge files for this zone','text-domain' );
+case 1083;
+	$msg = __( 'Unable to purge \'<url>\'. Rate limit reached. Please wait if you need to perform more operations','text-domain' );
+case 1084;
+	$msg = __( 'Unable to purge \'<url>\'.','text-domain' );
+case 1085;
+	$msg = __( 'Only one property can be updated at a time','text-domain' );
+case 1086;
+	$msg = __( 'Invalid property','text-domain' );
+case 1087;
+	$msg = __( 'Zone is in an invalid state','text-domain' );
 */
 
 
 			/* Custom Pages for a Zone Error Codes. */
 			/*
-1000	Invalid user
-1001	Invalid request. Could not connect to database
-1002	Validator dispatcher expects an array
-1004	Cannot find a valid zone
-1006	Cannot find a valid customization page
-1007	Invalid validation method being called
-1200	A URL is required
-1201	The URL provided seems to be irregular
-1202	Unable to grab the content for the URL provided. Please try again.
-1203	Your custom page must be larger than <characters> characters
-1204	Your custom page must be smaller than <characters> characters
-1205	A <token> token was not detected on the error page, and must be added before this page can be integrated into CloudFlare. The default error page will show until this is corrected and rescanned.
-1206	Could not find a valid zone
-1207	That customization page is not modifiable
-1208	An unknown error has occurred and has been logged. We will fix this problem promptly. We apologize for the inconvenience.
-1209	Could not find a valid customization page for this operation
-1210	That operation is no longer allowed for that domain.
-1211	Could not find a valid customization page to disable
-1212	An undocumented error has occurred and has been logged.
-1213	That operation has already been performed for this challenge/error.
-1214	Rate limit reached for this operation. Please try again in a minute
-1215	Rate limit reached for this operation. Please try again in a minute
-1217	Invalid state passed
-1218	Missing Custom Page state
-1219	Please upgrade to access this feature
-1220	We were unable to scan the page provided. Please ensure it is accessible publicly and is larger than 100 characters
+case 1000;
+	$msg = __( 'Invalid user','text-domain' );
+case 1001;
+	$msg = __( 'Invalid request. Could not connect to database','text-domain' );
+case 1002;
+	$msg = __( 'Validator dispatcher expects an array','text-domain' );
+case 1004;
+	$msg = __( 'Cannot find a valid zone','text-domain' );
+case 1006;
+	$msg = __( 'Cannot find a valid customization page','text-domain' );
+case 1007;
+	$msg = __( 'Invalid validation method being called','text-domain' );
+case 1200;
+	$msg = __( 'A URL is required','text-domain' );
+case 1201;
+	$msg = __( 'The URL provided seems to be irregular','text-domain' );
+case 1202;
+	$msg = __( 'Unable to grab the content for the URL provided. Please try again.','text-domain' );
+case 1203;
+	$msg = __( 'Your custom page must be larger than <characters> characters','text-domain' );
+case 1204;
+	$msg = __( 'Your custom page must be smaller than <characters> characters','text-domain' );
+case 1205;
+	$msg = __( 'A <token> token was not detected on the error page, and must be added before this page can be integrated into CloudFlare. The default error page will show until this is corrected and rescanned.','text-domain' );
+case 1206;
+	$msg = __( 'Could not find a valid zone','text-domain' );
+case 1207;
+	$msg = __( 'That customization page is not modifiable','text-domain' );
+case 1208;
+	$msg = __( 'An unknown error has occurred and has been logged. We will fix this problem promptly. We apologize for the inconvenience.','text-domain' );
+case 1209;
+	$msg = __( 'Could not find a valid customization page for this operation','text-domain' );
+case 1210;
+	$msg = __( 'That operation is no longer allowed for that domain.','text-domain' );
+case 1211;
+	$msg = __( 'Could not find a valid customization page to disable','text-domain' );
+case 1212;
+	$msg = __( 'An undocumented error has occurred and has been logged.','text-domain' );
+case 1213;
+	$msg = __( 'That operation has already been performed for this challenge/error.','text-domain' );
+case 1214;
+	$msg = __( 'Rate limit reached for this operation. Please try again in a minute','text-domain' );
+case 1215;
+	$msg = __( 'Rate limit reached for this operation. Please try again in a minute','text-domain' );
+case 1217;
+	$msg = __( 'Invalid state passed','text-domain' );
+case 1218;
+	$msg = __( 'Missing Custom Page state','text-domain' );
+case 1219;
+	$msg = __( 'Please upgrade to access this feature','text-domain' );
+case 1220;
+	$msg = __( 'We were unable to scan the page provided. Please ensure it is accessible publicly and is larger than 100 characters','text-domain' );
 */
 		}
 		return $msg;
