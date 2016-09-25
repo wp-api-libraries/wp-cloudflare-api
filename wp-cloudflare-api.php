@@ -228,9 +228,279 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @access public
 		 * @return void
 		 */
-		function get_zone_advanced_ddos() {
+		function get_zone_advanced_ddos( $zone_id ) {
 
 			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/advanced_ddos';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_always_online function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_always_online( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/always_online';
+
+			return $this->fetch( $request );
+
+		}
+
+
+		/**
+		 * get_zone_browser_cache_ttl function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_zone_browser_cache_ttl( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/browser_cache_ttl';
+
+			return $this->fetch( $request );
+		}
+
+		/**
+		 * get_zone_browser_check function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_zone_browser_check( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/browser_check';
+
+			return $this->fetch( $request );
+
+		}
+
+		/**
+		 * get_zone_cache_level function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_zone_cache_level( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/cache_level';
+
+			return $this->fetch( $request );
+
+		}
+
+
+		/**
+		 * get_zone_challenge_ttl function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_challenge_ttl( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/challenge_ttl';
+
+			return $this->fetch( $request );
+
+		}
+
+
+		/**
+		 * get_zone_development_mode function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_development_mode( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/development_mode';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_email_obfuscation function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_email_obfuscation( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/email_obfuscation';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_hotlink_protection function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_hotlink_protection( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/hotlink_protection';
+
+			return $this->fetch( $request );
+
+		}
+
+
+		/**
+		 * get_zone_ip_geolocation function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_ip_geolocation( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/ip_geolocation';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_ipv6 function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_ipv6( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/ipv6';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_minify function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_minify( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/minify';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_mobile_redirect function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_mobile_redirect( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/mobile_redirect';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_mirage function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_mirage( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/mirage';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_origin_error_page_pass_thru function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_origin_error_page_pass_thru( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/origin_error_page_pass_thru';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_polish function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_polish( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/polish';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_prefetch_preload function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_prefetch_preload( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/prefetch_preload';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_response_buffering function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_response_buffering( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/response_buffering';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_rocket_loader function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_rocket_loader( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/rocket_loader';
 
 			return $this->fetch( $request );
 		}
@@ -248,6 +518,138 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 			return $this->fetch( $request );
 
+		}
+
+
+		/**
+		 * get_zone_security_level function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_security_level( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/security_level';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_server_side_exclude function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_server_side_exclude( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/server_side_exclude';
+
+			return $this->fetch( $request );
+
+		}
+
+		/**
+		 * get_zone_sort_query_string_for_cache function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_sort_query_string_for_cache( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/sort_query_string_for_cache';
+
+			return $this->fetch( $request );
+
+		}
+
+		/**
+		 * get_zone_ssl function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_ssl( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/ssl';
+
+			return $this->fetch( $request );
+		}
+
+		/**
+		 * get_zone_tls_1_2_only function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_tls_1_2_only( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/tls_1_2_only';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * Get TLS Client Auth setting.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_tls_client_auth( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/tls_client_auth';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * Get True Client IP setting.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_true_client_ip_header( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/tls_client_auth';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_waf function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_waf( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/waf';
+
+			return $this->fetch( $request );
+		}
+
+		/**
+		 * get_cloudflare_ips function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_cloudflare_ips() {
+
+			$request = $this->base_uri . 'ips';
+
+			return $this->fetch( $request );
 		}
 
 
