@@ -177,6 +177,78 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
+		 * get_subscriptions_zones_billing function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_subscriptions_zones_billing( $zone_id ) {
+
+			$request = $this->base_uri . 'user/billing/subscriptions/zones/' . $zone_id;
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_user_firewall_access_rules function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_user_firewall_access_rules() {
+
+			$request = $this->base_uri . 'user/firewall/access_rules/rules';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_user_organizations function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_user_organizations() {
+
+			$request = $this->base_uri . 'user/organizations';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_user_invites function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_user_invites() {
+
+			$request = $this->base_uri . 'user/invites';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_user_invite function.
+		 *
+		 * @access public
+		 * @param mixed $invite_id
+		 * @return void
+		 */
+		function get_user_invite( $invite_id ) {
+
+			$request = $this->base_uri . 'user/invites/' . $invite_id;
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
 		 * get_zones function.
 		 *
 		 * @access public
@@ -185,6 +257,27 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		function get_zones() {
 
 			$request = $this->base_uri . 'zones';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_plans function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_zone_plans( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/available_plans';
+
+			return $this->fetch( $request );
+		}
+
+		function get_zone_plans_details( $zone_id, $avail_plan_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/available_plans/' . $avail_plan_id;
 
 			return $this->fetch( $request );
 		}
@@ -635,6 +728,112 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		function get_zone_waf( $zone_id ) {
 
 			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/waf';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_dns_records function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_dns_records( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/dns_records';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_dns_record_details function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @param mixed $dns_record_id
+		 * @return void
+		 */
+		function get_zone_dns_record_details( $zone_id, $dns_record_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/dns_records/' . $dns_record_id;
+
+			return $this->fetch( $request );
+		}
+
+		/**
+		 * get_zone_railguns function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_railguns( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/railguns';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_railgun_details function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @param mixed $railgun_id
+		 * @return void
+		 */
+		function get_zone_railgun_details( $zone_id, $railgun_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/railguns/' . $railgun_id;
+
+			return $this->fetch( $request );
+		}
+
+		/**
+		 * get_zone_railgun_connection function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @param mixed $railgun_id
+		 * @return void
+		 */
+		function get_zone_railgun_connection( $zone_id, $railgun_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/railguns/' . $railgun_id . '/diagnose';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_analytics_dashboard function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_analytics_dashboard( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/analytics/dashboard';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_analytics_colos function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_analytics_colos( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/analytics/colos';
 
 			return $this->fetch( $request );
 		}
