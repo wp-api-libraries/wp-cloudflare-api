@@ -8,166 +8,355 @@
 /* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
- * CloudFlareAPI class.
- */
-class CloudFlareAPI {
-
-
+if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 	/**
-	 * Get User Properties (https://api.cloudflare.com/#user-properties).
-	 *
-	 * @accountaccess FREE, PRO, Business, Enterprise
-	 * @access public
-	 * @return void
+	 * CloudFlareAPI class.
 	 */
-	function get_user() {
+	class CloudFlareAPI {
 
-	}
+		/**
+		 * API Key.
+		 *
+		 * @var string
+		 */
+		static private $api_key;
 
+		/**
+		 * Auth Email
+		 *
+		 * @var string
+		 */
+		static private $auth_email;
 
-	/**
-	 * Update User (https://api.cloudflare.com/#user-update-user).
-	 *
-	 * @accountaccess FREE, PRO, Business, Enterprise
-	 * @access public
-	 * @return void
-	 */
-	function update_user() {
+		/**
+		 * User Service Key
+		 *
+		 * @var string
+		 */
+		static private $auth_user_service_key;
 
-	}
-
-
-	/**
-	 * Get User Billing Profile (https://api.cloudflare.com/#user-billing-profile-properties).
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function get_user_billing_profile() {
-
-	}
-
-
-	/**
-	 * Get User Billing History (https://api.cloudflare.com/#user-billing-history-properties).
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function get_user_billing_history() {
-
-	}
+		/**
+		 * CloudFlare BaseAPI Endpoint
+		 *
+		 * @var string
+		 * @access protected
+		 */
+		protected $base_uri = 'https://api.cloudflare.com/client/v4/';
 
 
+		/**
+		 * __construct function.
+		 *
+		 * @access public
+		 * @param mixed $zws_id ZWSID.
+		 * @return void
+		 */
+		public function __construct( $api_key, $auth_email, $auth_user_service_key = '' ) {
 
-	/**
-	 * HTTP response code messages.
-	 *
-	 * @param  [String] $code : Response code to get message from.
-	 * @return [String]       : Message corresponding to response code sent in.
-	 */
-	public function response_code_msg( $code = '' ) {
-		switch ( $code ) {
+			static::$api_key = $api_key;
+			static::$auth_email = $auth_email;
+			static::$auth_user_service_key = $auth_user_service_key;
+
+		}
+
+
+		/**
+		 * Fetch the request from the API.
+		 *
+		 * @access private
+		 * @param mixed $request Request URL.
+		 * @return $body Body.
+		 */
+		private function fetch( $request ) {
+
+			$headers = array(
+				'Content-Type' => 'application/json',
+				'X-Auth-Email' => static::$auth_email,
+				'X-Auth-Key' => static::$api_key
+			);
+
+			$response = wp_remote_get( $request, array( 'headers' => $headers ) );
+			$code = wp_remote_retrieve_response_code( $response );
+
+			if ( 200 !== $code ) {
+				return new WP_Error( 'response-error', sprintf( __( 'Server response code: %d', 'text-domain' ), $code ) );
+			}
+
+			$body = wp_remote_retrieve_body( $response );
+
+			return json_decode( $body );
+
+		}
+
+
+		/**
+		 * Get User Properties (https://api.cloudflare.com/#user-properties).
+		 *
+		 * @accountaccess FREE, PRO, Business, Enterprise
+		 * @access public
+		 * @return void
+		 */
+		function get_user() {
+
+			$request = $this->base_uri . 'user';
+
+			return $this->fetch( $request );
+
+		}
+
+
+		/**
+		 * Update User (https://api.cloudflare.com/#user-update-user).
+		 *
+		 * @accountaccess FREE, PRO, Business, Enterprise
+		 * @access public
+		 * @return void
+		 */
+		function update_user() {
+
+		}
+
+
+		/**
+		 * Get User Billing Profile (https://api.cloudflare.com/#user-billing-profile-properties).
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_user_billing_profile() {
+
+			$request = $this->base_uri . 'user/billing/profile';
+
+			return $this->fetch( $request );
+
+		}
+
+
+		/**
+		 * Get User Billing History (https://api.cloudflare.com/#user-billing-history-properties).
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_user_billing_history() {
+
+			$request = $this->base_uri . 'user/billing/history';
+
+			return $this->fetch( $request );
+
+		}
+
+
+		/**
+		 * get_user_billing_subscriptions_apps function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_user_billing_subscriptions_apps() {
+
+			$request = $this->base_uri . 'user/billing/subscriptions/apps';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_subscriptions_zones function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_subscriptions_zones() {
+
+			$request = $this->base_uri . 'user/billing/subscriptions/zones';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zones function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_zones() {
+
+			$request = $this->base_uri . 'zones';
+
+			return $this->fetch( $request );
+		}
+
+
+		/**
+		 * get_zone_details function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_details( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id;
+
+			return $this->fetch( $request );
+
+		}
+
+
+		/**
+		 * get_zone_settings function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_settings( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings';
+
+			return $this->fetch( $request );
+
+		}
+
+
+		/**
+		 * get_zone_advanced_ddos function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function get_zone_advanced_ddos() {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/advanced_ddos';
+
+			return $this->fetch( $request );
+		}
+
+		/**
+		 * get_zone_security_header function.
+		 *
+		 * @access public
+		 * @param mixed $zone_id
+		 * @return void
+		 */
+		function get_zone_security_header( $zone_id ) {
+
+			$request = $this->base_uri . 'zones/' . $zone_id . '/settings/security_header';
+
+			return $this->fetch( $request );
+
+		}
+
+
+		/**
+		 * HTTP response code messages.
+		 *
+		 * @param  [String] $code : Response code to get message from.
+		 * @return [String]       : Message corresponding to response code sent in.
+		 */
+		public function response_code_msg( $code = '' ) {
+			switch ( $code ) {
 			case 200:
-				$msg = __( 'OK.','text-domain' );
+				$msg = __( 'OK.', 'text-domain' );
 				break;
 			case 400:
-				$msg = __( 'Bad Request: Required parameter missing or invalid.','text-domain' );
+				$msg = __( 'Bad Request: Required parameter missing or invalid.', 'text-domain' );
 				break;
 			case 401:
-				$msg = __( 'Unauthorized: User does not have permission.','text-domain' );
+				$msg = __( 'Unauthorized: User does not have permission.', 'text-domain' );
 				break;
 			case 403:
-				$msg = __( 'Forbidden: Request not authenticated.','text-domain' );
+				$msg = __( 'Forbidden: Request not authenticated.', 'text-domain' );
 				break;
 			case 405:
-				$msg = __( 'Method Not Allowed: Incorrect HTTP method provided.','text-domain' );
+				$msg = __( 'Method Not Allowed: Incorrect HTTP method provided.', 'text-domain' );
 				break;
 			case 415:
-				$msg = __( 'Unsupported Media Type: Response is not valid JSON.','text-domain' );
+				$msg = __( 'Unsupported Media Type: Response is not valid JSON.', 'text-domain' );
 				break;
 			case 429:
-				$msg = __( 'Too many requests: Client is rate limited.','text-domain' );
+				$msg = __( 'Too many requests: Client is rate limited.', 'text-domain' );
 				break;
-			/* CloudFlare CA error codes. */
+				/* CloudFlare CA error codes. */
 			case 1000;
-				$msg = __( 'API errors encountered.','text-domain' );
+				$msg = __( 'API errors encountered.', 'text-domain' );
 				break;
 			case 1001;
-				$msg = __( 'Request had no Authorization header.','text-domain' );
+				$msg = __( 'Request had no Authorization header.', 'text-domain' );
 				break;
 			case 1002;
-				$msg = __( 'Unsupported request_type.','text-domain' );
+				$msg = __( 'Unsupported request_type.', 'text-domain' );
 				break;
 			case 1003;
-				$msg = __( 'Failed to read contents of HTTP request.','text-domain' );
+				$msg = __( 'Failed to read contents of HTTP request.', 'text-domain' );
 				break;
 			case 1004;
-				$msg = __( 'Failed to parse request JSON.','text-domain' );
+				$msg = __( 'Failed to parse request JSON.', 'text-domain' );
 				break;
 			case 1005;
-				$msg = __( 'Too many hostnames requested - you may only request up to 100 per certificate.','text-domain' );
+				$msg = __( 'Too many hostnames requested - you may only request up to 100 per certificate.', 'text-domain' );
 				break;
 			case 1006;
-				$msg = __( 'One or more hostnames were duplicated in the request and have been removed prior to certificate generation.','text-domain' );
+				$msg = __( 'One or more hostnames were duplicated in the request and have been removed prior to certificate generation.', 'text-domain' );
 				break;
 			case 1007;
-				$msg = __( 'CSR parsed as empty.','text-domain' );
+				$msg = __( 'CSR parsed as empty.', 'text-domain' );
 				break;
 			case 1008;
-				$msg = __( 'Error creating request to CA.','text-domain' );
+				$msg = __( 'Error creating request to CA.', 'text-domain' );
 				break;
 			case 1009;
-				$msg = __( 'Permitted values for the *requested_validity* parameter (specified in days) are: 7, 30, 90, 365, 730, 1095, and 5475 (default).','text-domain' );
+				$msg = __( 'Permitted values for the *requested_validity* parameter (specified in days) are: 7, 30, 90, 365, 730, 1095, and 5475 (default).', 'text-domain' );
 				break;
 			case 1010;
-				$msg = __( 'Failed to validate SAN <hostname>: <reason for failure>.','text-domain' );
+				$msg = __( 'Failed to validate SAN <hostname>: <reason for failure>.', 'text-domain' );
 				break;
 			case 1011;
-				$msg = __( 'Failed to parse CSR.','text-domain' );
+				$msg = __( 'Failed to parse CSR.', 'text-domain' );
 				break;
 			case 1012;
-				$msg = __( 'Please provide a zone id when requesting a stored certificate, or fetch by serial number.','text-domain' );
+				$msg = __( 'Please provide a zone id when requesting a stored certificate, or fetch by serial number.', 'text-domain' );
 				break;
 			case 1013;
-				$msg = __( 'Please provide a certificate serial number when operating on a single certificate.','text-domain' );
+				$msg = __( 'Please provide a certificate serial number when operating on a single certificate.', 'text-domain' );
 				break;
 			case 1014;
-				$msg = __( 'Certificate already revoked.','text-domain' );
+				$msg = __( 'Certificate already revoked.', 'text-domain' );
 				break;
 			case 1100;
-				$msg = __( 'Failed to write certificate to database.','text-domain' );
+				$msg = __( 'Failed to write certificate to database.', 'text-domain' );
 				break;
 			case 1101;
-				$msg = __( 'Failed to read certificate from database.','text-domain' );
+				$msg = __( 'Failed to read certificate from database.', 'text-domain' );
 				break;
 			case 1200;
-				$msg = __( 'API Error: Failed to generate CA request.','text-domain' );
+				$msg = __( 'API Error: Failed to generate CA request.', 'text-domain' );
 				break;
 			case 1201;
-				$msg = __( 'CA signing failure. Could not parse returned certificate.','text-domain' );
+				$msg = __( 'CA signing failure. Could not parse returned certificate.', 'text-domain' );
 				break;
 			case 1300;
-				$msg = __( 'Failed to fetch keyless servers from API.','text-domain' );
+				$msg = __( 'Failed to fetch keyless servers from API.', 'text-domain' );
 				break;
 			case 1301;
-				$msg = __( 'The key server did not activate correctly.','text-domain' );
+				$msg = __( 'The key server did not activate correctly.', 'text-domain' );
 				break;
 			case 1302;
-				$msg = __( 'Could not get keyless server port for server <server>.','text-domain' );
+				$msg = __( 'Could not get keyless server port for server <server>.', 'text-domain' );
 				break;
 			case 1303;
-				$msg = __( 'Invalid hostname: <hostname>.','text-domain' );
+				$msg = __( 'Invalid hostname: <hostname>.', 'text-domain' );
 				break;
 			default:
 				$msg = __( 'Response code unknown.', 'text-domain' );
 				break;
 
 
-			/* Zone Plan Error Codes. */
-			/*
+				/* Zone Plan Error Codes. */
+				/*
 			case 1004;
 				$msg = __( 'Cannot find a valid zone.','text-domain' );
 				break;
@@ -185,47 +374,47 @@ class CloudFlareAPI {
 
 
 			case 1000;
-				$msg = __( 'Invalid user.','text-domain' );
+				$msg = __( 'Invalid user.', 'text-domain' );
 				break;
 			case 1002;
-				$msg = __( 'Invalid or missing zone_id.','text-domain' );
+				$msg = __( 'Invalid or missing zone_id.', 'text-domain' );
 				break;
 			case 1003;
-				$msg = __( 'The per_page must be a positive integer.','text-domain' );
+				$msg = __( 'The per_page must be a positive integer.', 'text-domain' );
 				break;
 			case 1004;
-				$msg = __( 'Invalid or missing zone.','text-domain' );
+				$msg = __( 'Invalid or missing zone.', 'text-domain' );
 				break;
 			case 1005;
-				$msg = __( 'Invalid or missing record.','text-domain' );
+				$msg = __( 'Invalid or missing record.', 'text-domain' );
 				break;
 			case 1007;
-				$msg = __( 'Name required.','text-domain' );
+				$msg = __( 'Name required.', 'text-domain' );
 				break;
 			case 1008;
-				$msg = __( 'Content required.','text-domain' );
+				$msg = __( 'Content required.', 'text-domain' );
 				break;
 			case 1009;
-				$msg = __( 'Invalid or missing record id.','text-domain' );
+				$msg = __( 'Invalid or missing record id.', 'text-domain' );
 				break;
 			case 1010;
-				$msg = __( 'Invalid or missing record.','text-domain' );
+				$msg = __( 'Invalid or missing record.', 'text-domain' );
 				break;
 			case 1011;
-				$msg = __( 'Zone file for \'<domain name>\' could not be found.','text-domain' );
+				$msg = __( 'Zone file for \'<domain name>\' could not be found.', 'text-domain' );
 				break;
 			case 1012;
-				$msg = __( 'Zone file for \'<domain name>\' is not modifiable.','text-domain' );
+				$msg = __( 'Zone file for \'<domain name>\' is not modifiable.', 'text-domain' );
 				break;
 			case 1013;
-				$msg = __( 'The record could not be found.','text-domain' );
+				$msg = __( 'The record could not be found.', 'text-domain' );
 				break;
 			case 1014;
-				$msg = __( 'You do not have permission to modify this zone.','text-domain' );
+				$msg = __( 'You do not have permission to modify this zone.', 'text-domain' );
 				break;
 
 
-		/*
+				/*
 			case 1015;
 				$msg = __( 'Unknown error','text-domain' );
 				break;
@@ -378,8 +567,8 @@ class CloudFlareAPI {
 				break;
 			*/
 
-			/* Zone Error Codes */
-			/*
+				/* Zone Error Codes */
+				/*
 			case 1000;
 			  $msg = __( 'Invalid or missing user','text-domain' );
 			  break;
@@ -557,8 +746,8 @@ class CloudFlareAPI {
 			*/
 
 
-			/* Custom Pages for a Zone Error Codes. */
-			/*
+				/* Custom Pages for a Zone Error Codes. */
+				/*
 			case 1000;
 				$msg = __( 'Invalid user','text-domain' );
 			  break;
@@ -638,7 +827,8 @@ class CloudFlareAPI {
 				$msg = __( 'We were unable to scan the page provided. Please ensure it is accessible publicly and is larger than 100 characters','text-domain' );
 			  break;
 			*/
+			}
+			return $msg;
 		}
-		return $msg;
 	}
 }
