@@ -34,7 +34,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *
 		 * @var string
 		 */
-		static private $auth_user_service_key;
+		static private $user_service_key;
 
 		/**
 		 * CloudFlare BaseAPI Endpoint
@@ -50,13 +50,13 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *
 		 * @param [type]   $api_key               Cloudflare API Key.
 		 * @param [type]   $auth_email            Email associated to the account.
-		 * @param [string] $auth_user_service_key User Service key.
+		 * @param [string] $user_service_key User Service key.
 		 */
-		public function __construct( $api_key, $auth_email, $auth_user_service_key = '' ) {
+		public function __construct( $api_key, $auth_email, $user_service_key = '' ) {
 
 			static::$api_key = $api_key;
 			static::$auth_email = $auth_email;
-			static::$auth_user_service_key = $auth_user_service_key;
+			static::$user_service_key = $user_service_key;
 
 		}
 
