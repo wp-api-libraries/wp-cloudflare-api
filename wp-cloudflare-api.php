@@ -48,9 +48,9 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		/**
 		 * __construct function.
 		 *
-		 * @access public
-		 * @param mixed $zws_id ZWSID.
-		 * @return void
+		 * @param [type]   $api_key               Cloudflare API Key.
+		 * @param [type]   $auth_email            Email associated to the account.
+		 * @param [string] $auth_user_service_key User Service key.
 		 */
 		public function __construct( $api_key, $auth_email, $auth_user_service_key = '' ) {
 
@@ -105,7 +105,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *
 		 * @accountaccess FREE, PRO, Business, Enterprise
 		 * @access public
-		 * @return void
+		 * @return [mixed]
 		 */
 		function get_user() {
 
@@ -132,7 +132,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * Get User Billing Profile (https://api.cloudflare.com/#user-billing-profile-properties).
 		 *
 		 * @access public
-		 * @return void
+		 * @return [mixed]
 		 */
 		function get_user_billing_profile() {
 
@@ -147,7 +147,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * Get User Billing History (https://api.cloudflare.com/#user-billing-history-properties).
 		 *
 		 * @access public
-		 * @return void
+		 * @return [mixed]
 		 */
 		function get_user_billing_history() {
 
@@ -159,10 +159,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_user_billing_subscriptions_apps function.
+		 * Function get_user_billing_subscriptions_apps.
 		 *
 		 * @access public
-		 * @return void
+		 * @return [mixed]
 		 */
 		function get_user_billing_subscriptions_apps() {
 
@@ -173,10 +173,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_subscriptions_zones function.
+		 * Function get_subscriptions_zones.
 		 *
 		 * @access public
-		 * @return void
+		 * @return [mixed]
 		 */
 		function get_subscriptions_zones() {
 
@@ -187,11 +187,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_subscriptions_zones_billing function.
+		 * Function get_subscriptions_zones_billing.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_subscriptions_zones_billing( $zone_id ) {
 
@@ -202,10 +202,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_user_firewall_access_rules function.
+		 * Function get_user_firewall_access_rules.
 		 *
 		 * @access public
-		 * @return void
+		 * @return [mixed]
 		 */
 		function get_user_firewall_access_rules() {
 
@@ -216,10 +216,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_user_organizations function.
+		 * Function get_user_organizations.
 		 *
 		 * @access public
-		 * @return void
+		 * @return [mixed]
 		 */
 		function get_user_organizations() {
 
@@ -230,10 +230,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_user_invites function.
+		 * Function get_user_invites.
 		 *
 		 * @access public
-		 * @return void
+		 * @return [mixed]
 		 */
 		function get_user_invites() {
 
@@ -244,11 +244,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_user_invite function.
+		 * Function get_user_invite.
 		 *
 		 * @access public
-		 * @param mixed $invite_id
-		 * @return void
+		 * @param mixed $invite_id Invite ID.
+		 * @return [mixed]
 		 */
 		function get_user_invite( $invite_id ) {
 
@@ -259,10 +259,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zones function.
+		 * Function get_zones.
 		 *
 		 * @access public
-		 * @return void
+		 * @return [mixed]
 		 */
 		function get_zones() {
 
@@ -273,10 +273,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_plans function.
+		 * Function get_zone_plans.
 		 *
 		 * @access public
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_plans( $zone_id ) {
 
@@ -285,6 +286,13 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			return $this->fetch( $request );
 		}
 
+		/**
+		 * Function get_zone_plans_details.
+		 *
+		 * @param  [type] $zone_id       Zone ID.
+		 * @param  [type] $avail_plan_id Avail Plan ID.
+		 * @return [mixed]
+		 */
 		function get_zone_plans_details( $zone_id, $avail_plan_id ) {
 
 			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/available_plans/' . $avail_plan_id;
@@ -294,11 +302,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_details function.
+		 * Function get_zone_details.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_details( $zone_id ) {
 
@@ -310,11 +318,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_settings function.
+		 * Function get_zone_settings.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_settings( $zone_id ) {
 
@@ -326,10 +334,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_advanced_ddos function.
+		 * Function get_zone_advanced_ddos.
 		 *
 		 * @access public
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_advanced_ddos( $zone_id ) {
 
@@ -340,11 +349,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_always_online function.
+		 * Function get_zone_always_online.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_always_online( $zone_id ) {
 
@@ -356,10 +365,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_browser_cache_ttl function.
+		 * Function get_zone_browser_cache_ttl.
 		 *
 		 * @access public
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_browser_cache_ttl( $zone_id ) {
 
@@ -369,10 +379,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
-		 * get_zone_browser_check function.
+		 * Function get_zone_browser_check.
 		 *
 		 * @access public
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_browser_check( $zone_id ) {
 
@@ -383,10 +394,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
-		 * get_zone_cache_level function.
+		 * Function get_zone_cache_level.
 		 *
 		 * @access public
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_cache_level( $zone_id ) {
 
@@ -398,11 +410,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_challenge_ttl function.
+		 * Function get_zone_challenge_ttl.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_challenge_ttl( $zone_id ) {
 
@@ -414,11 +426,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_development_mode function.
+		 * Function get_zone_development_mode.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_development_mode( $zone_id ) {
 
@@ -429,11 +441,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_email_obfuscation function.
+		 * Function get_zone_email_obfuscation.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_email_obfuscation( $zone_id ) {
 
@@ -444,11 +456,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_hotlink_protection function.
+		 * Function get_zone_hotlink_protection.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_hotlink_protection( $zone_id ) {
 
@@ -460,11 +472,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_ip_geolocation function.
+		 * Function get_zone_ip_geolocation.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_ip_geolocation( $zone_id ) {
 
@@ -475,11 +487,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_ipv6 function.
+		 * Function get_zone_ipv6.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_ipv6( $zone_id ) {
 
@@ -490,11 +502,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_minify function.
+		 * Function get_zone_minify.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_minify( $zone_id ) {
 
@@ -505,11 +517,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_mobile_redirect function.
+		 * Function get_zone_mobile_redirect.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_mobile_redirect( $zone_id ) {
 
@@ -520,11 +532,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_mirage function.
+		 * Function get_zone_mirage.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_mirage( $zone_id ) {
 
@@ -535,11 +547,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_origin_error_page_pass_thru function.
+		 * Function get_zone_origin_error_page_pass_thru.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_origin_error_page_pass_thru( $zone_id ) {
 
@@ -550,11 +562,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_polish function.
+		 * Function get_zone_polish.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_polish( $zone_id ) {
 
@@ -565,11 +577,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_prefetch_preload function.
+		 * Function get_zone_prefetch_preload.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_prefetch_preload( $zone_id ) {
 
@@ -580,11 +592,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_response_buffering function.
+		 * Function get_zone_response_buffering.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_response_buffering( $zone_id ) {
 
@@ -595,11 +607,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_rocket_loader function.
+		 * Function get_zone_rocket_loader.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_rocket_loader( $zone_id ) {
 
@@ -609,11 +621,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
-		 * get_zone_security_header function.
+		 * Function get_zone_security_header.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_security_header( $zone_id ) {
 
@@ -625,11 +637,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_security_level function.
+		 * Function get_zone_security_level.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_security_level( $zone_id ) {
 
@@ -640,11 +652,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_server_side_exclude function.
+		 * Function get_zone_server_side_exclude.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_server_side_exclude( $zone_id ) {
 
@@ -655,11 +667,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
-		 * get_zone_sort_query_string_for_cache function.
+		 * Function get_zone_sort_query_string_for_cache.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_sort_query_string_for_cache( $zone_id ) {
 
@@ -670,11 +682,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
-		 * get_zone_ssl function.
+		 * Function get_zone_ssl.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_ssl( $zone_id ) {
 
@@ -684,11 +696,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
-		 * get_zone_tls_1_2_only function.
+		 * Function get_zone_tls_1_2_only.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_tls_1_2_only( $zone_id ) {
 
@@ -702,8 +714,8 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * Get TLS Client Auth setting.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_tls_client_auth( $zone_id ) {
 
@@ -717,8 +729,8 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * Get True Client IP setting.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_true_client_ip_header( $zone_id ) {
 
@@ -729,11 +741,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_waf function.
+		 * Function get_zone_waf.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_waf( $zone_id ) {
 
@@ -744,11 +756,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_dns_records function.
+		 * Function get_zone_dns_records.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_dns_records( $zone_id ) {
 
@@ -759,12 +771,12 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_dns_record_details function.
+		 * Function get_zone_dns_record_details.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @param mixed $dns_record_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @param mixed   $dns_record_id DNS Record ID.
+		 * @return [mixed]
 		 */
 		function get_zone_dns_record_details( $zone_id, $dns_record_id ) {
 
@@ -774,11 +786,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
-		 * get_zone_railguns function.
+		 * Function get_zone_railguns.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_railguns( $zone_id ) {
 
@@ -789,12 +801,12 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_railgun_details function.
+		 * Function get_zone_railgun_details.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @param mixed $railgun_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @param [mixed] $railgun_id Railgun ID.
+		 * @return [mixed]
 		 */
 		function get_zone_railgun_details( $zone_id, $railgun_id ) {
 
@@ -804,12 +816,12 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
-		 * get_zone_railgun_connection function.
+		 * Function get_zone_railgun_connection.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @param mixed $railgun_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @param [mixed] $railgun_id Railgun ID.
+		 * @return [mixed]
 		 */
 		function get_zone_railgun_connection( $zone_id, $railgun_id ) {
 
@@ -820,11 +832,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_analytics_dashboard function.
+		 * Function get_zone_analytics_dashboard.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_analytics_dashboard( $zone_id ) {
 
@@ -835,11 +847,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * get_zone_analytics_colos function.
+		 * Function get_zone_analytics_colos.
 		 *
 		 * @access public
-		 * @param mixed $zone_id
-		 * @return void
+		 * @param [mixed] $zone_id The zone ID.
+		 * @return [mixed]
 		 */
 		function get_zone_analytics_colos( $zone_id ) {
 
@@ -849,10 +861,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
-		 * get_cloudflare_ips function.
+		 * Function get_cloudflare_ips.
 		 *
 		 * @access public
-		 * @return void
+		 * @return [mixed]
 		 */
 		function get_cloudflare_ips() {
 
@@ -965,8 +977,8 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 					$msg = __( 'Response code unknown.', 'text-domain' );
 				break;
 
-				/*
-				 Zone Plan Error Codes. */
+				/* Zone Plan Error Codes. */
+
 				/*
 				case 1004;
 				$msg = __( 'Cannot find a valid zone.','text-domain' );
@@ -980,6 +992,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				case 1007;
 				$msg = __( 'Cannot find a valid zone.','text-domain' );
 				break;
+				*/
 
 				/* DNS Records for a Zone Error Codes. */
 
@@ -1176,8 +1189,8 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				break;
 				*/
 
-				/*
-				 Zone Error Codes */
+				/* Zone Error Codes */
+
 				/*
 				case 1000;
 				$msg = __( 'Invalid or missing user','text-domain' );
@@ -1355,8 +1368,8 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				break;
 				*/
 
-				/*
-				 Custom Pages for a Zone Error Codes. */
+				/* Custom Pages for a Zone Error Codes. */
+
 				/*
 				case 1000;
 				$msg = __( 'Invalid user','text-domain' );
