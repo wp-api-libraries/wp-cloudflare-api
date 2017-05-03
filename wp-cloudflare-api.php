@@ -5,6 +5,20 @@
  * @package wp-cloudflare-api
  */
 
+ /**
+  * Plugin Name: WP CloudFlare API
+  * Plugin URI: http://wordpress.org/plugins/WP-CloudFlare-API/
+  * Description: Cloudflare stuff.
+  * Author: imFORZA
+  * Author URI: https://www.imforza.com
+  * Text Domain: wp-cloudflare-api
+  *
+  * Version: 3.0.0
+  *
+  * License: GNU General Public License v2.0 (or later)
+  * License URI: http://www.opensource.org/licenses/gpl-license.php
+  */
+
 /* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -50,7 +64,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *
 		 * @param [type]   $api_key               Cloudflare API Key.
 		 * @param [type]   $auth_email            Email associated to the account.
-		 * @param [string] $user_service_key User Service key.
+		 * @param [string] $user_service_key      User Service key.
 		 */
 		public function __construct( $api_key, $auth_email, $user_service_key = '' ) {
 
@@ -117,14 +131,53 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * Update User (https://api.cloudflare.com/#user-update-user).
+		 * Update user information. If all fields are ''/default, will return base user information.
 		 *
 		 * @accountaccess FREE, PRO, Business, Enterprise
 		 * @access public
-		 * @return void
+		 * @param string $firstname (Optional: default '')  First name
+		 * @param string $last_name (Optional: default '')  Last name
+     * @param string $telephone (Optional: default '')  Telephone #
+     * @param string $country   (Optional: default '')  Country (ie: US)
+     * @param string $zipcode   (Optional: default '')  Zipcode #
+		 * @return WP_Request_Object
 		 */
-		function update_user() {
+		function update_user($first_name = '', $last_name = '', $telephone = '', $country = '', $zipcode = '') {
+      $request['url'] = $this->base_uri . 'user';
 
+      if ( '' === $first_name && '' === $last_name && '' === $telephone && '' === $country && '' === $zipcode ){
+        return $this->fetch( $request );
+      }
+
+      $request['method'] = 'PATCH';
+      $request['body'] = '{';
+
+      $needs_comma = false;
+
+      if ( '' !== $first_name ) {
+        $needs_comma = true;
+        $request['body'] .= '"first_name":"' . $first_name . '"';
+      }
+      if ( '' !== $last_name ) {
+        if($needs_comma){$request['body'] .= ',';}else{$needs_comma = true;}
+        $request['body'] .= '"last_name":"' . $last_name . '"';
+      }
+      if ( '' !== $telephone ) {
+        if($needs_comma){$request['body'] .= ',';}else{$needs_comma = true;}
+        $request['body'] .= '"telephone":"' . $telephone . '"';
+      }
+      if ( '' !== $country ) {
+        if($needs_comma){$request['body'] .= ',';}else{$needs_comma = true;}
+        $request['body'] .= '"country":"' . $country . '"';
+      }
+      if ( '' !== $zipcode ) {
+        if($needs_comma){$request['body'] .= ',';}
+        $request['body'] .= '"zipcode":"' . $zipcode . '"';
+      }
+
+      $request['body'] .= '}';
+
+      return $this->fetch( $request );
 		}
 
 
