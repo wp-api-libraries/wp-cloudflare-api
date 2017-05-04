@@ -11,4 +11,15 @@
 			<directory prefix="test-" suffix=".php">./tests/</directory>
 		</testsuite>
 	</testsuites>
+
+    <logging>
+        <log type="coverage-html" target="tests/logs/coverage" charset="UTF-8" />
+    </logging>
+
+    <filter>
+        <whitelist>
+            <file>wp-cloudflare-api.php</file>
+            <file>cloudflare-wpcli.php</file>
+        </whitelist>
+    </filter>
 </phpunit>
