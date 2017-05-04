@@ -2,6 +2,11 @@
     "require": {
         "stevegrunwell/wp-enforcer": "^0.4.1"
     },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "wp-coding-standards/wpcs": "*",
+        "squizlabs/php_codesniffer": "*"
+    },
     "post-install-cmd": [
     	"wp-enforcer"
 	],
