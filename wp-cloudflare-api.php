@@ -100,11 +100,14 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				$args['method'] = $request['method'];
 			}
 
+
 			$response = wp_remote_request( $request['url'], $args );
 			$code = wp_remote_retrieve_response_code( $response );
 
+      // I need debug info, sorry
 			if ( 200 !== $code ) {
-				return new WP_Error( 'response-error', sprintf( __( 'Server response code: %d', 'text-domain' ), $code ) );
+        error_log(print_r(new WP_Error( 'response-error', sprintf( __( 'Server response code: %d', 'text-domain' ), $code ) ), true ) );
+				//return new WP_Error( 'response-error', sprintf( __( 'Server response code: %d', 'text-domain' ), $code ) );
 			}
 
 			$body = wp_remote_retrieve_body( $response );
@@ -323,6 +326,45 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 			return $this->fetch( $request );
 		}
+
+    function create_zone( $name, $jump_start = true, $organization = array() ) {
+
+      $request['url'] = $this->base_uri . 'zones';
+
+      if( $name == '' ) { // required argument
+        return $this->fetch( $request );
+      }
+
+      $request['method'] = 'POST';
+      $request['body'] = '{"name":"' . $name . '"';
+
+
+
+      if ( !$jump_start ) {
+        $request['body'] .= ',"jump_start":false';
+
+      }
+
+      if ( $organization != array() && isset( $organization['id'] ) ) {
+        $request['body'] .= ',{"id":"' . $organization['id'] . '"';
+        if ( isset( $organization['name'] ) ) {
+          $request['body'] .= ',"name":"' . $organization['name'] . '"';
+        }
+        if ( isset( $organization['status'] ) ) {
+          $request['body'] .= ',"status":"' . $organization['status'] . '"';
+        }
+        if ( isset( $organization['permissions'] ) ) { // ex: "#zones:read","#zones:edit", must be wrapped in quotes
+          $request['body'] .= ',"permissions":[' . $organization['permissions'] . ']';
+        }
+        $request['body'] .= '}';
+      }
+
+
+
+      $request['body'] .= '}';
+
+      return $this->fetch( $request );
+    }
 
 
 		/**
