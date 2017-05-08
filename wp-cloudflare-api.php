@@ -102,6 +102,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 			$response = wp_remote_request( $request['url'], $args );
+      // error_log(print_r($response, true));
 			$code = wp_remote_retrieve_response_code( $response );
 
       // I need debug info, sorry
@@ -220,16 +221,80 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
      * Get User Subscriptions (https://api.cloudflare.com/#user-subscription-get-user-subscriptions).
      *
      * @access public
-     * @return Object containing array of subscriptions under return['result'].
+     * @return Object containing array of subscriptions under return['result']. If you're on a free plan/have no paid subscriptions, should be empty.
      */
     function get_user_subscriptions(){
 
       $request['url'] = $this->base_uri . 'user/subscriptions';
 
       return $this->fetch( $request );
-
     }
 
+    /**
+     * Update User Subscriptions ()
+     *
+     * @param  string $identifier         Identifier for subscription id.
+     * @param  string $current_period_end Time formatted to ISO 8601 UTC ( https://en.wikipedia.org/wiki/ISO_8601#UTC ), ie: gmdate("Y-m-d\TH:i:s\Z") for current time.
+     * @param  array  $componenet_values  List of add-ons subscribed to (ie: [ { "name": "page_rules", "value": 20, "default": 5, "price": 5 } ] ).
+     * @param  Object $rate_plan          Object for information about rate plan subscribed to (see the API docs).
+     * @param  string $price              Price for price per monthly billing.
+     * @param  Object $zone               Very simple zone object containing id and name.
+     * @param  string $state              THe current state the subscription is in.
+     * @param  string $id                 Subscription identifier tag (should it not be the same as the original identifier?).
+     * @param  string $frequency          How often the subscription is automatically renewed, can be:('weekly', 'monthly', 'quarterly', 'yearly').
+     * @return Object                     HTTPS Request Return Data.
+     */
+    function update_user_subscription($identifier, $current_period_end = '', $component_values = '' , $rate_plan = '', $price = '', $current_period_start = '', $zone = '', $currency = '', $state = '', $id = '', $frequency = ''){
+      $request['method'] = 'PUT';
+      $request['url'] = $this->base_uri . 'user/subscriptions/' . $identifier;
+      error_log($request['url']);
+      if( $current_period_end !== '' || $component_values !== '' || $rate_plan !== '' || $price !== '' || $current_period_start !== '' || $zone !== '' || $currency !== '' || $state !== '' || $id !== '' || $frequency !== '' ){
+        $obj = array();
+        if ( $id !== '' ) {
+          $obj['id'] = $id;
+        }
+        if ( $current_period_end !== '' ) {
+          $obj['current_period_end'] = $current_period_end;
+        }
+        if ( $component_values !== '' ) {
+          $obj['component_values'] = $component_values;
+        }
+        if ( $rate_plan !== '' ) {
+          $obj['rate_plan'] = $rate_plan;
+        }
+        if ( $price !== '' ) {
+          $obj['price'] = $price;
+        }
+        if ( $current_period_start !== '' ) {
+          $obj['current_period_start'] = $current_period_start;
+        }
+        if ( $zone !== '' ) {
+          $obj['zone'] = $zone;
+        }
+        if ( $currency !== '' ) {
+          $obj['currency'] = $currency;
+        }
+        if ( $state !== '' ) {
+          $obj['state'] = $state;
+        }
+        if ( $frequency !== '' ) {
+          $obj['frequency'] = $frequency;
+        }
+
+        //$request['body'] = wp_json_encode($obj);
+      }
+
+      return $this->fetch( $request );
+    }
+
+    function delete_user_subscription( $identifier ){
+
+      $request['url'] = $this->base_uri . 'user/subscriptions/' . $identifier;
+
+      $request['method'] = 'DELETE';
+
+      return $this->fetch( $request );
+    }
 
 		/**
 		 * Function get_user_billing_subscriptions_apps.
