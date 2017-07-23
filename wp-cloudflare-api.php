@@ -264,9 +264,15 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @access public
 		 * @return [mixed]
 		 */
-		function get_zones() {
+		function get_zones( $args = array() ) {
+			$args = wp_parse_args( $args, array(
+				'page' => '',
+				'per_page' => '',
+				'order' => '',
+				'direction' => ''
+			));
 
-			$request['url'] = $this->base_uri . 'zones';
+			$request['url'] = add_query_arg( $args, $this->base_uri . 'zones');
 
 			return $this->fetch( $request );
 		}
