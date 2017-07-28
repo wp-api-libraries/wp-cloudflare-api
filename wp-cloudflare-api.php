@@ -1,4 +1,14 @@
 <?php
+/*
+ * Plugin Name: Cloudflare API
+ * Plugin URI: https://wp-api-libraries.com/
+ * Description: Perform API requests.
+ * Author: WP API Libraries
+ * Version: 1.0.0
+ * Author URI: https://wp-api-libraries.com
+ * GitHub Plugin URI: https://github.com/imforza
+ * GitHub Branch: master
+ */
 /**
  * CloudFlare API (https://api.cloudflare.com/)
  *
@@ -441,6 +451,21 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		function get_zone_development_mode( $zone_id ) {
 
 			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/development_mode';
+
+			return $this->fetch( $request );
+		}
+
+		/**
+		 * Enable or disable development mode.
+		 *
+		 */
+		function set_zone_development_mode( $zone_id, $value = "on" ){
+
+			$request['method'] = 'PATCH';
+
+			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/development_mode';
+
+			$request['body'] = json_encode( array( 'value' => $value ) );
 
 			return $this->fetch( $request );
 		}
