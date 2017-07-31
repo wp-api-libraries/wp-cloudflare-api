@@ -1,7 +1,8 @@
 <?php
 /**
- * CloudFlare API (https://api.cloudflare.com/)
+ * Library for accessing the CloudFlare API on WordPress
  *
+ * @link https://api.cloudflare.com/ API Documentation
  * @package WP-API-Libraries\WP-IDX-Cloudflare-API
  */
 
@@ -22,7 +23,13 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 	/**
-	 * CloudFlareAPI class.
+	 * A WordPress API library for accessing the Cloudflare API.
+	 *
+	 * @version 1.1.0
+	 * @link https://api.cloudflare.com/ API Documentation
+	 * @package WP-API-Libraries\WP-IDX-Cloudflare-API
+	 * @author Santiago Garza <https://github.com/sfgarza>
+	 * @author imFORZA <https://github.com/imforza>
 	 */
 	class CloudFlareAPI {
 
@@ -57,18 +64,16 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * __construct function.
+		 * Class constructor.
 		 *
-		 * @param [type]   $api_key               Cloudflare API Key.
-		 * @param [type]   $auth_email            Email associated to the account.
-		 * @param [string] $user_service_key User Service key.
+		 * @param string   $api_key               Cloudflare API Key.
+		 * @param string   $auth_email            Email associated to the account.
+		 * @param string   $user_service_key      User Service key.
 		 */
 		public function __construct( $api_key, $auth_email, $user_service_key = '' ) {
-
 			static::$api_key = $api_key;
 			static::$auth_email = $auth_email;
 			static::$user_service_key = $user_service_key;
-
 		}
 
 
@@ -112,45 +117,65 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * Get User Properties (https://api.cloudflare.com/#user-properties).
+		 * Get User Properties
 		 *
-		 * @accountaccess FREE, PRO, Business, Enterprise
+		 * Account Access: FREE, PRO, Business, Enterprise
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#user-user-details Documentation.
 		 * @access public
-		 * @return [mixed]
+		 * @return array  User information.
 		 */
 		function get_user() {
-
 			$request['url'] = $this->base_uri . 'user';
 
 			return $this->fetch( $request );
-
 		}
 
 
 		/**
-		 * Update User (https://api.cloudflare.com/#user-update-user).
+		 * Update User
 		 *
-		 * @accountaccess FREE, PRO, Business, Enterprise
+		 * Account Access: FREE, PRO, Business, Enterprise
+		 *
+		 * @api PATCH
+		 * @see https://api.cloudflare.com/#user-update-user Documentation.
 		 * @access public
-		 * @return void
+		 * @param string $first_name User's first name.
+		 * @param string $last_name  User's last name.
+		 * @param string $phone      User's telephone number.
+		 * @param string $country    User's The country in which the user lives.
+		 * @param string $zipcode    The zipcode or postal code where the user lives.
+		 * @return array Updated user info.
 		 */
-		function update_user() {
+		function update_user( $first_name = null, $last_name = null, $phone = null, $country = null, $zipcode = null) {
+			$request['url'] = $this->base_uri . 'user';
+			$fields['method'] = 'PATCH';
+			$fields['body']  = array(
+				'first_name' => $first_name,
+				'last_name' => $last_name,
+				'telephone' => $phone,
+				'country' => $country,
+				'zipcode' => $zipcode,
+			 );
 
+			return $this->fetch( $request, $fields );
 		}
 
 
 		/**
-		 * Get User Billing Profile (https://api.cloudflare.com/#user-billing-profile-properties).
+		 * Get User Billing Profile.
 		 *
+		 * Account Access: FREE, PRO, Business, Enterprise
+		 *
+		 * @see https://api.cloudflare.com/#user-billing-profile-properties Documentation.
 		 * @access public
 		 * @return [mixed]
 		 */
 		function get_user_billing_profile() {
-
 			$request['url'] = $this->base_uri . 'user/billing/profile';
 
 			return $this->fetch( $request );
-
 		}
 
 
@@ -161,11 +186,9 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return [mixed]
 		 */
 		function get_user_billing_history() {
-
 			$request['url'] = $this->base_uri . 'user/billing/history';
 
 			return $this->fetch( $request );
-
 		}
 
 
