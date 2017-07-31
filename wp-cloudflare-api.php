@@ -85,6 +85,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return $body Body.
 		 */
 		private function fetch( $request ) {
+			error_log( print_r( $request, true ));
 
 			$args = array(
 				'headers' => array(
@@ -95,7 +96,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			);
 
 			if ( isset( $request['body'] ) ) {
-				$args['body'] = $request['body'];
+				$args['body'] = wp_json_encode( $request['body'] );
 			}
 
 			if ( isset( $request['method'] ) ) {
@@ -112,7 +113,6 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			$body = wp_remote_retrieve_body( $response );
 
 			return json_decode( $body );
-
 		}
 
 
@@ -126,7 +126,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @access public
 		 * @return array  User information.
 		 */
-		function get_user() {
+		public function get_user() {
 			$request['url'] = $this->base_uri . 'user';
 
 			return $this->fetch( $request );
@@ -146,20 +146,29 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param string $phone      User's telephone number.
 		 * @param string $country    User's The country in which the user lives.
 		 * @param string $zipcode    The zipcode or postal code where the user lives.
-		 * @return array Updated user info.
+		 * @return array             Updated user info.
 		 */
-		function update_user( $first_name = null, $last_name = null, $phone = null, $country = null, $zipcode = null) {
+		public function update_user( $first_name = null, $last_name = null, $phone = null, $country = null, $zipcode = null ) {
 			$request['url'] = $this->base_uri . 'user';
-			$fields['method'] = 'PATCH';
-			$fields['body']  = array(
-				'first_name' => $first_name,
-				'last_name' => $last_name,
-				'telephone' => $phone,
-				'country' => $country,
-				'zipcode' => $zipcode,
-			 );
+			$request['method'] = 'PATCH';
 
-			return $this->fetch( $request, $fields );
+			if( null !== $first_name ){
+				$request['body']['first_name']  = $first_name;
+			}
+			if( null !== $last_name ){
+				$request['body']['last_name']  = $last_name;
+			}
+			if( null !== $phone ){
+				$request['body']['telephone']  = $phone;
+			}
+			if( null !== $country ){
+				$request['body']['country']  = $country;
+			}
+			if( null !== $zipcode ){
+				$request['body']['zipcode']  = $zipcode;
+			}
+
+			return $this->fetch( $request );
 		}
 
 
@@ -172,7 +181,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @access public
 		 * @return [mixed]
 		 */
-		function get_user_billing_profile() {
+		public function get_user_billing_profile() {
 			$request['url'] = $this->base_uri . 'user/billing/profile';
 
 			return $this->fetch( $request );
@@ -185,7 +194,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @access public
 		 * @return [mixed]
 		 */
-		function get_user_billing_history() {
+		public function get_user_billing_history() {
 			$request['url'] = $this->base_uri . 'user/billing/history';
 
 			return $this->fetch( $request );
@@ -198,7 +207,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @access public
 		 * @return [mixed]
 		 */
-		function get_user_billing_subscriptions_apps() {
+		public function get_user_billing_subscriptions_apps() {
 
 			$request['url'] = $this->base_uri . 'user/billing/subscriptions/apps';
 
@@ -212,7 +221,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @access public
 		 * @return [mixed]
 		 */
-		function get_subscriptions_zones() {
+		public function get_subscriptions_zones() {
 
 			$request['url'] = $this->base_uri . 'user/billing/subscriptions/zones';
 
@@ -227,7 +236,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param [mixed] $zone_id The zone ID.
 		 * @return [mixed]
 		 */
-		function get_subscriptions_zones_billing( $zone_id ) {
+		public function get_subscriptions_zones_billing( $zone_id ) {
 
 			$request['url'] = $this->base_uri . 'user/billing/subscriptions/zones/' . $zone_id;
 
@@ -241,7 +250,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @access public
 		 * @return [mixed]
 		 */
-		function get_user_firewall_access_rules() {
+		public function get_user_firewall_access_rules() {
 
 			$request['url'] = $this->base_uri . 'user/firewall/access_rules/rules';
 
@@ -255,7 +264,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @access public
 		 * @return [mixed]
 		 */
-		function get_user_organizations() {
+		public function get_user_organizations() {
 
 			$request['url'] = $this->base_uri . 'user/organizations';
 
