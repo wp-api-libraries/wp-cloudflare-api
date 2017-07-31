@@ -1,16 +1,16 @@
 {
+    "name":"wp-api-libraries/wp-cloudflare-api",
+    "type":"wordpress-plugin",
     "require": {
         "stevegrunwell/wp-enforcer": "^0.4.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "*",
-        "wp-coding-standards/wpcs": "*",
-        "squizlabs/php_codesniffer": "*"
+          "phpdocumentor/phpdocumentor": "2.*"
     },
     "post-install-cmd": [
-    	"wp-enforcer"
-	],
-	"post-update-cmd": [
-    	"wp-enforcer"
-	]
+      "wp-enforcer"
+    ],
+    "post-update-cmd": [
+      "wp-enforcer"
+    ]
 }
