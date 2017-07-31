@@ -17,6 +17,18 @@ engines:
   phpmd:
     enabled: true
     checks:
+      Design/LongClass:
+        enabled: false
+      ExcessivePublicCount:
+        enabled: false
+      Naming/ShortVariable:
+        enabled: false
+      Design/TooManyMethods:
+        enabled: false
+      Design/TooManyPublicMethods:
+        enabled: false
+      Design/WeightedMethodCount:
+        enabled: false
       Controversial/CamelCaseParameterName:
         enabled: false
       Controversial/CamelCaseMethodName:
@@ -36,7 +48,6 @@ engines:
     enabled: true
 ratings:
   paths:
-  - "**.css"
   - "**.scss"
   - "**.inc"
   - "**.js"
@@ -47,10 +58,18 @@ ratings:
   - "**.py"
   - "**.rb"
 exclude_paths:
+  - "LICENSE"
+  - "tests/"
+  - "docs/"
+  - "**.md"
   - "**.png"
+  - "**.xml"
   - "**.jpg"
   - "**.gif"
+  - "**.css"
+  - "**.map"
   - "gulpfile.js"
+  - "config.codekit"
   - "composer.lock"
   - "phpcs.xml"
   - "**.json"
@@ -60,3 +79,6 @@ exclude_paths:
   - "**-min.css"
   - "**.dist"
   - "**.sh"
+  - "**.gif"
+  - "**.jpg"
+  - "**.jpeg"

@@ -1,0 +1,32 @@
+{
+  "name": "WP-Gulp",
+  "author": "wp-gulp",
+  "description": "Gulp script for Developing WordPress Plugins & Themes",
+  "version": "1.0.1",
+  "license": "GPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wp-gulp/wp-gulp"
+  },
+  "scripts": {
+    "env": "env",
+    "install": "imforza gulp config"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "6.4.1",
+    "browser-sync": "2.16.0",
+    "gulp": "3.9.1",
+    "gulp-clean-css": "2.0.12",
+    "gulp-imagemin": "^3.0.3",
+    "gulp-minify": "0.0.14",
+    "gulp-postcss": "6.2.0",
+    "gulp-rename": "1.2.2",
+    "gulp-sass": "2.3.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-util": "3.0.7",
+    "gulp-watch": "4.3.9",
+    "gulp-zip": "3.2.0",
+    "imforza-cli": "^1.0.14"
+  }
+}

@@ -1,4 +1,10 @@
 <?php
+/**
+ * CloudFlare API (https://api.cloudflare.com/)
+ *
+ * @package WP-API-Libraries\WP-IDX-Cloudflare-API
+ */
+
 /*
  * Plugin Name: Cloudflare API
  * Plugin URI: https://wp-api-libraries.com/
@@ -8,11 +14,6 @@
  * Author URI: https://wp-api-libraries.com
  * GitHub Plugin URI: https://github.com/imforza
  * GitHub Branch: master
- */
-/**
- * CloudFlare API (https://api.cloudflare.com/)
- *
- * @package wp-cloudflare-api
  */
 
 /* Exit if accessed directly */
@@ -269,20 +270,21 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * Function get_zones.
+		 * List, search, sort, and filter your zones
 		 *
 		 * @access public
-		 * @return [mixed]
+		 * @param  array $args  Query args to send in to API call.
+		 * @return array
 		 */
 		function get_zones( $args = array() ) {
 			$args = wp_parse_args( $args, array(
 				'page' => '',
 				'per_page' => '',
 				'order' => '',
-				'direction' => ''
+				'direction' => '',
 			));
 
-			$request['url'] = add_query_arg( $args, $this->base_uri . 'zones');
+			$request['url'] = add_query_arg( $args, $this->base_uri . 'zones' );
 
 			return $this->fetch( $request );
 		}
@@ -456,16 +458,24 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
-		 * Enable or disable development mode.
+		 * Change Development Mode setting.
 		 *
+		 * Development Mode temporarily allows you to enter development mode for your websites if you need to make changes
+		 * to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are
+		 * making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right
+		 * away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+		 *
+		 * @api PATCH
+		 * @param [type] $zone_id ID of zone to change.
+		 * @param string $value   Valid values: on, off.
 		 */
-		function set_zone_development_mode( $zone_id, $value = "on" ){
+		function set_zone_development_mode( $zone_id, $value = 'on' ) {
 
 			$request['method'] = 'PATCH';
 
 			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/development_mode';
 
-			$request['body'] = json_encode( array( 'value' => $value ) );
+			$request['body'] = wp_json_encode( array( 'value' => $value ) );
 
 			return $this->fetch( $request );
 		}
