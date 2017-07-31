@@ -85,7 +85,6 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return $body Body.
 		 */
 		private function fetch( $request ) {
-			error_log( print_r( $request, true ));
 
 			$args = array(
 				'headers' => array(
@@ -105,12 +104,11 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 			$response = wp_remote_request( $request['url'], $args );
 			$code = wp_remote_retrieve_response_code( $response );
+			$body = json_decode( wp_remote_retrieve_body( $response ) );
 
 			if ( 200 !== $code ) {
-				return new WP_Error( 'response-error', sprintf( __( 'Server response code: %d', 'wp-cloudflare-api' ), $code ) );
+				return new WP_Error( 'response-error', sprintf( __( 'Status: %d', 'wp-cloudflare-api' ), $code ), $body );
 			}
-
-			$body = wp_remote_retrieve_body( $response );
 
 			return json_decode( $body );
 		}
@@ -177,9 +175,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *
 		 * Account Access: FREE, PRO, Business, Enterprise
 		 *
-		 * @see https://api.cloudflare.com/#user-billing-profile-properties Documentation.
+		 * @api GET
+		 * @see https://api.cloudflare.com/#user-billing-profile-billing-profile Documentation.
 		 * @access public
-		 * @return [mixed]
+		 * @return array   User billing profile.
 		 */
 		public function get_user_billing_profile() {
 			$request['url'] = $this->base_uri . 'user/billing/profile';
