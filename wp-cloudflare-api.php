@@ -110,7 +110,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				return new WP_Error( 'response-error', sprintf( __( 'Status: %d', 'wp-cloudflare-api' ), $code ), $body );
 			}
 
-			return json_decode( $body );
+			return $body;
 		}
 
 
