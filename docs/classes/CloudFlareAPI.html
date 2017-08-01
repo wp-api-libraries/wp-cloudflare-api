@@ -67,7 +67,7 @@
 <li class="method public "><a href="#method_get_subscriptions_zones" title="get_subscriptions_zones() :: Function get_subscriptions_zones."><span class="description">Function get_subscriptions_zones.</span><pre>get_subscriptions_zones()</pre></a></li>
 <li class="method public "><a href="#method_get_subscriptions_zones_billing" title="get_subscriptions_zones_billing() :: Function get_subscriptions_zones_billing."><span class="description">Function get_subscriptions_zones_billing.</span><pre>get_subscriptions_zones_billing()</pre></a></li>
 <li class="method public "><a href="#method_get_user" title="get_user() :: Get User Properties"><span class="description">Get User Properties</span><pre>get_user()</pre></a></li>
-<li class="method public "><a href="#method_get_user_billing_history" title="get_user_billing_history() :: Get User Billing History (https://api.cloudflare.com/#user-billing-history-properties)."><span class="description">Get User Billing History (https://api.cloudflare.com/#user-billing-history-properties).</span><pre>get_user_billing_history()</pre></a></li>
+<li class="method public "><a href="#method_get_user_billing_history" title="get_user_billing_history() :: Get User Billing History"><span class="description">Get User Billing History</span><pre>get_user_billing_history()</pre></a></li>
 <li class="method public "><a href="#method_get_user_billing_profile" title="get_user_billing_profile() :: Get User Billing Profile."><span class="description">Get User Billing Profile.</span><pre>get_user_billing_profile()</pre></a></li>
 <li class="method public "><a href="#method_get_user_billing_subscriptions_apps" title="get_user_billing_subscriptions_apps() :: Function get_user_billing_subscriptions_apps."><span class="description">Function get_user_billing_subscriptions_apps.</span><pre>get_user_billing_subscriptions_apps()</pre></a></li>
 <li class="method public "><a href="#method_get_user_firewall_access_rules" title="get_user_firewall_access_rules() :: Function get_user_firewall_access_rules."><span class="description">Function get_user_firewall_access_rules.</span><pre>get_user_firewall_access_rules()</pre></a></li>
@@ -265,29 +265,19 @@
 </div></div>
 </div>
 <a id="method_get_user_billing_history"></a><div class="element clickable method public method_get_user_billing_history " data-toggle="collapse" data-target=".method_get_user_billing_history .collapse" title="public">
-<h2>Get User Billing History (https://api.cloudflare.com/#user-billing-history-properties).</h2>
-<pre>get_user_billing_history() : \[mixed]</pre>
-<div class="labels"></div>
+<h2>Get User Billing History</h2>
+<pre>get_user_billing_history() : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>access</th>
-<td>public</td>
-</tr></table>
-<h3>Returns</h3>
-<div class="subelement response"><code>\[mixed]</code></div>
-</div></div>
-</div>
-<a id="method_get_user_billing_profile"></a><div class="element clickable method public method_get_user_billing_profile " data-toggle="collapse" data-target=".method_get_user_billing_profile .collapse" title="public">
-<h2>Get User Billing Profile.</h2>
-<pre>get_user_billing_profile() : \[mixed]</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Account Access: FREE, PRO, Business, Enterprise</p></div>
 <table class="table table-bordered">
 <tr>
+<th>api</th>
+<td>GET</td>
+</tr>
+<tr>
 <th>see</th>
-<td><a href="https://api.cloudflare.com/#user-billing-profile-properties">Documentation.</a></td>
+<td><a href="https://api.cloudflare.com/#user-billing-history-billing-history">Documentation</a></td>
 </tr>
 <tr>
 <th>access</th>
@@ -295,7 +285,33 @@
 </tr>
 </table>
 <h3>Returns</h3>
-<div class="subelement response"><code>\[mixed]</code></div>
+<div class="subelement response">
+<code>array</code>User billing history.</div>
+</div></div>
+</div>
+<a id="method_get_user_billing_profile"></a><div class="element clickable method public method_get_user_billing_profile " data-toggle="collapse" data-target=".method_get_user_billing_profile .collapse" title="public">
+<h2>Get User Billing Profile.</h2>
+<pre>get_user_billing_profile() : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Account Access: FREE, PRO, Business, Enterprise</p></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>GET</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-billing-profile-billing-profile">Documentation.</a></td>
+</tr>
+<tr>
+<th>access</th>
+<td>public</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>User billing profile.</div>
 </div></div>
 </div>
 <a id="method_get_user_billing_subscriptions_apps"></a><div class="element clickable method public method_get_user_billing_subscriptions_apps " data-toggle="collapse" data-target=".method_get_user_billing_subscriptions_apps .collapse" title="public">
@@ -1252,7 +1268,7 @@ away. Once entered, development mode will last for 3 hours and then automaticall
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.8.5</a> and<br>
-            generated on 2017-07-31T14:01:25-07:00.<br></footer></div>
+            generated on 2017-07-31T17:11:29-07:00.<br></footer></div>
 </div>
 </body>
 </html>
