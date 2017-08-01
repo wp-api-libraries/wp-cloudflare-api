@@ -188,10 +188,12 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 
 
 		/**
-		 * Get User Billing History (https://api.cloudflare.com/#user-billing-history-properties).
+		 * Get User Billing History
 		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#user-billing-history-billing-history Documentation
 		 * @access public
-		 * @return [mixed]
+		 * @return array User billing history.
 		 */
 		public function get_user_billing_history() {
 			$request['url'] = $this->base_uri . 'user/billing/history';
@@ -221,7 +223,6 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return [mixed]
 		 */
 		public function get_subscriptions_zones() {
-
 			$request['url'] = $this->base_uri . 'user/billing/subscriptions/zones';
 
 			return $this->fetch( $request );
