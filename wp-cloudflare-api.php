@@ -257,6 +257,122 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			return $this->build_request( 'user/subscriptions' )->fetch();
 		}
 
+		/**
+		 * Update a User Subscription.
+		 *
+		 * @api PUT
+		 * @see https://api.cloudflare.com/#user-subscription-update-a-user-subscription Documentation
+		 * @param  string $subscription_id Subscription identifier tag.
+		 * @param  int    $price           The price of the subscription that will be billed, in US dollars.
+		 * @param  string $currency        The monetary unit in which pricing information is displayed.
+		 * @param  string $frequency       How often the subscription is renewed automatically.
+		 * @param  array  $optional_args   Array with optional parameters. See API docs for details.
+		 * @return array                   Updated user subscription info.
+		 */
+		public function update_user_subscriptions( $subscription_id, $price, $currency, $frequency, $optional_args = array() ){
+			$args = array(
+				'id'        => $subscription_id,
+				'price'     => $price,
+				'currency'  => $currency,
+				'frequency' => $frequency,
+			);
+			$args = array_merge( $optional_args, $args );
+
+			return $this->build_request( "user/subscriptions/$subscription_id", $args, 'PUT' )->fetch();
+		}
+
+		/**
+		 * Deletes a user's subscriptions
+		 *
+		 * @api DELETE
+		 * @see https://api.cloudflare.com/#user-subscription-delete-user-subscriptions Documentation
+		 * @param  string $subscription_id Subscription identifier tag.
+		 * @return array                   JSON array with deleted subscription ID.
+		 */
+		public function delete_user_subscriptions( $subscription_id ){
+			return $this->build_request( "user/subscriptions/$subscription_id", "", 'DELETE' )->fetch();
+		}
+
+		/**
+		 * List access rules.
+		 *
+		 * Search, sort, and filter IP/country access rules
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#user-level-firewall-access-rule-list-access-rules Documentation
+		 * @param  array  $args  Array with optional parameters. See API docs for details.
+		 * @return array         List of user-level firewall access rules.
+		 */
+		public function get_user_access_rules( $args ){
+			return $this->build_request( 'user/firewall/access_rules/rules', $args )->fetch();
+		}
+
+		/**
+		 * Create access rule
+		 *
+		 * Make a new IP, IP range, or country access rule for all zones owned by the user. Note: If you would like to create
+		 * an access rule that applies to a specific zone only, use the zone firewall endpoints.
+		 *
+		 * @api POST
+		 * @see https://api.cloudflare.com/#user-level-firewall-access-rule-create-access-rule Documentation
+		 * @param  string $mode          The action to apply to a matched request. Valid values: block, challenge, whitelist.
+		 * @param  string $config_target Rule configuration target. valid values: ip, ip_range, country.
+		 * @param  string $config_value  Rule configuration value. See API docs for details.
+		 * @param  string $notes         A personal note about the rule. Typically used as a reminder or explanation for the rule.
+		 * @return array                 New access rule info.
+		 */
+		public function create_user_accesss_rule( $mode, $config_target, $config_value, $notes = '' ){
+			$args = array(
+				'mode' => $mode,
+				'configuration' => array(
+					'target' => $config_target,
+					'value'  => $config_value,
+				),
+				'notes' => $notes,
+			);
+
+			return $this->build_request( 'user/firewall/access_rules/rules', $args, 'POST' )->fetch();
+		}
+
+		/**
+		 * Update access rule.
+		 *
+		 * Update rule state and/or configuration. This will be applied across all zones owned by the user.
+		 *
+		 * @param  string $id            Access rule ID.
+		 * @param  string $mode          The action to apply to a matched request. Valid values: block, challenge, whitelist.
+		 * @param  string $config_target Rule configuration target. valid values: ip, ip_range, country.
+		 * @param  string $config_value  Rule configuration value. See API docs for details.
+		 * @param  string $notes         A personal note about the rule. Typically used as a reminder or explanation for the rule.
+		 * @return array                 Updated access rule info.
+		 */
+		public function update_user_access_rule( $id, $mode, $config_target, $config_value, $notes = '' ){
+			$args = array(
+				'mode' => $mode,
+				'configuration' => array(
+					'target' => $config_target,
+					'value'  => $config_value,
+				),
+				'notes' => $notes,
+			);
+
+			return $this->build_request( "user/firewall/access_rules/rules/$id", $args, 'PATCH' )->fetch();
+		}
+
+		/**
+		 * Delete access rule.
+		 *
+		 * Remove an access rule so it is no longer evaluated during requests. This will apply to all zones owned by the user.
+		 *
+		 * @api DELETE
+		 * @see https://api.cloudflare.com/#user-level-firewall-access-rule-delete-access-rule Documentation
+		 * @param  string $id  Subscription identifier tag.
+		 * @return array       JSON array with deleted access rule ID.
+		 */
+		public function delete_user_accesss_rule( $id ){
+			return $this->build_request( "user/firewall/access_rules/rules/$id", "", 'DELETE' )->fetch();
+		}
+
 
 		/**
 		 * List, search, sort, and filter your zones
