@@ -62,6 +62,13 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 */
 		protected $base_uri = 'https://api.cloudflare.com/client/v4/';
 
+		/**
+		 * Route being called.
+		 *
+		 * @var string
+		 */
+		protected $route = '';
+
 
 		/**
 		 * Class constructor.
@@ -76,43 +83,85 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			static::$user_service_key = $user_service_key;
 		}
 
+		/**
+		 * Prepare data for
+		 * @param  array  $args [description]
+		 * @return [type]       [description]
+		 */
+		protected function build_request( $route, $args = array(), $method = 'GET' ){
+			// Start building query.
+			$this->set_headers();
+			$this->args['method'] = $method;
+			$this->route = $route;
+
+			// Generate query string for GET requests.
+			if ( 'GET' === $method ){
+				$this->route = add_query_arg( array_filter( $args ), $route );
+			}else if( $this->args['headers']['Content-Type'] == 'application/json' ){
+				$this->args['body'] = wp_json_encode( $args );
+			}else{
+				$this->args['body'] = $args;
+			}
+
+			return $this;
+		}
+
 
 		/**
 		 * Fetch the request from the API.
 		 *
 		 * @access private
-		 * @param mixed $request Request URL.
-		 * @return $body Body.
+		 * @return array|WP_Error Request results or WP_Error on request failure.
 		 */
-		private function fetch( $request ) {
+		protected function fetch() {
+			_error_log( $this->args );
+			// Make the request.
+			$response = wp_remote_request( $this->base_uri . $this->route, $this->args );
 
-			$args = array(
-				'headers' => array(
-					'Content-Type' => 'application/json',
-					'X-Auth-Email' => static::$auth_email,
-					'X-Auth-Key' => static::$api_key,
-				),
-			);
-
-			if ( isset( $request['body'] ) ) {
-				$args['body'] = wp_json_encode( $request['body'] );
-			}
-
-			if ( isset( $request['method'] ) ) {
-				$args['method'] = $request['method'];
-			}
-
-			$response = wp_remote_request( $request['url'], $args );
+			// Retrieve Status code & body.
 			$code = wp_remote_retrieve_response_code( $response );
 			$body = json_decode( wp_remote_retrieve_body( $response ) );
 
-			if ( 200 !== $code ) {
-				return new WP_Error( 'response-error', sprintf( __( 'Status: %d', 'wp-cloudflare-api' ), $code ), $body );
+			_error_log( $body );
+			// Return WP_Error if request is not successful.
+			if ( ! $this->is_status_ok( $code ) ) {
+				return new WP_Error( 'response-error', sprintf( __( 'Status: %d', 'wp-postmark-api' ), $code ), $body );
 			}
+			$this->clear();
 
 			return $body;
 		}
 
+
+		/**
+		 * Set request headers.
+		 */
+		protected function set_headers(){
+			// Set request headers.
+			$this->args['headers'] = array(
+					'Content-Type' => 'application/json',
+					'X-Auth-Email' => static::$auth_email,
+					'X-Auth-Key' => static::$api_key,
+			);
+		}
+
+		/**
+		 * Clear query data.
+		 */
+		protected function clear(){
+			$this->args = array();
+			$this->query_args = array();
+		}
+
+		/**
+		 * Check if HTTP status code is a success.
+		 *
+		 * @param  int     $code HTTP status code.
+		 * @return boolean       True if status is within valid range.
+		 */
+		protected function is_status_ok( $code ){
+			return ( 200 <= $code && 300 > $code );
+		}
 
 		/**
 		 * Get User Properties
@@ -125,9 +174,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return array  User information.
 		 */
 		public function get_user() {
-			$request['url'] = $this->base_uri . 'user';
-
-			return $this->fetch( $request );
+			return $this->build_request( 'user' )->fetch();
 		}
 
 
@@ -147,26 +194,25 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return array             Updated user info.
 		 */
 		public function update_user( $first_name = null, $last_name = null, $phone = null, $country = null, $zipcode = null ) {
-			$request['url'] = $this->base_uri . 'user';
-			$request['method'] = 'PATCH';
+			$args = array();
 
 			if( null !== $first_name ){
-				$request['body']['first_name']  = $first_name;
+				$args['first_name']  = $first_name;
 			}
 			if( null !== $last_name ){
-				$request['body']['last_name']  = $last_name;
+				$args['last_name']  = $last_name;
 			}
 			if( null !== $phone ){
-				$request['body']['telephone']  = $phone;
+				$args['telephone']  = $phone;
 			}
 			if( null !== $country ){
-				$request['body']['country']  = $country;
+				$args['country']  = $country;
 			}
 			if( null !== $zipcode ){
-				$request['body']['zipcode']  = $zipcode;
+				$args['zipcode']  = $zipcode;
 			}
 
-			return $this->fetch( $request );
+			return $this->build_request( 'user', $args, 'PATCH' )->fetch();
 		}
 
 
@@ -181,9 +227,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return array   User billing profile.
 		 */
 		public function get_user_billing_profile() {
-			$request['url'] = $this->base_uri . 'user/billing/profile';
-
-			return $this->fetch( $request );
+			return $this->build_request( 'user/billing/profile' )->fetch();
 		}
 
 
@@ -196,108 +240,18 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return array User billing history.
 		 */
 		public function get_user_billing_history() {
-			$request['url'] = $this->base_uri . 'user/billing/history';
-
-			return $this->fetch( $request );
+			return $this->build_request( 'user/billing/history' )->fetch();
 		}
 
-
 		/**
-		 * Function get_user_billing_subscriptions_apps.
+		 * Get User Subscriptions.
 		 *
-		 * @access public
-		 * @return [mixed]
+		 * @api GET
+		 * @see https://api.cloudflare.com/#user-billing-history-billing-history Documentation
+		 * @return array User subscriptions history.
 		 */
-		public function get_user_billing_subscriptions_apps() {
-
-			$request['url'] = $this->base_uri . 'user/billing/subscriptions/apps';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_subscriptions_zones.
-		 *
-		 * @access public
-		 * @return [mixed]
-		 */
-		public function get_subscriptions_zones() {
-			$request['url'] = $this->base_uri . 'user/billing/subscriptions/zones';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_subscriptions_zones_billing.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		public function get_subscriptions_zones_billing( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'user/billing/subscriptions/zones/' . $zone_id;
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_user_firewall_access_rules.
-		 *
-		 * @access public
-		 * @return [mixed]
-		 */
-		public function get_user_firewall_access_rules() {
-
-			$request['url'] = $this->base_uri . 'user/firewall/access_rules/rules';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_user_organizations.
-		 *
-		 * @access public
-		 * @return [mixed]
-		 */
-		public function get_user_organizations() {
-
-			$request['url'] = $this->base_uri . 'user/organizations';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_user_invites.
-		 *
-		 * @access public
-		 * @return [mixed]
-		 */
-		function get_user_invites() {
-
-			$request['url'] = $this->base_uri . 'user/invites';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_user_invite.
-		 *
-		 * @access public
-		 * @param mixed $invite_id Invite ID.
-		 * @return [mixed]
-		 */
-		function get_user_invite( $invite_id ) {
-
-			$request['url'] = $this->base_uri . 'user/invites/' . $invite_id;
-
-			return $this->fetch( $request );
+		public function get_user_subscriptions(){
+			return $this->build_request( 'user/subscriptions' )->fetch();
 		}
 
 
@@ -309,643 +263,8 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return array
 		 */
 		function get_zones( $args = array() ) {
-			$args = wp_parse_args( $args, array(
-				'page' => '',
-				'per_page' => '',
-				'order' => '',
-				'direction' => '',
-			));
-
-			$request['url'] = add_query_arg( $args, $this->base_uri . 'zones' );
-
-			return $this->fetch( $request );
+			return $this->build_request( 'zones', $args )->fetch();
 		}
-
-
-		/**
-		 * Function get_zone_plans.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_plans( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/available_plans';
-
-			return $this->fetch( $request );
-		}
-
-		/**
-		 * Function get_zone_plans_details.
-		 *
-		 * @param  [type] $zone_id       Zone ID.
-		 * @param  [type] $avail_plan_id Avail Plan ID.
-		 * @return [mixed]
-		 */
-		function get_zone_plans_details( $zone_id, $avail_plan_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/available_plans/' . $avail_plan_id;
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_details.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_details( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id;
-
-			return $this->fetch( $request );
-
-		}
-
-
-		/**
-		 * Function get_zone_settings.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_settings( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings';
-
-			return $this->fetch( $request );
-
-		}
-
-
-		/**
-		 * Function get_zone_advanced_ddos.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_advanced_ddos( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/advanced_ddos';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_always_online.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_always_online( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/always_online';
-
-			return $this->fetch( $request );
-
-		}
-
-
-		/**
-		 * Function get_zone_browser_cache_ttl.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_browser_cache_ttl( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/browser_cache_ttl';
-
-			return $this->fetch( $request );
-		}
-
-		/**
-		 * Function get_zone_browser_check.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_browser_check( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/browser_check';
-
-			return $this->fetch( $request );
-
-		}
-
-		/**
-		 * Function get_zone_cache_level.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_cache_level( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/cache_level';
-
-			return $this->fetch( $request );
-
-		}
-
-
-		/**
-		 * Function get_zone_challenge_ttl.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_challenge_ttl( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/challenge_ttl';
-
-			return $this->fetch( $request );
-
-		}
-
-
-		/**
-		 * Function get_zone_development_mode.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_development_mode( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/development_mode';
-
-			return $this->fetch( $request );
-		}
-
-		/**
-		 * Change Development Mode setting.
-		 *
-		 * Development Mode temporarily allows you to enter development mode for your websites if you need to make changes
-		 * to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are
-		 * making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right
-		 * away. Once entered, development mode will last for 3 hours and then automatically toggle off.
-		 *
-		 * @api PATCH
-		 * @param [type] $zone_id ID of zone to change.
-		 * @param string $value   Valid values: on, off.
-		 */
-		function set_zone_development_mode( $zone_id, $value = 'on' ) {
-
-			$request['method'] = 'PATCH';
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/development_mode';
-
-			$request['body'] = wp_json_encode( array( 'value' => $value ) );
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_email_obfuscation.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_email_obfuscation( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/email_obfuscation';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_hotlink_protection.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_hotlink_protection( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/hotlink_protection';
-
-			return $this->fetch( $request );
-
-		}
-
-
-		/**
-		 * Function get_zone_ip_geolocation.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_ip_geolocation( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/ip_geolocation';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_ipv6.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_ipv6( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/ipv6';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_minify.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_minify( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/minify';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_mobile_redirect.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_mobile_redirect( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/mobile_redirect';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_mirage.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_mirage( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/mirage';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_origin_error_page_pass_thru.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_origin_error_page_pass_thru( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/origin_error_page_pass_thru';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_polish.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_polish( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/polish';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_prefetch_preload.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_prefetch_preload( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/prefetch_preload';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_response_buffering.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_response_buffering( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/response_buffering';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_rocket_loader.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_rocket_loader( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/rocket_loader';
-
-			return $this->fetch( $request );
-		}
-
-		/**
-		 * Function get_zone_security_header.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_security_header( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/security_header';
-
-			return $this->fetch( $request );
-
-		}
-
-
-		/**
-		 * Function get_zone_security_level.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_security_level( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/security_level';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_server_side_exclude.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_server_side_exclude( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/server_side_exclude';
-
-			return $this->fetch( $request );
-
-		}
-
-		/**
-		 * Function get_zone_sort_query_string_for_cache.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_sort_query_string_for_cache( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/sort_query_string_for_cache';
-
-			return $this->fetch( $request );
-
-		}
-
-		/**
-		 * Function get_zone_ssl.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_ssl( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/ssl';
-
-			return $this->fetch( $request );
-		}
-
-		/**
-		 * Function get_zone_tls_1_2_only.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_tls_1_2_only( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/tls_1_2_only';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Get TLS Client Auth setting.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_tls_client_auth( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/tls_client_auth';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Get True Client IP setting.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_true_client_ip_header( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/tls_client_auth';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_waf.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_waf( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/settings/waf';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_dns_records.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_dns_records( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/dns_records';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_dns_record_details.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @param mixed   $dns_record_id DNS Record ID.
-		 * @return [mixed]
-		 */
-		function get_zone_dns_record_details( $zone_id, $dns_record_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/dns_records/' . $dns_record_id;
-
-			return $this->fetch( $request );
-		}
-
-		/**
-		 * Function get_zone_railguns.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_railguns( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/railguns';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_railgun_details.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @param [mixed] $railgun_id Railgun ID.
-		 * @return [mixed]
-		 */
-		function get_zone_railgun_details( $zone_id, $railgun_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/railguns/' . $railgun_id;
-
-			return $this->fetch( $request );
-		}
-
-		/**
-		 * Function get_zone_railgun_connection.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @param [mixed] $railgun_id Railgun ID.
-		 * @return [mixed]
-		 */
-		function get_zone_railgun_connection( $zone_id, $railgun_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/railguns/' . $railgun_id . '/diagnose';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_analytics_dashboard.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_analytics_dashboard( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/analytics/dashboard';
-
-			return $this->fetch( $request );
-		}
-
-
-		/**
-		 * Function get_zone_analytics_colos.
-		 *
-		 * @access public
-		 * @param [mixed] $zone_id The zone ID.
-		 * @return [mixed]
-		 */
-		function get_zone_analytics_colos( $zone_id ) {
-
-			$request['url'] = $this->base_uri . 'zones/' . $zone_id . '/analytics/colos';
-
-			return $this->fetch( $request );
-		}
-
-		/**
-		 * Function get_cloudflare_ips.
-		 *
-		 * @access public
-		 * @return [mixed]
-		 */
-		function get_cloudflare_ips() {
-
-			$request['url'] = $this->base_uri . 'ips';
-
-			return $this->fetch( $request );
-		}
-
 
 		/**
 		 * HTTP response code messages.
