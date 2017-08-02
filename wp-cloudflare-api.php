@@ -73,9 +73,9 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		/**
 		 * Class constructor.
 		 *
-		 * @param string   $api_key               Cloudflare API Key.
-		 * @param string   $auth_email            Email associated to the account.
-		 * @param string   $user_service_key      User Service key.
+		 * @param string $api_key               Cloudflare API Key.
+		 * @param string $auth_email            Email associated to the account.
+		 * @param string $user_service_key      User Service key.
 		 */
 		public function __construct( $api_key, $auth_email, $user_service_key = '' ) {
 			static::$api_key = $api_key;
@@ -84,22 +84,25 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
-		 * Prepare data for
-		 * @param  array  $args [description]
-		 * @return [type]       [description]
+		 * Prepares API request.
+		 *
+		 * @param  string $route   API route to make the call to.
+		 * @param  array  $args    Arguments to pass into the API call.
+		 * @param  array  $method  HTTP Method to use for request.
+		 * @return self            Returns an instance of itself so it can be chained to the fetch method.
 		 */
-		protected function build_request( $route, $args = array(), $method = 'GET' ){
+		protected function build_request( $route, $args = array(), $method = 'GET' ) {
 			// Start building query.
 			$this->set_headers();
 			$this->args['method'] = $method;
 			$this->route = $route;
 
 			// Generate query string for GET requests.
-			if ( 'GET' === $method ){
+			if ( 'GET' === $method ) {
 				$this->route = add_query_arg( array_filter( $args ), $route );
-			}else if( $this->args['headers']['Content-Type'] == 'application/json' ){
+			} elseif ( 'application/json' === $this->args['headers']['Content-Type'] ) {
 				$this->args['body'] = wp_json_encode( $args );
-			}else{
+			} else {
 				$this->args['body'] = $args;
 			}
 
@@ -136,7 +139,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		/**
 		 * Set request headers.
 		 */
-		protected function set_headers(){
+		protected function set_headers() {
 			// Set request headers.
 			$this->args['headers'] = array(
 					'Content-Type' => 'application/json',
@@ -148,7 +151,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		/**
 		 * Clear query data.
 		 */
-		protected function clear(){
+		protected function clear() {
 			$this->args = array();
 			$this->query_args = array();
 		}
@@ -156,10 +159,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		/**
 		 * Check if HTTP status code is a success.
 		 *
-		 * @param  int     $code HTTP status code.
+		 * @param  int $code HTTP status code.
 		 * @return boolean       True if status is within valid range.
 		 */
-		protected function is_status_ok( $code ){
+		protected function is_status_ok( $code ) {
 			return ( 200 <= $code && 300 > $code );
 		}
 
@@ -196,19 +199,19 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		public function update_user( $first_name = null, $last_name = null, $phone = null, $country = null, $zipcode = null ) {
 			$args = array();
 
-			if( null !== $first_name ){
+			if ( null !== $first_name ) {
 				$args['first_name']  = $first_name;
 			}
-			if( null !== $last_name ){
+			if ( null !== $last_name ) {
 				$args['last_name']  = $last_name;
 			}
-			if( null !== $phone ){
+			if ( null !== $phone ) {
 				$args['telephone']  = $phone;
 			}
-			if( null !== $country ){
+			if ( null !== $country ) {
 				$args['country']  = $country;
 			}
-			if( null !== $zipcode ){
+			if ( null !== $zipcode ) {
 				$args['zipcode']  = $zipcode;
 			}
 
@@ -250,7 +253,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @see https://api.cloudflare.com/#user-billing-history-billing-history Documentation
 		 * @return array User subscriptions history.
 		 */
-		public function get_user_subscriptions(){
+		public function get_user_subscriptions() {
 			return $this->build_request( 'user/subscriptions' )->fetch();
 		}
 
