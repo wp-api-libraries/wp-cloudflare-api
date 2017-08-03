@@ -269,7 +269,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  array  $optional_args   Array with optional parameters. See API docs for details.
 		 * @return array                   Updated user subscription info.
 		 */
-		public function update_user_subscriptions( $subscription_id, $price, $currency, $frequency, $optional_args = array() ){
+		public function update_user_subscriptions( $subscription_id, $price, $currency, $frequency, $optional_args = array() ) {
 			$args = array(
 				'id'        => $subscription_id,
 				'price'     => $price,
@@ -289,8 +289,8 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $subscription_id Subscription identifier tag.
 		 * @return array                   JSON array with deleted subscription ID.
 		 */
-		public function delete_user_subscriptions( $subscription_id ){
-			return $this->build_request( "user/subscriptions/$subscription_id", "", 'DELETE' )->fetch();
+		public function delete_user_subscriptions( $subscription_id ) {
+			return $this->build_request( "user/subscriptions/$subscription_id", '', 'DELETE' )->fetch();
 		}
 
 		/**
@@ -300,10 +300,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#user-level-firewall-access-rule-list-access-rules Documentation
-		 * @param  array  $args  Array with optional parameters. See API docs for details.
+		 * @param  array $args  Array with optional parameters. See API docs for details.
 		 * @return array         List of user-level firewall access rules.
 		 */
-		public function get_user_access_rules( $args = array() ){
+		public function get_user_access_rules( $args = array() ) {
 			return $this->build_request( 'user/firewall/access_rules/rules', $args )->fetch();
 		}
 
@@ -321,7 +321,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $notes         A personal note about the rule. Typically used as a reminder or explanation for the rule.
 		 * @return array                 New access rule info.
 		 */
-		public function create_user_accesss_rule( $mode, $config_target, $config_value, $notes = '' ){
+		public function create_user_accesss_rule( $mode, $config_target, $config_value, $notes = '' ) {
 			$args = array(
 				'mode' => $mode,
 				'configuration' => array(
@@ -346,7 +346,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $notes         A personal note about the rule. Typically used as a reminder or explanation for the rule.
 		 * @return array                 Updated access rule info.
 		 */
-		public function update_user_access_rule( $id, $mode, $config_target, $config_value, $notes = '' ){
+		public function update_user_access_rule( $id, $mode, $config_target, $config_value, $notes = '' ) {
 			$args = array(
 				'mode' => $mode,
 				'configuration' => array(
@@ -369,8 +369,8 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id  Subscription identifier tag.
 		 * @return array       Array with deleted access rule ID.
 		 */
-		public function delete_user_accesss_rule( $id ){
-			return $this->build_request( "user/firewall/access_rules/rules/$id", "", 'DELETE' )->fetch();
+		public function delete_user_accesss_rule( $id ) {
+			return $this->build_request( "user/firewall/access_rules/rules/$id", '', 'DELETE' )->fetch();
 		}
 
 		/* User Organization routes. Enterprise Only */
@@ -382,10 +382,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#user-s-organizations-list-organizations Documentation
-		 * @param  array  $args  Array with optional parameters. See API docs for details.
+		 * @param  array $args  Array with optional parameters. See API docs for details.
 		 * @return array         List of user organizations.
 		 */
-		public function get_user_orgs( $args = array() ){
+		public function get_user_orgs( $args = array() ) {
 			return $this->build_request( 'user/organizations', $args )->fetch();
 		}
 
@@ -399,9 +399,9 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id  Organization id.
 		 * @return array       Array with org details.
 		 */
-		public function get_user_org_details( $id ){
+		public function get_user_org_details( $id ) {
 			return $this->build_request( "user/organizations/$id" )->fetch();
-    }
+		}
 
 		/**
 		 * Leave organization
@@ -413,8 +413,8 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id  Organization id.
 		 * @return array       Array with removed org ID.
 		 */
-		public function leave_user_org( $id ){
-			return $this->build_request( "user/organizations/$id", "", 'DELETE' )->fetch();
+		public function leave_user_org( $id ) {
+			return $this->build_request( "user/organizations/$id", '', 'DELETE' )->fetch();
 		}
 
 		/* User invitations route. Enterprise Only */
@@ -428,9 +428,9 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @see https://api.cloudflare.com/#user-s-invites-list-invitations Documentation
 		 * @return array  List of user invites
 		 */
-		public function get_user_invites(){
-			return $this->build_request( "user/invites" )->fetch();
-    }
+		public function get_user_invites() {
+			return $this->build_request( 'user/invites' )->fetch();
+		}
 
 		/**
 		 * Invitation details
@@ -442,9 +442,9 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id  Invite id.
 		 * @return array       Array with invites details.
 		 */
-		public function get_user_invite_details( $id ){
+		public function get_user_invite_details( $id ) {
 			return $this->build_request( "user/invites/$id" )->fetch();
-    }
+		}
 
 		/**
 		 * Respond to Invitation
@@ -455,13 +455,13 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  bool   $status Invite status. Set to true to accept, and false to reject.
 		 * @return array          Array with invites details.
 		 */
-		public function respond_user_invite( $id, bool $status ){
+		public function respond_user_invite( $id, bool $status ) {
 			$args = array(
 				'status' => ( true === $status ) ? 'accepted' : 'rejected',
 			);
 
 			return $this->build_request( "user/invites/$id", $args, 'PATCH' )->fetch();
-    }
+		}
 
 		/* Welcome to.. the Danger Zones.(´･_･`). Cloudflare Zone routes that is. */
 
@@ -477,14 +477,14 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *                            must pass at least the ID of the organization.
 		 * @return array              New zone details.
 		 */
-		public function create_zone( $domain, $jump_start = '', $org = array() ){
+		public function create_zone( $domain, $jump_start = '', $org = array() ) {
 			$args = array(
 				'name' => $domain,
 				'jump_start' => $jump_start,
 				'org' => $org,
 			);
 
-			return $this->build_request( "zones", $args, 'POST' )->fetch();
+			return $this->build_request( 'zones', $args, 'POST' )->fetch();
 		}
 
 		/**
@@ -495,19 +495,19 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id Zone ID.
 		 * @return array      Array with results.
 		 */
-		public function initiate_zone_activation_check( $id ){
-			return $this->build_request( "zones/$id/activation_check", "", 'PUT' )->fetch();
+		public function initiate_zone_activation_check( $id ) {
+			return $this->build_request( "zones/$id/activation_check", '', 'PUT' )->fetch();
 		}
 
-
-
-
 		/**
-		 * List, search, sort, and filter your zones
+		 * List zones.
 		 *
-		 * @access public
-		 * @param  array $args  Query args to send in to API call.
-		 * @return array
+		 * List, search, sort, and filter your zones.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-list-zones Documentation
+		 * @param  array $args  Query args to send in to API call. See API docs for details.
+		 * @return array        List of available zones.
 		 */
 		function get_zones( $args = array() ) {
 			return $this->build_request( 'zones', $args )->fetch();

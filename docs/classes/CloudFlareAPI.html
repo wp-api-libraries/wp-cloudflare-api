@@ -76,7 +76,7 @@
 <li class="method public "><a href="#method_get_user_org_details" title="get_user_org_details() :: Organization details."><span class="description">Organization details.</span><pre>get_user_org_details()</pre></a></li>
 <li class="method public "><a href="#method_get_user_orgs" title="get_user_orgs() :: List organizations."><span class="description">List organizations.</span><pre>get_user_orgs()</pre></a></li>
 <li class="method public "><a href="#method_get_user_subscriptions" title="get_user_subscriptions() :: Get User Subscriptions."><span class="description">Get User Subscriptions.</span><pre>get_user_subscriptions()</pre></a></li>
-<li class="method public "><a href="#method_get_zones" title="get_zones() :: List, search, sort, and filter your zones"><span class="description">List, search, sort, and filter your zones</span><pre>get_zones()</pre></a></li>
+<li class="method public "><a href="#method_get_zones" title="get_zones() :: List zones."><span class="description">List zones.</span><pre>get_zones()</pre></a></li>
 <li class="method public "><a href="#method_initiate_zone_activation_check" title="initiate_zone_activation_check() :: Initiate another zone activation check."><span class="description">Initiate another zone activation check.</span><pre>initiate_zone_activation_check()</pre></a></li>
 <li class="method public "><a href="#method_leave_user_org" title="leave_user_org() :: Leave organization"><span class="description">Leave organization</span><pre>leave_user_org()</pre></a></li>
 <li class="method public "><a href="#method_respond_user_invite" title="respond_user_invite() :: Respond to Invitation"><span class="description">Respond to Invitation</span><pre>respond_user_invite()</pre></a></li>
@@ -505,21 +505,28 @@ must pass at least the ID of the organization.</p></div>
 </div></div>
 </div>
 <a id="method_get_zones"></a><div class="element clickable method public method_get_zones " data-toggle="collapse" data-target=".method_get_zones .collapse" title="public">
-<h2>List, search, sort, and filter your zones</h2>
+<h2>List zones.</h2>
 <pre>get_zones(array $args<code> = array()</code>) : array</pre>
-<div class="labels"></div>
+<div class="labels"><span class="label label-info">API</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>access</th>
-<td>public</td>
-</tr></table>
+<div class="long_description"><p>List, search, sort, and filter your zones.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>GET</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#zone-list-zones">Documentation</a></td>
+</tr>
+</table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$args</h4>
-<code>array</code><p>Query args to send in to API call.</p></div>
+<code>array</code><p>Query args to send in to API call. See API docs for details.</p></div>
 <h3>Returns</h3>
-<div class="subelement response"><code>array</code></div>
+<div class="subelement response">
+<code>array</code>List of available zones.</div>
 </div></div>
 </div>
 <a id="method_initiate_zone_activation_check"></a><div class="element clickable method public method_initiate_zone_activation_check " data-toggle="collapse" data-target=".method_initiate_zone_activation_check .collapse" title="public">
@@ -852,7 +859,7 @@ must pass at least the ID of the organization.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.8.5</a> and<br>
-            generated on 2017-08-02T17:43:41-07:00.<br></footer></div>
+            generated on 2017-08-02T17:52:00-07:00.<br></footer></div>
 </div>
 </body>
 </html>
