@@ -706,7 +706,7 @@ want to redirect for a subset of requests, consider creating an &quot;Always use
 </div>
 <a id="method_get_zone_settings_browser_cache_ttl"></a><div class="element clickable method public method_get_zone_settings_browser_cache_ttl " data-toggle="collapse" data-target=".method_get_zone_settings_browser_cache_ttl .collapse" title="public">
 <h2>Get Browser Cache TTL setting.</h2>
-<pre>get_zone_settings_browser_cache_ttl() : array</pre>
+<pre>get_zone_settings_browser_cache_ttl(string $id) : array</pre>
 <div class="labels"><span class="label label-info">API</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors'
@@ -722,6 +722,10 @@ computers. Cloudflare will honor any larger times specified by your server.
 <td><a href="https://api.cloudflare.com/#zone-settings-get-browser-cache-ttl-setting">Documentation</a></td>
 </tr>
 </table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$id</h4>
+<code>string</code><p>Zone ID.</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>array</code>Browser cache ttl setting info.</div>
@@ -1924,7 +1928,7 @@ associated subscriptions. To view available plans for this zone, see Zone Plans.
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.8.5</a> and<br>
-            generated on 2017-08-03T12:46:02-07:00.<br></footer></div>
+            generated on 2017-08-03T12:49:27-07:00.<br></footer></div>
 </div>
 </body>
 </html>
