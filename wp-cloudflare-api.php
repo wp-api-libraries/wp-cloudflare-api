@@ -530,7 +530,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *                                     associated subscriptions. To view available plans for this zone, see Zone Plans.
 		 * @return array                       Updated zone info.
 		 */
-		public function update_zone( $id, bool $paused = null, array $vanity_name_servers = null, array $plan = null ){
+		public function update_zone( $id, bool $paused = null, array $vanity_name_servers = null, array $plan = null ) {
 			$args = array(
 				'paused' => $paused,
 				'vanity_name_servers' => $vanity_name_servers,
@@ -550,7 +550,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id Zone Id.
 		 * @return array      Purge results.
 		 */
-		public function purge_zone_cache_all( string $id ){
+		public function purge_zone_cache_all( string $id ) {
 			$args = array(
 				'purge_everything' => true,
 			);
@@ -574,7 +574,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *                       purged from the Cloudflare cache.
 		 * @return array         Purge results.
 		 */
-		public function purge_zone_cache_individual( string $id, array $files = null, array $tags = null ){
+		public function purge_zone_cache_individual( string $id, array $files = null, array $tags = null ) {
 			$args = array(
 				'files' => $files,
 				'tags' => $tags,
@@ -590,7 +590,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id Zone ID.
 		 * @return array      Deleted zone info.
 		 */
-		public function delete_zone( string $id ){
+		public function delete_zone( string $id ) {
 			return $this->build_request( "zones/$id/purge_cache", '', 'DELETE' )->fetch();
 		}
 
@@ -604,7 +604,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id Zone ID.
 		 * @return array      Available rate plan info.
 		 */
-		public function get_zone_available_rate_plans( string $id ){
+		public function get_zone_available_rate_plans( string $id ) {
 			return $this->build_request( "zones/$id/available_rate_plans" )->fetch();
 		}
 
@@ -618,7 +618,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id Zone ID.
 		 * @return array      Zone setting info.
 		 */
-		public function get_zone_settings( string $id ){
+		public function get_zone_settings( string $id ) {
 			return $this->build_request( "zones/$id/settings" )->fetch();
 		}
 
@@ -638,7 +638,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id Zone ID.
 		 * @return array      Always online setting info.
 		 */
-		public function get_zone_settings_always_online( $id ){
+		public function get_zone_settings_always_online( $id ) {
 			return $this->build_request( "zones/$id/settings/always_online" )->fetch();
 		}
 
@@ -653,7 +653,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id Zone ID.
 		 * @return array      Always online setting info.
 		 */
-		public function get_zone_settings_always_use_https( $id ){
+		public function get_zone_settings_always_use_https( $id ) {
 			return $this->build_request( "zones/$id/settings/always_use_https" )->fetch();
 		}
 
@@ -667,7 +667,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id Zone ID.
 		 * @return array      Auto https rewrites setting info.
 		 */
-		public function get_zone_settings_automatic_https_rewrites( $id ){
+		public function get_zone_settings_automatic_https_rewrites( $id ) {
 			return $this->build_request( "zones/$id/settings/automatic_https_rewrites" )->fetch();
 		}
 
@@ -683,183 +683,183 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $id Zone ID.
 		 * @return array      Browser cache ttl setting info.
 		 */
-		public function get_zone_settings_browser_cache_ttl(){
+		public function get_zone_settings_browser_cache_ttl( $id ) {
 			return $this->build_request( "zones/$id/settings/browser_cache_ttl" )->fetch();
 		}
 
-    /**
-     * Get Browser Check setting.
-     *
-     * Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by
-     * spammers and denies access to your page. It will also challenge visitors that do not have a user agent or a non
-     * standard user agent (also commonly used by abuse bots, crawlers or visitors).
-     * (https://support.cloudflare.com/hc/en-us/articles/200170086).
-     *
+		/**
+		 * Get Browser Check setting.
+		 *
+		 * Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by
+		 * spammers and denies access to your page. It will also challenge visitors that do not have a user agent or a non
+		 * standard user agent (also commonly used by abuse bots, crawlers or visitors).
+		 * (https://support.cloudflare.com/hc/en-us/articles/200170086).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-browser-check-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Browser check info.
-     */
-		public function get_zone_settings_browser_check( $id ){
+		 * @return array      Browser check info.
+		 */
+		public function get_zone_settings_browser_check( $id ) {
 			return $this->build_request( "zones/$id/settings/browser_check" )->fetch();
 		}
 
 		/**
-     * Get Cache Level setting.
-     *
-     * Cache Level functions based off the setting level. The basic setting will cache most static resources
-     * (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached
-     * resource. The aggressive setting will cache all static resources, including ones with a query string.
-     * (https://support.cloudflare.com/hc/en-us/articles/200168256).
-     *
+		 * Get Cache Level setting.
+		 *
+		 * Cache Level functions based off the setting level. The basic setting will cache most static resources
+		 * (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached
+		 * resource. The aggressive setting will cache all static resources, including ones with a query string.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200168256).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-cache-level-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Cache level seting info.
-     */
-		public function get_zone_settings_cache_level( $id ){
+		 * @return array      Cache level seting info.
+		 */
+		public function get_zone_settings_cache_level( $id ) {
 			return $this->build_request( "zones/$id/settings/cache_level" )->fetch();
 		}
 
 		/**
-     * Get Challenge TTL setting.
-     *
-     * Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a
-     * CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45
-     * minute setting and will attempt to honor any setting above 45 minutes.
-     * (https://support.cloudflare.com/hc/en-us/articles/200170136).
-     *
+		 * Get Challenge TTL setting.
+		 *
+		 * Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a
+		 * CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45
+		 * minute setting and will attempt to honor any setting above 45 minutes.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200170136).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-challenge-ttl-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Challenge TTL setting info.
-     */
-		public function get_zone_settings_challenge_ttl( $id ){
+		 * @return array      Challenge TTL setting info.
+		 */
+		public function get_zone_settings_challenge_ttl( $id ) {
 			return $this->build_request( "zones/$id/settings/challenge_ttl" )->fetch();
 		}
 
 		/**
-     * Get Development Mode setting.
-     *
-     * Development Mode temporarily allows you to enter development mode for your websites if you need to make changes
-     * to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are
-     * making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right
-     * away. Once entered, development mode will last for 3 hours and then automatically toggle off.
-     *
+		 * Get Development Mode setting.
+		 *
+		 * Development Mode temporarily allows you to enter development mode for your websites if you need to make changes
+		 * to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are
+		 * making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right
+		 * away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-development-mode-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Development mode setting info.
-     */
-		public function get_zone_settings_development_mode( $id ){
+		 * @return array      Development mode setting info.
+		 */
+		public function get_zone_settings_development_mode( $id ) {
 			return $this->build_request( "zones/$id/settings/development_mode" )->fetch();
 		}
 
 		/**
-     * Get Email Obfuscation setting.
-     *
-     * Encrypt email adresses on your web page from bots, while keeping them visible to humans.
-     * (https://support.cloudflare.com/hc/en-us/articles/200170016).
-     *
+		 * Get Email Obfuscation setting.
+		 *
+		 * Encrypt email adresses on your web page from bots, while keeping them visible to humans.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200170016).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-email-obfuscation-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Email obfuscation setting info.
-     */
-		public function get_zone_settings_email_obfuscation( $id ){
+		 * @return array      Email obfuscation setting info.
+		 */
+		public function get_zone_settings_email_obfuscation( $id ) {
 			return $this->build_request( "zones/$id/settings/email_obfuscation" )->fetch();
 		}
 
 		/**
-     * Get Hotlink Protection setting.
-     *
-     * When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building
-     * pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check
-     * to ensure that it's not another site requesting them. People will still be able to download and view images from
-     * your page, but other sites won't be able to steal them for use on their own pages.
-     * (https://support.cloudflare.com/hc/en-us/articles/200170026).
-     *
+		 * Get Hotlink Protection setting.
+		 *
+		 * When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building
+		 * pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check
+		 * to ensure that it's not another site requesting them. People will still be able to download and view images from
+		 * your page, but other sites won't be able to steal them for use on their own pages.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200170026).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-hotlink-protection-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Hotlink protection setting info.
-     */
-		public function get_zone_settings_hotlink_protection( $id ){
+		 * @return array      Hotlink protection setting info.
+		 */
+		public function get_zone_settings_hotlink_protection( $id ) {
 			return $this->build_request( "zones/$id/settings/hotlink_protection" )->fetch();
 		}
 
 		/**
-     * Get IP Geolocation setting.
-     *
-     * Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you.
-     * (https://support.cloudflare.com/hc/en-us/articles/200168236).
-     *
+		 * Get IP Geolocation setting.
+		 *
+		 * Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200168236).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-ip-geolocation-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Hotlink protection setting info.
-     */
-		public function get_zone_settings_ip_geolocation( $id ){
+		 * @return array      Hotlink protection setting info.
+		 */
+		public function get_zone_settings_ip_geolocation( $id ) {
 			return $this->build_request( "zones/$id/settings/ip_geolocation" )->fetch();
 		}
 
 		/**
-     * Get IPv6 setting.
-     *
-     * Enable IPv6 on all subdomains that are Cloudflare enabled.
-     * (https://support.cloudflare.com/hc/en-us/articles/200168586).
-     *
+		 * Get IPv6 setting.
+		 *
+		 * Enable IPv6 on all subdomains that are Cloudflare enabled.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200168586).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-ipv6-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Ipv6 setting info.
-     */
-		public function get_zone_settings_ipv6( $id ){
+		 * @return array      Ipv6 setting info.
+		 */
+		public function get_zone_settings_ipv6( $id ) {
 			return $this->build_request( "zones/$id/settings/ipv6" )->fetch();
 		}
 
 		/**
-     * Get Minify setting.
-     *
-     * Automatically minify certain assets for your website
-     * (https://support.cloudflare.com/hc/en-us/articles/200168196).
-     *
+		 * Get Minify setting.
+		 *
+		 * Automatically minify certain assets for your website
+		 * (https://support.cloudflare.com/hc/en-us/articles/200168196).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-minify-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Minify setting info.
-     */
-		public function get_zone_settings_minify( $id ){
+		 * @return array      Minify setting info.
+		 */
+		public function get_zone_settings_minify( $id ) {
 			return $this->build_request( "zones/$id/settings/minify" )->fetch();
 		}
 
 		/**
-     * Get Mobile Redirect setting.
-     *
-     * Automatically redirect visitors on mobile devices to a mobile-optimized subdomain
-     * (https://support.cloudflare.com/hc/en-us/articles/200168336).
-     *
+		 * Get Mobile Redirect setting.
+		 *
+		 * Automatically redirect visitors on mobile devices to a mobile-optimized subdomain
+		 * (https://support.cloudflare.com/hc/en-us/articles/200168336).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-mobile-redirect-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Mobile redirect setting info.
-     */
-		public function get_zone_settings_mobile_redirect( $id ){
+		 * @return array      Mobile redirect setting info.
+		 */
+		public function get_zone_settings_mobile_redirect( $id ) {
 			return $this->build_request( "zones/$id/settings/mobile_redirect" )->fetch();
 		}
 
 		/**
-     * Get Mirage setting.
-     *
-     * Automatically optimize image loading for website visitors on mobile devices
-     * (http://blog.cloudflare.com/mirage2-solving-mobile-speed).
-     *
+		 * Get Mirage setting.
+		 *
+		 * Automatically optimize image loading for website visitors on mobile devices
+		 * (http://blog.cloudflare.com/mirage2-solving-mobile-speed).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-mirage-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Mirage setting info.
-     */
-		public function get_zone_settings_mirage( $id ){
+		 * @return array      Mirage setting info.
+		 */
+		public function get_zone_settings_mirage( $id ) {
 			return $this->build_request( "zones/$id/settings/mirage" )->fetch();
 		}
 
@@ -869,62 +869,62 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		public function get_zone_settings_origin_error_page_pass_thru(){}
 
 		/**
-     * Get Opportunistic Encryption setting.
-     *
-     * Enable the Opportunistic Encryption feature for this zone.
-     *
+		 * Get Opportunistic Encryption setting.
+		 *
+		 * Enable the Opportunistic Encryption feature for this zone.
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-opportunistic-encryption-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Opportunistic encryption setting info.
-     */
-		public function get_zone_settings_opportunistic_encryption( $id ){
+		 * @return array      Opportunistic encryption setting info.
+		 */
+		public function get_zone_settings_opportunistic_encryption( $id ) {
 			return $this->build_request( "zones/$id/settings/opportunistic_encryption" )->fetch();
 		}
 
 		/**
-     * Get Polish setting.
-     *
-     * Strips metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG,
-     * JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files
-     * for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image
-     * first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
-     *
+		 * Get Polish setting.
+		 *
+		 * Strips metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG,
+		 * JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files
+		 * for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image
+		 * first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-polish-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Polish setting info.
-     */
-		public function get_zone_settings_polish( $id ){
+		 * @return array      Polish setting info.
+		 */
+		public function get_zone_settings_polish( $id ) {
 			return $this->build_request( "zones/$id/settings/polish" )->fetch();
 		}
 
 		/**
-     * Get WebP setting.
-     *
-     * When the client requesting the image supports the WebP image codec, Cloudflare will serve a WebP version of the
-     * image when WebP offers a performance advantage over the original image format.
-     *
+		 * Get WebP setting.
+		 *
+		 * When the client requesting the image supports the WebP image codec, Cloudflare will serve a WebP version of the
+		 * image when WebP offers a performance advantage over the original image format.
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-webp-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      WebP setting info.
-     */
-		public function get_zone_settings_webp( $id ){
+		 * @return array      WebP setting info.
+		 */
+		public function get_zone_settings_webp( $id ) {
 			return $this->build_request( "zones/$id/settings/webp" )->fetch();
 		}
 
 		/**
-     * Get Prefetch Preload setting.
-     *
-     * Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
-     *
+		 * Get Prefetch Preload setting.
+		 *
+		 * Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-prefetch-preload-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Prefetch Preload setting info.
-     */
-		public function get_zone_settings_prefetch_preload( $id ){
+		 * @return array      Prefetch Preload setting info.
+		 */
+		public function get_zone_settings_prefetch_preload( $id ) {
 			return $this->build_request( "zones/$id/settings/prefetch_preload" )->fetch();
 		}
 
@@ -934,75 +934,75 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		public function get_zone_settings_response_buffering(){}
 
 		/**
-     * Get Rocket Loader setting.
-     *
-     * Rocket Loader is a general-purpose asynchronous JavaScript loader coupled with a lightweight virtual browser
-     * which can safely run any JavaScript code after window.onload. Turning on Rocket Loader will immediately improve
-     * a web page's window.onload time (assuming there is JavaScript on the page), which can have a positive impact on
-     * your Google search ranking. Automatic Mode: Rocket Loader will automatically run on the JavaScript resources on
-     * your site, with no configuration required after turning on automatic mode. Manual Mode: In order to have Rocket
-     * Loader execute for a particular script, you must add the following attribute to the script tag: "data-cfasync='true'".
-     * As your page passes through Cloudflare, we'll enable Rocket Loader for that particular script. All other
-     * JavaScript will continue to execute without Cloudflare touching the script.
-     * (https://support.cloudflare.com/hc/en-us/articles/200168056).
-     *
+		 * Get Rocket Loader setting.
+		 *
+		 * Rocket Loader is a general-purpose asynchronous JavaScript loader coupled with a lightweight virtual browser
+		 * which can safely run any JavaScript code after window.onload. Turning on Rocket Loader will immediately improve
+		 * a web page's window.onload time (assuming there is JavaScript on the page), which can have a positive impact on
+		 * your Google search ranking. Automatic Mode: Rocket Loader will automatically run on the JavaScript resources on
+		 * your site, with no configuration required after turning on automatic mode. Manual Mode: In order to have Rocket
+		 * Loader execute for a particular script, you must add the following attribute to the script tag: "data-cfasync='true'".
+		 * As your page passes through Cloudflare, we'll enable Rocket Loader for that particular script. All other
+		 * JavaScript will continue to execute without Cloudflare touching the script.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200168056).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-rocket-loader-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Rocket Loader setting info.
-     */
-		public function get_zone_settings_rocket_loader( $id ){
+		 * @return array      Rocket Loader setting info.
+		 */
+		public function get_zone_settings_rocket_loader( $id ) {
 			return $this->build_request( "zones/$id/settings/rocket_loader" )->fetch();
 		}
 
 		/**
-     * Get Security Header (HSTS) setting.
-     *
-     * Cloudflare security header for a zone.
-     *
+		 * Get Security Header (HSTS) setting.
+		 *
+		 * Cloudflare security header for a zone.
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-security-header-hsts-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Security header setting info.
-     */
-		public function get_zone_settings_security_header( $id ){
+		 * @return array      Security header setting info.
+		 */
+		public function get_zone_settings_security_header( $id ) {
 			return $this->build_request( "zones/$id/settings/security_header" )->fetch();
 		}
 
 		/**
-     * Get Security Level setting.
-     *
-     * Choose the appropriate security profile for your website, which will automatically adjust each of the security
-     * settings. If you choose to customize an individual security setting, the profile will become Custom.
-     * (https://support.cloudflare.com/hc/en-us/articles/200170056).
-     *
+		 * Get Security Level setting.
+		 *
+		 * Choose the appropriate security profile for your website, which will automatically adjust each of the security
+		 * settings. If you choose to customize an individual security setting, the profile will become Custom.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200170056).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-security-level-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Security level setting info.
-     */
-		public function get_zone_settings_security_level( $id ){
+		 * @return array      Security level setting info.
+		 */
+		public function get_zone_settings_security_level( $id ) {
 			return $this->build_request( "zones/$id/settings/security_level" )->fetch();
 		}
 
 		/**
-     * Get Server Side Exclude setting.
-     *
-     * If there is sensitive content on your website that you want visible to real visitors, but that you want to hide
-     * from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that
-     * you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->.
-     * For example: <!--sse--> Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->.
-     * Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your
-     * HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML
-     * minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's
-     * computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
-     *
+		 * Get Server Side Exclude setting.
+		 *
+		 * If there is sensitive content on your website that you want visible to real visitors, but that you want to hide
+		 * from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that
+		 * you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->.
+		 * For example: <!--sse--> Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->.
+		 * Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your
+		 * HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML
+		 * minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's
+		 * computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-server-side-exclude-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Server side exclude setting info.
-     */
-		public function get_zone_settings_server_side_exclude( $id ){
+		 * @return array      Server side exclude setting info.
+		 */
+		public function get_zone_settings_server_side_exclude( $id ) {
 			return $this->build_request( "zones/$id/settings/server_side_exclude" )->fetch();
 		}
 
@@ -1012,29 +1012,29 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		public function get_zone_settings_sort_query_string_for_cache(){}
 
 		/**
-     * Get SSL setting.
-     *
-     * SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from
-     * your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or
-     * www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server
-     * (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no
-     * SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your
-     * vistors will still see the site as being HTTPS enabled. Full: SSL between the visitor and Cloudflare -- visitor
-     * sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or
-     * self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS
-     * on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate
-     * installed on your web server. This certificate must be signed by a certificate authority, have an expiration
-     * date in the future, and respond for the request domain name (hostname).
-     * (https://support.cloudflare.com/hc/en-us/articles/200170416).
-     *
+		 * Get SSL setting.
+		 *
+		 * SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from
+		 * your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or
+		 * www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server
+		 * (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no
+		 * SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your
+		 * vistors will still see the site as being HTTPS enabled. Full: SSL between the visitor and Cloudflare -- visitor
+		 * sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or
+		 * self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS
+		 * on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate
+		 * installed on your web server. This certificate must be signed by a certificate authority, have an expiration
+		 * date in the future, and respond for the request domain name (hostname).
+		 * (https://support.cloudflare.com/hc/en-us/articles/200170416).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-ssl-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      SSL setting info.
-     */
-		public function get_zone_settings_ssl( $id ){
+		 * @return array      SSL setting info.
+		 */
+		public function get_zone_settings_ssl( $id ) {
 			return $this->build_request( "zones/$id/settings/ssl" )->fetch();
-    }
+		}
 
 		/**
 		 * TODO: Complete
@@ -1042,32 +1042,32 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		public function get_zone_settings_tls_1_2_only(){}
 
 		/**
-     * Get Zone Enable TLS 1.3 setting.
-     *
-     * Enable Crypto TLS 1.3 feature for this zone.
-     *
+		 * Get Zone Enable TLS 1.3 setting.
+		 *
+		 * Enable Crypto TLS 1.3 feature for this zone.
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-zone-enable-tls-1.3-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      TLS 1.3 setting info.
-     */
-		public function get_zone_settings_tls_1_3( $id ){
+		 * @return array      TLS 1.3 setting info.
+		 */
+		public function get_zone_settings_tls_1_3( $id ) {
 			return $this->build_request( "zones/$id/settings/tls_1_3" )->fetch();
-    }
+		}
 
 		/**
-     * Get TLS Client Auth setting.
-     *
-     * TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
-     *
+		 * Get TLS Client Auth setting.
+		 *
+		 * TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-tls-client-auth-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      TLS Client Auth setting info.
-     */
-		public function get_zone_settings_tls_client_auth( $id ){
+		 * @return array      TLS Client Auth setting info.
+		 */
+		public function get_zone_settings_tls_client_auth( $id ) {
 			return $this->build_request( "zones/$id/settings/tls_client_auth" )->fetch();
-    }
+		}
 
 		/**
 		 * TODO: Complete
@@ -1075,70 +1075,70 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		public function get_zone_settings_true_client_ip_header(){}
 
 		/**
-     * Get Web Application Firewall (WAF) setting.
-     *
-     * The WAF examines HTTP requests to your website. It inspects both GET and POST requests and applies rules to help
-     * filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses
-     * or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then
-     * the WAF will ‘challenge’ the web visitor with a page that asks them to submit a CAPTCHA successfully to continue
-     * their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare’s WAF
-     * will block any traffic identified as illegitimate before it reaches your origin web server.
-     * (https://support.cloudflare.com/hc/en-us/articles/200172016).
-     *
+		 * Get Web Application Firewall (WAF) setting.
+		 *
+		 * The WAF examines HTTP requests to your website. It inspects both GET and POST requests and applies rules to help
+		 * filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses
+		 * or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then
+		 * the WAF will ‘challenge’ the web visitor with a page that asks them to submit a CAPTCHA successfully to continue
+		 * their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare’s WAF
+		 * will block any traffic identified as illegitimate before it reaches your origin web server.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200172016).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-web-application-firewall-waf-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Web application firewall setting info.
-     */
-		public function get_zone_settings_waf( $id ){
+		 * @return array      Web application firewall setting info.
+		 */
+		public function get_zone_settings_waf( $id ) {
 			return $this->build_request( "zones/$id/settings/waf" )->fetch();
-    }
+		}
 
 		/**
-     * Get HTTP2 setting.
-     *
-     * Value of the HTTP2 setting.
-     *
+		 * Get HTTP2 setting.
+		 *
+		 * Value of the HTTP2 setting.
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-http2-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      HTTP2 setting info.
-     */
-		public function get_zone_settings_http2( $id ){
+		 * @return array      HTTP2 setting info.
+		 */
+		public function get_zone_settings_http2( $id ) {
 			return $this->build_request( "zones/$id/settings/http2" )->fetch();
-    }
+		}
 
 		/**
-     * Get pseudo_ipv4 setting.
-     *
-     * Value of the pseudo_ipv4 setting.
-     *
+		 * Get pseudo_ipv4 setting.
+		 *
+		 * Value of the pseudo_ipv4 setting.
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-pseudo_ipv4-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Pseudo ipv4 setting info.
-     */
-		public function get_zone_settings_pseudo_ipv4( $id ){
+		 * @return array      Pseudo ipv4 setting info.
+		 */
+		public function get_zone_settings_pseudo_ipv4( $id ) {
 			return $this->build_request( "zones/$id/settings/pseudo_ipv4" )->fetch();
-    }
+		}
 
 		/**
-     * Get WebSockets setting.
-     *
-     * WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets
-     * connection, the client and the origin can pass data back and forth without having to reestablish sessions. This
-     * makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications
-     * such as live chat and gaming.
-     * (https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
-     *
+		 * Get WebSockets setting.
+		 *
+		 * WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets
+		 * connection, the client and the origin can pass data back and forth without having to reestablish sessions. This
+		 * makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications
+		 * such as live chat and gaming.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+		 *
 		 * @api GET
 		 * @see https://api.cloudflare.com/#zone-settings-get-websockets-setting Documentation
 		 * @param  string $id Zone ID.
-     * @return array      Websockets setting info.
-     */
-		public function get_zone_settings_websockets( $id ){
+		 * @return array      Websockets setting info.
+		 */
+		public function get_zone_settings_websockets( $id ) {
 			return $this->build_request( "zones/$id/settings/websockets" )->fetch();
-    }
+		}
 
 
 
