@@ -20,7 +20,7 @@
     </class>
     <source>eJx9kFFPwjAUhZ/trzg+DRcn78NERgfRZMgiGB6Xpr3TxgILnQFD/O/ejhBjVNK30+/cfPfe3jWvjejHsUAM6TbvZuLUlrAsZfHAWYiHjdJv6oWwaxIdkDogya7RzvJ/X3Af471tYWsorcl7MjB2S7p1HwHgvIdLGKrtmkwPUTaal9niPsIVvwOIywN8CvHbpFqWFatUcrNaqbXx0E55f3NSo31LIf1JdVYdeG7S310chLjghRajPIUsZs/5pMiexkwlTEHOptPsMZ93e7PxsZymyphKHyfwft9niq4R/e/ABxiIL+pTdUk=</source>
   </file>
-  <file path="wp-cloudflare-api.php" generated-path="wp-cloudflare-api.html" hash="2837062274beeaefdee1bb9965bb9df7" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+  <file path="wp-cloudflare-api.php" generated-path="wp-cloudflare-api.html" hash="96819d32660b4eea6aaf1bbbf4b5e9a2" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
     <docblock line="0">
       <description>Library for accessing the CloudFlare API on WordPress</description>
       <long-description></long-description>
@@ -744,16 +744,559 @@ an access rule that applies to a specific zone only, use the zone firewall endpo
           <type>array</type>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="522" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="533" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>update_zone</name>
+        <full_name>\CloudFlareAPI::update_zone()</full_name>
+        <docblock line="533">
+          <description>Edit Zone Properties.</description>
+          <long-description>Only one zone property can be changed at a time.</long-description>
+          <tag name="api" line="533" description="PATCH"/>
+          <tag name="see" line="533" description="Documentation" link="https://api.cloudflare.com/#zone-edit-zone-properties"/>
+          <tag name="param" line="533" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="533" description="&lt;p&gt;Indicates if the zone is only using Cloudflare DNS services. A true value&#10;                                    means the zone will not receive security or performance benefits.&#10;                                    Valid values: true|false.&lt;/p&gt;" type="boolean" variable="$paused">
+            <type>boolean</type>
+          </tag>
+          <tag name="param" line="533" description="&lt;p&gt;An array of domains used for custom name servers. This is only available for&#10;                                    Business and Enterprise plans.&lt;/p&gt;" type="array" variable="$vanity_name_servers">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="533" description="&lt;p&gt;The desired plan for the zone. Changing this value will create/cancel&#10;associated subscriptions. To view available plans for this zone, see Zone Plans.&lt;/p&gt;" type="array" variable="$plan">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="533" description="Updated zone info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$paused</name>
+          <default>null</default>
+          <type>boolean</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$vanity_name_servers</name>
+          <default>null</default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$plan</name>
+          <default>null</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="553" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>purge_zone_cache_all</name>
+        <full_name>\CloudFlareAPI::purge_zone_cache_all()</full_name>
+        <docblock line="553">
+          <description>Purge all files.</description>
+          <long-description>Remove ALL files from Cloudflare's cache.</long-description>
+          <tag name="api" line="553" description="DELETE"/>
+          <tag name="see" line="553" description="Documentation" link="https://api.cloudflare.com/#zone-purge-all-files"/>
+          <tag name="param" line="553" description="&lt;p&gt;Zone Id.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="553" description="Purge results." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="577" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>purge_zone_cache_individual</name>
+        <full_name>\CloudFlareAPI::purge_zone_cache_individual()</full_name>
+        <docblock line="577">
+          <description>Purge individual files by URL and Cache-Tags.</description>
+          <long-description>Granularly remove one or more files from Cloudflare's cache either by specifying the URL or the associated
+Cache-Tag. All tiers can purge by URL. Cache-Tag is for Enterprise only.
+
+Cache-Tag purging has a rate limit of up to 2,000 purge API calls in every 24 hour period. You may purge up to 30
+tags in one API call.</long-description>
+          <tag name="api" line="577" description="DELETE"/>
+          <tag name="see" line="577" description="Documentation" link="https://api.cloudflare.com/#zone-purge-individual-files-by-url-and-cache-tags"/>
+          <tag name="param" line="577" description="&lt;p&gt;Zone Id.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="577" description="&lt;p&gt;An array of URLs that should be removed from cache.&lt;/p&gt;" type="array" variable="$files">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="577" description="&lt;p&gt;Any assets served with a Cache-Tag header that matches one of the provided values will be&#10;purged from the Cloudflare cache.&lt;/p&gt;" type="array" variable="$tags">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="577" description="Purge results." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$files</name>
+          <default>null</default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$tags</name>
+          <default>null</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="593" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>delete_zone</name>
+        <full_name>\CloudFlareAPI::delete_zone()</full_name>
+        <docblock line="593">
+          <description>Delete a zone.</description>
+          <long-description></long-description>
+          <tag name="api" line="593" description="DELETE"/>
+          <tag name="see" line="593" description="Documentation" link="https://api.cloudflare.com/#zone-delete-a-zone"/>
+          <tag name="param" line="593" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="593" description="Deleted zone info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="607" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_available_rate_plans</name>
+        <full_name>\CloudFlareAPI::get_zone_available_rate_plans()</full_name>
+        <docblock line="607">
+          <description>Available Rate Plans.</description>
+          <long-description>List all rate plans the zone can subscribe to.</long-description>
+          <tag name="api" line="607" description="GET"/>
+          <tag name="see" line="607" description="Documentation" link="https://api.cloudflare.com/#zone-rate-plan-available-rate-plans"/>
+          <tag name="param" line="607" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="607" description="Available rate plan info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="621" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings</name>
+        <full_name>\CloudFlareAPI::get_zone_settings()</full_name>
+        <docblock line="621">
+          <description>Get all Zone settings</description>
+          <long-description>Available settings for your user in relation to a zone</long-description>
+          <tag name="api" line="621" description="GET"/>
+          <tag name="see" line="621" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-all-zone-settings"/>
+          <tag name="param" line="621" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="621" description="Zone setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="628" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_advanced_ddos</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_advanced_ddos()</full_name>
+        <docblock line="628">
+          <description>TODO: Complete method.</description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="641" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_always_online</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_always_online()</full_name>
+        <docblock line="641">
+          <description>Get Always Online setting</description>
+          <long-description>When enabled, Always Online will serve pages from our cache if your server is offline
+(https://support.cloudflare.com/hc/en-us/articles/200168006)</long-description>
+          <tag name="api" line="641" description="GET"/>
+          <tag name="see" line="641" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-always-online-setting"/>
+          <tag name="param" line="641" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="641" description="Always online setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="656" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_always_use_https</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_always_use_https()</full_name>
+        <docblock line="656">
+          <description>Get Always Use HTTPS setting</description>
+          <long-description>Reply to all requests for URLs that use "http" with a 301 redirect to the equivalent "https" URL. If you only
+want to redirect for a subset of requests, consider creating an "Always use HTTPS" page rule.</long-description>
+          <tag name="api" line="656" description="GET"/>
+          <tag name="see" line="656" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-always-use-https-setting"/>
+          <tag name="param" line="656" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="656" description="Always online setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="670" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_automatic_https_rewrites</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_automatic_https_rewrites()</full_name>
+        <docblock line="670">
+          <description>Get Automatic HTTPS Rewrites setting.</description>
+          <long-description>Enable the Automatic HTTPS Rewrites feature for this zone.</long-description>
+          <tag name="api" line="670" description="GET"/>
+          <tag name="see" line="670" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-automatic-https-rewrites-setting"/>
+          <tag name="param" line="670" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="670" description="Auto https rewrites setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="686" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_browser_cache_ttl</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_browser_cache_ttl()</full_name>
+        <docblock line="686">
+          <description>Get Browser Cache TTL setting.</description>
+          <long-description>Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors'
+computers. Cloudflare will honor any larger times specified by your server.
+(https://support.cloudflare.com/hc/en-us/articles/200168276).</long-description>
+          <tag name="api" line="686" description="GET"/>
+          <tag name="see" line="686" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-browser-cache-ttl-setting"/>
+          <tag name="param" line="686" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="686" description="Browser cache ttl setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="703" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_browser_check</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_browser_check()</full_name>
+        <docblock line="703">
+          <description>Get Browser Check setting.</description>
+          <long-description>Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by
+spammers and denies access to your page. It will also challenge visitors that do not have a user agent or a non
+standard user agent (also commonly used by abuse bots, crawlers or visitors).
+(https://support.cloudflare.com/hc/en-us/articles/200170086).</long-description>
+          <tag name="api" line="703" description="GET"/>
+          <tag name="see" line="703" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-browser-check-setting"/>
+          <tag name="param" line="703" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="703" description="Browser check info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="720" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_cache_level</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_cache_level()</full_name>
+        <docblock line="720">
+          <description>Get Cache Level setting.</description>
+          <long-description>Cache Level functions based off the setting level. The basic setting will cache most static resources
+(i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached
+resource. The aggressive setting will cache all static resources, including ones with a query string.
+(https://support.cloudflare.com/hc/en-us/articles/200168256).</long-description>
+          <tag name="api" line="720" description="GET"/>
+          <tag name="see" line="720" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-cache-level-setting"/>
+          <tag name="param" line="720" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="720" description="Cache level seting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="737" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_challenge_ttl</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_challenge_ttl()</full_name>
+        <docblock line="737">
+          <description>Get Challenge TTL setting.</description>
+          <long-description>Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a
+CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45
+minute setting and will attempt to honor any setting above 45 minutes.
+(https://support.cloudflare.com/hc/en-us/articles/200170136).</long-description>
+          <tag name="api" line="737" description="GET"/>
+          <tag name="see" line="737" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-challenge-ttl-setting"/>
+          <tag name="param" line="737" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="737" description="Challenge TTL setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="754" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_development_mode</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_development_mode()</full_name>
+        <docblock line="754">
+          <description>Get Development Mode setting.</description>
+          <long-description>Development Mode temporarily allows you to enter development mode for your websites if you need to make changes
+to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are
+making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right
+away. Once entered, development mode will last for 3 hours and then automatically toggle off.</long-description>
+          <tag name="api" line="754" description="GET"/>
+          <tag name="see" line="754" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-development-mode-setting"/>
+          <tag name="param" line="754" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="754" description="Development mode setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="769" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_email_obfuscation</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_email_obfuscation()</full_name>
+        <docblock line="769">
+          <description>Get Email Obfuscation setting.</description>
+          <long-description>Encrypt email adresses on your web page from bots, while keeping them visible to humans.
+(https://support.cloudflare.com/hc/en-us/articles/200170016).</long-description>
+          <tag name="api" line="769" description="GET"/>
+          <tag name="see" line="769" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-email-obfuscation-setting"/>
+          <tag name="param" line="769" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="769" description="Email obfuscation setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="787" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_hotlink_protection</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_hotlink_protection()</full_name>
+        <docblock line="787">
+          <description>Get Hotlink Protection setting.</description>
+          <long-description>When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building
+pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check
+to ensure that it's not another site requesting them. People will still be able to download and view images from
+your page, but other sites won't be able to steal them for use on their own pages.
+(https://support.cloudflare.com/hc/en-us/articles/200170026).</long-description>
+          <tag name="api" line="787" description="GET"/>
+          <tag name="see" line="787" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-hotlink-protection-setting"/>
+          <tag name="param" line="787" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="787" description="Hotlink protection setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="802" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_ip_geolocation</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_ip_geolocation()</full_name>
+        <docblock line="802">
+          <description>Get IP Geolocation setting.</description>
+          <long-description>Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you.
+(https://support.cloudflare.com/hc/en-us/articles/200168236).</long-description>
+          <tag name="api" line="802" description="GET"/>
+          <tag name="see" line="802" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-ip-geolocation-setting"/>
+          <tag name="param" line="802" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="802" description="Hotlink protection setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="817" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_ipv6</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_ipv6()</full_name>
+        <docblock line="817">
+          <description>Get IPv6 setting.</description>
+          <long-description>Enable IPv6 on all subdomains that are Cloudflare enabled.
+(https://support.cloudflare.com/hc/en-us/articles/200168586).</long-description>
+          <tag name="api" line="817" description="GET"/>
+          <tag name="see" line="817" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-ipv6-setting"/>
+          <tag name="param" line="817" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="817" description="Ipv6 setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="832" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_minify</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_minify()</full_name>
+        <docblock line="832">
+          <description>Get Minify setting.</description>
+          <long-description>Automatically minify certain assets for your website
+(https://support.cloudflare.com/hc/en-us/articles/200168196).</long-description>
+          <tag name="api" line="832" description="GET"/>
+          <tag name="see" line="832" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-minify-setting"/>
+          <tag name="param" line="832" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="832" description="Minify setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="847" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_mobile_redirect</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_mobile_redirect()</full_name>
+        <docblock line="847">
+          <description>Get Mobile Redirect setting.</description>
+          <long-description>Automatically redirect visitors on mobile devices to a mobile-optimized subdomain
+(https://support.cloudflare.com/hc/en-us/articles/200168336).</long-description>
+          <tag name="api" line="847" description="GET"/>
+          <tag name="see" line="847" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-mobile-redirect-setting"/>
+          <tag name="param" line="847" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="847" description="Mobile redirect setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="862" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_mirage</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_mirage()</full_name>
+        <docblock line="862">
+          <description>Get Mirage setting.</description>
+          <long-description>Automatically optimize image loading for website visitors on mobile devices
+(http://blog.cloudflare.com/mirage2-solving-mobile-speed).</long-description>
+          <tag name="api" line="862" description="GET"/>
+          <tag name="see" line="862" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-mirage-setting"/>
+          <tag name="param" line="862" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="862" description="Mirage setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="869" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_origin_error_page_pass_thru</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_origin_error_page_pass_thru()</full_name>
+        <docblock line="869">
+          <description>TODO: Complete.</description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="881" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
+        <name>get_zone_settings_opportunistic_encryption</name>
+        <full_name>\CloudFlareAPI::get_zone_settings_opportunistic_encryption()</full_name>
+        <docblock line="881">
+          <description>Get Opportunistic Encryption setting.</description>
+          <long-description>Enable the Opportunistic Encryption feature for this zone.</long-description>
+          <tag name="api" line="881" description="GET"/>
+          <tag name="see" line="881" description="Documentation" link="https://api.cloudflare.com/#zone-settings-get-opportunistic-encryption-setting"/>
+          <tag name="param" line="881" description="&lt;p&gt;Zone ID.&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="881" description="Opportunistic encryption setting info." type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="895" package="WP-API-Libraries\WP-IDX-Cloudflare-API">
         <name>response_code_msg</name>
         <full_name>\CloudFlareAPI::response_code_msg()</full_name>
-        <docblock line="522">
+        <docblock line="895">
           <description>HTTP response code messages.</description>
           <long-description></long-description>
-          <tag name="param" line="522" description="&lt;p&gt;: Response code to get message from.&lt;/p&gt;" type="\[String]" variable="$code">
+          <tag name="param" line="895" description="&lt;p&gt;: Response code to get message from.&lt;/p&gt;" type="\[String]" variable="$code">
             <type>\[String]</type>
           </tag>
-          <tag name="return" line="522" description=": Message corresponding to response code sent in." type="\[String]">
+          <tag name="return" line="895" description=": Message corresponding to response code sent in." type="\[String]">
             <type>\[String]</type>
           </tag>
         </docblock>
@@ -764,7 +1307,7 @@ an access rule that applies to a specific zone only, use the zone firewall endpo
         </argument>
       </method>
     </class>
-    <source>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</source>
+    <source>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</source>
   </file>
   <package name="WP-API-Libraries" full_name="WP-API-Libraries">
     <package name="WP-IDX-Cloudflare-API" full_name="WP-API-Libraries\WP-IDX-Cloudflare-API"/>
