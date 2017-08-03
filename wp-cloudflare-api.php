@@ -303,7 +303,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  array  $args  Array with optional parameters. See API docs for details.
 		 * @return array         List of user-level firewall access rules.
 		 */
-		public function get_user_access_rules( $args ){
+		public function get_user_access_rules( $args = array() ){
 			return $this->build_request( 'user/firewall/access_rules/rules', $args )->fetch();
 		}
 
@@ -367,11 +367,139 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @api DELETE
 		 * @see https://api.cloudflare.com/#user-level-firewall-access-rule-delete-access-rule Documentation
 		 * @param  string $id  Subscription identifier tag.
-		 * @return array       JSON array with deleted access rule ID.
+		 * @return array       Array with deleted access rule ID.
 		 */
 		public function delete_user_accesss_rule( $id ){
 			return $this->build_request( "user/firewall/access_rules/rules/$id", "", 'DELETE' )->fetch();
 		}
+
+		/* User Organization routes. Enterprise Only */
+
+		/**
+		 * List organizations.
+		 *
+		 * List organizations the user is associated with.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#user-s-organizations-list-organizations Documentation
+		 * @param  array  $args  Array with optional parameters. See API docs for details.
+		 * @return array         List of user organizations.
+		 */
+		public function get_user_orgs( $args = array() ){
+			return $this->build_request( 'user/organizations', $args )->fetch();
+		}
+
+		/**
+		 * Organization details.
+		 *
+		 * Get a specific organization the user is associated with.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#user-s-organizations-organization-details Documentation
+		 * @param  string $id  Organization id.
+		 * @return array       Array with org details.
+		 */
+		public function get_user_org_details( $id ){
+			return $this->build_request( "user/organizations/$id" )->fetch();
+    }
+
+		/**
+		 * Leave organization
+		 *
+		 * Remove association to an organization.
+		 *
+		 * @api DELETE
+		 * @see https://api.cloudflare.com/#user-s-organizations-leave-organization Documentation
+		 * @param  string $id  Organization id.
+		 * @return array       Array with removed org ID.
+		 */
+		public function leave_user_org( $id ){
+			return $this->build_request( "user/organizations/$id", "", 'DELETE' )->fetch();
+		}
+
+		/* User invitations route. Enterprise Only */
+
+		/**
+		 * List invitations
+		 *
+		 * List all invitations associated with my user.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#user-s-invites-list-invitations Documentation
+		 * @return array  List of user invites
+		 */
+		public function get_user_invites(){
+			return $this->build_request( "user/invites" )->fetch();
+    }
+
+		/**
+		 * Invitation details
+		 *
+		 * Get a specific organization the user is associated with.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#user-s-invites-invitation-details Documentation
+		 * @param  string $id  Invite id.
+		 * @return array       Array with invites details.
+		 */
+		public function get_user_invite_details( $id ){
+			return $this->build_request( "user/invites/$id" )->fetch();
+    }
+
+		/**
+		 * Respond to Invitation
+		 *
+		 * @api PATCH
+		 * @see https://api.cloudflare.com/#user-s-invites-respond-to-invitation Documentation
+		 * @param  string $id     Invite id.
+		 * @param  bool   $status Invite status. Set to true to accept, and false to reject.
+		 * @return array          Array with invites details.
+		 */
+		public function respond_user_invite( $id, bool $status ){
+			$args = array(
+				'status' => ( true === $status ) ? 'accepted' : 'rejected',
+			);
+
+			return $this->build_request( "user/invites/$id", $args, 'PATCH' )->fetch();
+    }
+
+		/* Welcome to.. the Danger Zones.(´･_･`). Cloudflare Zone routes that is. */
+
+		/**
+		 * Create a zone.
+		 *
+		 * @api POST
+		 * @see https://api.cloudflare.com/#zone-create-a-zone Documentation
+		 * @param  string $domain     The domain name. i.e. "example.com".
+		 * @param  bool   $jump_start Automatically attempt to fetch existing DNS records.
+		 * @param  array  $org        To create a zone owned by an organization, specify the organization parameter.
+		 *                            Organization objects can be found in the User or User's Organizations endpoints. You
+		 *                            must pass at least the ID of the organization.
+		 * @return array              New zone details.
+		 */
+		public function create_zone( $domain, $jump_start = '', $org = array() ){
+			$args = array(
+				'name' => $domain,
+				'jump_start' => $jump_start,
+				'org' => $org,
+			);
+
+			return $this->build_request( "zones", $args, 'POST' )->fetch();
+		}
+
+		/**
+		 * Initiate another zone activation check.
+		 *
+		 * @api PUT
+		 * @see https://api.cloudflare.com/#zone-initiate-another-zone-activation-check Documentation
+		 * @param  string $id Zone ID.
+		 * @return array      Array with results.
+		 */
+		public function initiate_zone_activation_check( $id ){
+			return $this->build_request( "zones/$id/activation_check", "", 'PUT' )->fetch();
+		}
+
+
 
 
 		/**
