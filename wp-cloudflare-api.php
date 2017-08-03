@@ -509,9 +509,382 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  array $args  Query args to send in to API call. See API docs for details.
 		 * @return array        List of available zones.
 		 */
-		function get_zones( $args = array() ) {
+		public function get_zones( $args = array() ) {
 			return $this->build_request( 'zones', $args )->fetch();
 		}
+
+		/**
+		 * Edit Zone Properties.
+		 *
+		 * Only one zone property can be changed at a time.
+		 *
+		 * @api PATCH
+		 * @see https://api.cloudflare.com/#zone-edit-zone-properties Documentation
+		 * @param  string $id                  Zone ID.
+		 * @param  bool   $paused              Indicates if the zone is only using Cloudflare DNS services. A true value
+		 *                                     means the zone will not receive security or performance benefits.
+		 *                                     Valid values: true|false.
+		 * @param  array  $vanity_name_servers An array of domains used for custom name servers. This is only available for
+		 *                                     Business and Enterprise plans.
+		 * @param  array  $plan                The desired plan for the zone. Changing this value will create/cancel
+		 *                                     associated subscriptions. To view available plans for this zone, see Zone Plans.
+		 * @return array                       Updated zone info.
+		 */
+		public function update_zone( $id, bool $paused = null, array $vanity_name_servers = null, array $plan = null ){
+			$args = array(
+				'paused' => $paused,
+				'vanity_name_servers' => $vanity_name_servers,
+				'plan' => $plan,
+			);
+			return $this->build_request( "zones/$id", $args, 'PATCH' )->fetch();
+		}
+
+
+		/**
+		 * Purge all files.
+		 *
+		 * Remove ALL files from Cloudflare's cache.
+		 *
+		 * @api DELETE
+		 * @see https://api.cloudflare.com/#zone-purge-all-files Documentation
+		 * @param  string $id Zone Id.
+		 * @return array      Purge results.
+		 */
+		public function purge_zone_cache_all( string $id ){
+			$args = array(
+				'purge_everything' => true,
+			);
+			return $this->build_request( "zones/$id/purge_cache", $args, 'DELETE' )->fetch();
+		}
+
+		/**
+		 * Purge individual files by URL and Cache-Tags.
+		 *
+		 * Granularly remove one or more files from Cloudflare's cache either by specifying the URL or the associated
+		 * Cache-Tag. All tiers can purge by URL. Cache-Tag is for Enterprise only.
+		 *
+		 * Cache-Tag purging has a rate limit of up to 2,000 purge API calls in every 24 hour period. You may purge up to 30
+		 * tags in one API call.
+		 *
+		 * @api DELETE
+		 * @see https://api.cloudflare.com/#zone-purge-individual-files-by-url-and-cache-tags Documentation
+		 * @param  string $id    Zone Id.
+		 * @param  array  $files An array of URLs that should be removed from cache.
+		 * @param  array  $tags  Any assets served with a Cache-Tag header that matches one of the provided values will be
+		 *                       purged from the Cloudflare cache.
+		 * @return array         Purge results.
+		 */
+		public function purge_zone_cache_individual( string $id, array $files = null, array $tags = null ){
+			$args = array(
+				'files' => $files,
+				'tags' => $tags,
+			);
+			return $this->build_request( "zones/$id/purge_cache", $args, 'DELETE' )->fetch();
+		}
+
+		/**
+		 * Delete a zone.
+		 *
+		 * @api DELETE
+		 * @see https://api.cloudflare.com/#zone-delete-a-zone Documentation
+		 * @param  string $id Zone ID.
+		 * @return array      Deleted zone info.
+		 */
+		public function delete_zone( string $id ){
+			return $this->build_request( "zones/$id/purge_cache", '', 'DELETE' )->fetch();
+		}
+
+		/**
+		 * Available Rate Plans.
+		 *
+		 * List all rate plans the zone can subscribe to.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-rate-plan-available-rate-plans Documentation
+		 * @param  string $id Zone ID.
+		 * @return array      Available rate plan info.
+		 */
+		public function get_zone_available_rate_plans( string $id ){
+			return $this->build_request( "zones/$id/available_rate_plans" )->fetch();
+		}
+
+		/**
+		 * Get all Zone settings
+		 *
+		 * Available settings for your user in relation to a zone
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-all-zone-settings Documentation
+		 * @param  string $id Zone ID.
+		 * @return array      Zone setting info.
+		 */
+		public function get_zone_settings( string $id ){
+			return $this->build_request( "zones/$id/settings" )->fetch();
+		}
+
+		/**
+		 * TODO: Complete method.
+		 */
+		public function get_zone_settings_advanced_ddos(){}
+
+		/**
+		 * Get Always Online setting
+		 *
+		 * When enabled, Always Online will serve pages from our cache if your server is offline
+		 * (https://support.cloudflare.com/hc/en-us/articles/200168006)
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-always-online-setting Documentation
+		 * @param  string $id Zone ID.
+		 * @return array      Always online setting info.
+		 */
+		public function get_zone_settings_always_online( $id ){
+			return $this->build_request( "zones/$id/settings/always_online" )->fetch();
+		}
+
+		/**
+		 * Get Always Use HTTPS setting
+		 *
+		 * Reply to all requests for URLs that use "http" with a 301 redirect to the equivalent "https" URL. If you only
+		 * want to redirect for a subset of requests, consider creating an "Always use HTTPS" page rule.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-always-use-https-setting Documentation
+		 * @param  string $id Zone ID.
+		 * @return array      Always online setting info.
+		 */
+		public function get_zone_settings_always_use_https( $id ){
+			return $this->build_request( "zones/$id/settings/always_use_https" )->fetch();
+		}
+
+		/**
+		 * Get Automatic HTTPS Rewrites setting.
+		 *
+		 * Enable the Automatic HTTPS Rewrites feature for this zone.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-automatic-https-rewrites-setting Documentation
+		 * @param  string $id Zone ID.
+		 * @return array      Auto https rewrites setting info.
+		 */
+		public function get_zone_settings_automatic_https_rewrites( $id ){
+			return $this->build_request( "zones/$id/settings/automatic_https_rewrites" )->fetch();
+		}
+
+		/**
+		 * Get Browser Cache TTL setting.
+		 *
+		 * Browser Cache TTL (in seconds) specifies how long Cloudflare-cached resources will remain on your visitors'
+		 * computers. Cloudflare will honor any larger times specified by your server.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200168276).
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-browser-cache-ttl-setting Documentation
+		 * @param  string $id Zone ID.
+		 * @return array      Browser cache ttl setting info.
+		 */
+		public function get_zone_settings_browser_cache_ttl(){
+			return $this->build_request( "zones/$id/settings/browser_cache_ttl" )->fetch();
+		}
+
+    /**
+     * Get Browser Check setting.
+     *
+     * Browser Integrity Check is similar to Bad Behavior and looks for common HTTP headers abused most commonly by
+     * spammers and denies access to your page. It will also challenge visitors that do not have a user agent or a non
+     * standard user agent (also commonly used by abuse bots, crawlers or visitors).
+     * (https://support.cloudflare.com/hc/en-us/articles/200170086).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-browser-check-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Browser check info.
+     */
+		public function get_zone_settings_browser_check( $id ){
+			return $this->build_request( "zones/$id/settings/browser_check" )->fetch();
+		}
+
+		/**
+     * Get Cache Level setting.
+     *
+     * Cache Level functions based off the setting level. The basic setting will cache most static resources
+     * (i.e., css, images, and JavaScript). The simplified setting will ignore the query string when delivering a cached
+     * resource. The aggressive setting will cache all static resources, including ones with a query string.
+     * (https://support.cloudflare.com/hc/en-us/articles/200168256).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-cache-level-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Cache level seting info.
+     */
+		public function get_zone_settings_cache_level( $id ){
+			return $this->build_request( "zones/$id/settings/cache_level" )->fetch();
+		}
+
+		/**
+     * Get Challenge TTL setting.
+     *
+     * Specify how long a visitor is allowed access to your site after successfully completing a challenge (such as a
+     * CAPTCHA). After the TTL has expired the visitor will have to complete a new challenge. We recommend a 15 - 45
+     * minute setting and will attempt to honor any setting above 45 minutes.
+     * (https://support.cloudflare.com/hc/en-us/articles/200170136).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-challenge-ttl-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Challenge TTL setting info.
+     */
+		public function get_zone_settings_challenge_ttl( $id ){
+			return $this->build_request( "zones/$id/settings/challenge_ttl" )->fetch();
+		}
+
+		/**
+     * Get Development Mode setting.
+     *
+     * Development Mode temporarily allows you to enter development mode for your websites if you need to make changes
+     * to your site. This will bypass Cloudflare's accelerated cache and slow down your site, but is useful if you are
+     * making changes to cacheable content (like images, css, or JavaScript) and would like to see those changes right
+     * away. Once entered, development mode will last for 3 hours and then automatically toggle off.
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-development-mode-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Development mode setting info.
+     */
+		public function get_zone_settings_development_mode( $id ){
+			return $this->build_request( "zones/$id/settings/development_mode" )->fetch();
+		}
+
+		/**
+     * Get Email Obfuscation setting.
+     *
+     * Encrypt email adresses on your web page from bots, while keeping them visible to humans.
+     * (https://support.cloudflare.com/hc/en-us/articles/200170016).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-email-obfuscation-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Email obfuscation setting info.
+     */
+		public function get_zone_settings_email_obfuscation( $id ){
+			return $this->build_request( "zones/$id/settings/email_obfuscation" )->fetch();
+		}
+
+		/**
+     * Get Hotlink Protection setting.
+     *
+     * When enabled, the Hotlink Protection option ensures that other sites cannot suck up your bandwidth by building
+     * pages that use images hosted on your site. Anytime a request for an image on your site hits Cloudflare, we check
+     * to ensure that it's not another site requesting them. People will still be able to download and view images from
+     * your page, but other sites won't be able to steal them for use on their own pages.
+     * (https://support.cloudflare.com/hc/en-us/articles/200170026).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-hotlink-protection-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Hotlink protection setting info.
+     */
+		public function get_zone_settings_hotlink_protection( $id ){
+			return $this->build_request( "zones/$id/settings/hotlink_protection" )->fetch();
+		}
+
+		/**
+     * Get IP Geolocation setting.
+     *
+     * Enable IP Geolocation to have Cloudflare geolocate visitors to your website and pass the country code to you.
+     * (https://support.cloudflare.com/hc/en-us/articles/200168236).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-ip-geolocation-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Hotlink protection setting info.
+     */
+		public function get_zone_settings_ip_geolocation( $id ){
+			return $this->build_request( "zones/$id/settings/ip_geolocation" )->fetch();
+		}
+
+		/**
+     * Get IPv6 setting.
+     *
+     * Enable IPv6 on all subdomains that are Cloudflare enabled.
+     * (https://support.cloudflare.com/hc/en-us/articles/200168586).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-ipv6-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Ipv6 setting info.
+     */
+		public function get_zone_settings_ipv6( $id ){
+			return $this->build_request( "zones/$id/settings/ipv6" )->fetch();
+		}
+
+		/**
+     * Get Minify setting.
+     *
+     * Automatically minify certain assets for your website
+     * (https://support.cloudflare.com/hc/en-us/articles/200168196).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-minify-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Minify setting info.
+     */
+		public function get_zone_settings_minify( $id ){
+			return $this->build_request( "zones/$id/settings/minify" )->fetch();
+		}
+
+		/**
+     * Get Mobile Redirect setting.
+     *
+     * Automatically redirect visitors on mobile devices to a mobile-optimized subdomain
+     * (https://support.cloudflare.com/hc/en-us/articles/200168336).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-mobile-redirect-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Mobile redirect setting info.
+     */
+		public function get_zone_settings_mobile_redirect( $id ){
+			return $this->build_request( "zones/$id/settings/mobile_redirect" )->fetch();
+		}
+
+		/**
+     * Get Mirage setting.
+     *
+     * Automatically optimize image loading for website visitors on mobile devices
+     * (http://blog.cloudflare.com/mirage2-solving-mobile-speed).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-mirage-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Mirage setting info.
+     */
+		public function get_zone_settings_mirage( $id ){
+			return $this->build_request( "zones/$id/settings/mirage" )->fetch();
+		}
+
+		/**
+		 * TODO: Complete.
+		 */
+		public function get_zone_settings_origin_error_page_pass_thru(){}
+
+		/**
+     * Get Opportunistic Encryption setting.
+     *
+     * Enable the Opportunistic Encryption feature for this zone.
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-opportunistic-encryption-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Opportunistic encryption setting info.
+     */
+		public function get_zone_settings_opportunistic_encryption( $id ){
+			return $this->build_request( "zones/$id/settings/opportunistic_encryption" )->fetch();
+		}
+
+
+
+
 
 		/**
 		 * HTTP response code messages.
