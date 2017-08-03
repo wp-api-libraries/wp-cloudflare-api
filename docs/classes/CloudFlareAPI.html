@@ -32,7 +32,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">2</span></a></li>
+                <span class="label label-info">0</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -63,13 +63,27 @@
 <i title="Methods" class="icon-custom icon-method"></i> Methods
                     <ul>
 <li class="method public "><a href="#method___construct" title="__construct() :: Class constructor."><span class="description">Class constructor.</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_create_user_accesss_rule" title="create_user_accesss_rule() :: Create access rule"><span class="description">Create access rule</span><pre>create_user_accesss_rule()</pre></a></li>
+<li class="method public "><a href="#method_create_zone" title="create_zone() :: Create a zone."><span class="description">Create a zone.</span><pre>create_zone()</pre></a></li>
+<li class="method public "><a href="#method_delete_user_accesss_rule" title="delete_user_accesss_rule() :: Delete access rule."><span class="description">Delete access rule.</span><pre>delete_user_accesss_rule()</pre></a></li>
+<li class="method public "><a href="#method_delete_user_subscriptions" title="delete_user_subscriptions() :: Deletes a user's subscriptions"><span class="description">Deletes a user's subscriptions</span><pre>delete_user_subscriptions()</pre></a></li>
 <li class="method public "><a href="#method_get_user" title="get_user() :: Get User Properties"><span class="description">Get User Properties</span><pre>get_user()</pre></a></li>
+<li class="method public "><a href="#method_get_user_access_rules" title="get_user_access_rules() :: List access rules."><span class="description">List access rules.</span><pre>get_user_access_rules()</pre></a></li>
 <li class="method public "><a href="#method_get_user_billing_history" title="get_user_billing_history() :: Get User Billing History"><span class="description">Get User Billing History</span><pre>get_user_billing_history()</pre></a></li>
 <li class="method public "><a href="#method_get_user_billing_profile" title="get_user_billing_profile() :: Get User Billing Profile."><span class="description">Get User Billing Profile.</span><pre>get_user_billing_profile()</pre></a></li>
+<li class="method public "><a href="#method_get_user_invite_details" title="get_user_invite_details() :: Invitation details"><span class="description">Invitation details</span><pre>get_user_invite_details()</pre></a></li>
+<li class="method public "><a href="#method_get_user_invites" title="get_user_invites() :: List invitations"><span class="description">List invitations</span><pre>get_user_invites()</pre></a></li>
+<li class="method public "><a href="#method_get_user_org_details" title="get_user_org_details() :: Organization details."><span class="description">Organization details.</span><pre>get_user_org_details()</pre></a></li>
+<li class="method public "><a href="#method_get_user_orgs" title="get_user_orgs() :: List organizations."><span class="description">List organizations.</span><pre>get_user_orgs()</pre></a></li>
 <li class="method public "><a href="#method_get_user_subscriptions" title="get_user_subscriptions() :: Get User Subscriptions."><span class="description">Get User Subscriptions.</span><pre>get_user_subscriptions()</pre></a></li>
 <li class="method public "><a href="#method_get_zones" title="get_zones() :: List, search, sort, and filter your zones"><span class="description">List, search, sort, and filter your zones</span><pre>get_zones()</pre></a></li>
+<li class="method public "><a href="#method_initiate_zone_activation_check" title="initiate_zone_activation_check() :: Initiate another zone activation check."><span class="description">Initiate another zone activation check.</span><pre>initiate_zone_activation_check()</pre></a></li>
+<li class="method public "><a href="#method_leave_user_org" title="leave_user_org() :: Leave organization"><span class="description">Leave organization</span><pre>leave_user_org()</pre></a></li>
+<li class="method public "><a href="#method_respond_user_invite" title="respond_user_invite() :: Respond to Invitation"><span class="description">Respond to Invitation</span><pre>respond_user_invite()</pre></a></li>
 <li class="method public "><a href="#method_response_code_msg" title="response_code_msg() :: HTTP response code messages."><span class="description">HTTP response code messages.</span><pre>response_code_msg()</pre></a></li>
 <li class="method public "><a href="#method_update_user" title="update_user() :: Update User"><span class="description">Update User</span><pre>update_user()</pre></a></li>
+<li class="method public "><a href="#method_update_user_access_rule" title="update_user_access_rule() :: Update access rule."><span class="description">Update access rule.</span><pre>update_user_access_rule()</pre></a></li>
+<li class="method public "><a href="#method_update_user_subscriptions" title="update_user_subscriptions() :: Update a User Subscription."><span class="description">Update a User Subscription.</span><pre>update_user_subscriptions()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header protected">» Protected
@@ -155,6 +169,124 @@
 <code>string</code><p>User Service key.</p></div>
 </div></div>
 </div>
+<a id="method_create_user_accesss_rule"></a><div class="element clickable method public method_create_user_accesss_rule " data-toggle="collapse" data-target=".method_create_user_accesss_rule .collapse" title="public">
+<h2>Create access rule</h2>
+<pre>create_user_accesss_rule(string $mode, string $config_target, string $config_value, string $notes<code> = ''</code>) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Make a new IP, IP range, or country access rule for all zones owned by the user. Note: If you would like to create
+an access rule that applies to a specific zone only, use the zone firewall endpoints.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>POST</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-level-firewall-access-rule-create-access-rule">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$mode</h4>
+<code>string</code><p>The action to apply to a matched request. Valid values: block, challenge, whitelist.</p></div>
+<div class="subelement argument">
+<h4>$config_target</h4>
+<code>string</code><p>Rule configuration target. valid values: ip, ip_range, country.</p></div>
+<div class="subelement argument">
+<h4>$config_value</h4>
+<code>string</code><p>Rule configuration value. See API docs for details.</p></div>
+<div class="subelement argument">
+<h4>$notes</h4>
+<code>string</code><p>A personal note about the rule. Typically used as a reminder or explanation for the rule.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>New access rule info.</div>
+</div></div>
+</div>
+<a id="method_create_zone"></a><div class="element clickable method public method_create_zone " data-toggle="collapse" data-target=".method_create_zone .collapse" title="public">
+<h2>Create a zone.</h2>
+<pre>create_zone(string $domain, boolean $jump_start<code> = ''</code>, array $org<code> = array()</code>) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>POST</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#zone-create-a-zone">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$domain</h4>
+<code>string</code><p>The domain name. i.e. "example.com".</p></div>
+<div class="subelement argument">
+<h4>$jump_start</h4>
+<code>boolean</code><p>Automatically attempt to fetch existing DNS records.</p></div>
+<div class="subelement argument">
+<h4>$org</h4>
+<code>array</code><p>To create a zone owned by an organization, specify the organization parameter.
+Organization objects can be found in the User or User's Organizations endpoints. You
+must pass at least the ID of the organization.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>New zone details.</div>
+</div></div>
+</div>
+<a id="method_delete_user_accesss_rule"></a><div class="element clickable method public method_delete_user_accesss_rule " data-toggle="collapse" data-target=".method_delete_user_accesss_rule .collapse" title="public">
+<h2>Delete access rule.</h2>
+<pre>delete_user_accesss_rule(string $id) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Remove an access rule so it is no longer evaluated during requests. This will apply to all zones owned by the user.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>DELETE</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-level-firewall-access-rule-delete-access-rule">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$id</h4>
+<code>string</code><p>Subscription identifier tag.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Array with deleted access rule ID.</div>
+</div></div>
+</div>
+<a id="method_delete_user_subscriptions"></a><div class="element clickable method public method_delete_user_subscriptions " data-toggle="collapse" data-target=".method_delete_user_subscriptions .collapse" title="public">
+<h2>Deletes a user's subscriptions</h2>
+<pre>delete_user_subscriptions(string $subscription_id) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>DELETE</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-subscription-delete-user-subscriptions">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$subscription_id</h4>
+<code>string</code><p>Subscription identifier tag.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>JSON array with deleted subscription ID.</div>
+</div></div>
+</div>
 <a id="method_get_user"></a><div class="element clickable method public method_get_user " data-toggle="collapse" data-target=".method_get_user .collapse" title="public">
 <h2>Get User Properties</h2>
 <pre>get_user() : array</pre>
@@ -178,6 +310,31 @@
 <h3>Returns</h3>
 <div class="subelement response">
 <code>array</code>User information.</div>
+</div></div>
+</div>
+<a id="method_get_user_access_rules"></a><div class="element clickable method public method_get_user_access_rules " data-toggle="collapse" data-target=".method_get_user_access_rules .collapse" title="public">
+<h2>List access rules.</h2>
+<pre>get_user_access_rules(array $args<code> = array()</code>) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Search, sort, and filter IP/country access rules</p></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>GET</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-level-firewall-access-rule-list-access-rules">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$args</h4>
+<code>array</code><p>Array with optional parameters. See API docs for details.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>List of user-level firewall access rules.</div>
 </div></div>
 </div>
 <a id="method_get_user_billing_history"></a><div class="element clickable method public method_get_user_billing_history " data-toggle="collapse" data-target=".method_get_user_billing_history .collapse" title="public">
@@ -230,6 +387,102 @@
 <code>array</code>User billing profile.</div>
 </div></div>
 </div>
+<a id="method_get_user_invite_details"></a><div class="element clickable method public method_get_user_invite_details " data-toggle="collapse" data-target=".method_get_user_invite_details .collapse" title="public">
+<h2>Invitation details</h2>
+<pre>get_user_invite_details(string $id) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Get a specific organization the user is associated with.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>GET</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-s-invites-invitation-details">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$id</h4>
+<code>string</code><p>Invite id.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Array with invites details.</div>
+</div></div>
+</div>
+<a id="method_get_user_invites"></a><div class="element clickable method public method_get_user_invites " data-toggle="collapse" data-target=".method_get_user_invites .collapse" title="public">
+<h2>List invitations</h2>
+<pre>get_user_invites() : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>List all invitations associated with my user.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>GET</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-s-invites-list-invitations">Documentation</a></td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>List of user invites</div>
+</div></div>
+</div>
+<a id="method_get_user_org_details"></a><div class="element clickable method public method_get_user_org_details " data-toggle="collapse" data-target=".method_get_user_org_details .collapse" title="public">
+<h2>Organization details.</h2>
+<pre>get_user_org_details(string $id) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Get a specific organization the user is associated with.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>GET</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-s-organizations-organization-details">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$id</h4>
+<code>string</code><p>Organization id.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Array with org details.</div>
+</div></div>
+</div>
+<a id="method_get_user_orgs"></a><div class="element clickable method public method_get_user_orgs " data-toggle="collapse" data-target=".method_get_user_orgs .collapse" title="public">
+<h2>List organizations.</h2>
+<pre>get_user_orgs(array $args<code> = array()</code>) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>List organizations the user is associated with.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>GET</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-s-organizations-list-organizations">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$args</h4>
+<code>array</code><p>Array with optional parameters. See API docs for details.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>List of user organizations.</div>
+</div></div>
+</div>
 <a id="method_get_user_subscriptions"></a><div class="element clickable method public method_get_user_subscriptions " data-toggle="collapse" data-target=".method_get_user_subscriptions .collapse" title="public">
 <h2>Get User Subscriptions.</h2>
 <pre>get_user_subscriptions() : array</pre>
@@ -267,6 +520,84 @@
 <code>array</code><p>Query args to send in to API call.</p></div>
 <h3>Returns</h3>
 <div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_initiate_zone_activation_check"></a><div class="element clickable method public method_initiate_zone_activation_check " data-toggle="collapse" data-target=".method_initiate_zone_activation_check .collapse" title="public">
+<h2>Initiate another zone activation check.</h2>
+<pre>initiate_zone_activation_check(string $id) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>PUT</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#zone-initiate-another-zone-activation-check">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$id</h4>
+<code>string</code><p>Zone ID.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Array with results.</div>
+</div></div>
+</div>
+<a id="method_leave_user_org"></a><div class="element clickable method public method_leave_user_org " data-toggle="collapse" data-target=".method_leave_user_org .collapse" title="public">
+<h2>Leave organization</h2>
+<pre>leave_user_org(string $id) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Remove association to an organization.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>DELETE</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-s-organizations-leave-organization">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$id</h4>
+<code>string</code><p>Organization id.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Array with removed org ID.</div>
+</div></div>
+</div>
+<a id="method_respond_user_invite"></a><div class="element clickable method public method_respond_user_invite " data-toggle="collapse" data-target=".method_respond_user_invite .collapse" title="public">
+<h2>Respond to Invitation</h2>
+<pre>respond_user_invite(string $id, boolean $status) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>PATCH</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-s-invites-respond-to-invitation">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$id</h4>
+<code>string</code><p>Invite id.</p></div>
+<div class="subelement argument">
+<h4>$status</h4>
+<code>boolean</code><p>Invite status. Set to true to accept, and false to reject.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Array with invites details.</div>
 </div></div>
 </div>
 <a id="method_response_code_msg"></a><div class="element clickable method public method_response_code_msg " data-toggle="collapse" data-target=".method_response_code_msg .collapse" title="public">
@@ -325,9 +656,73 @@
 <code>array</code>Updated user info.</div>
 </div></div>
 </div>
+<a id="method_update_user_access_rule"></a><div class="element clickable method public method_update_user_access_rule " data-toggle="collapse" data-target=".method_update_user_access_rule .collapse" title="public">
+<h2>Update access rule.</h2>
+<pre>update_user_access_rule(string $id, string $mode, string $config_target, string $config_value, string $notes<code> = ''</code>) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Update rule state and/or configuration. This will be applied across all zones owned by the user.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$id</h4>
+<code>string</code><p>Access rule ID.</p></div>
+<div class="subelement argument">
+<h4>$mode</h4>
+<code>string</code><p>The action to apply to a matched request. Valid values: block, challenge, whitelist.</p></div>
+<div class="subelement argument">
+<h4>$config_target</h4>
+<code>string</code><p>Rule configuration target. valid values: ip, ip_range, country.</p></div>
+<div class="subelement argument">
+<h4>$config_value</h4>
+<code>string</code><p>Rule configuration value. See API docs for details.</p></div>
+<div class="subelement argument">
+<h4>$notes</h4>
+<code>string</code><p>A personal note about the rule. Typically used as a reminder or explanation for the rule.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Updated access rule info.</div>
+</div></div>
+</div>
+<a id="method_update_user_subscriptions"></a><div class="element clickable method public method_update_user_subscriptions " data-toggle="collapse" data-target=".method_update_user_subscriptions .collapse" title="public">
+<h2>Update a User Subscription.</h2>
+<pre>update_user_subscriptions(string $subscription_id, integer $price, string $currency, string $frequency, array $optional_args<code> = array()</code>) : array</pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>api</th>
+<td>PUT</td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="https://api.cloudflare.com/#user-subscription-update-a-user-subscription">Documentation</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$subscription_id</h4>
+<code>string</code><p>Subscription identifier tag.</p></div>
+<div class="subelement argument">
+<h4>$price</h4>
+<code>integer</code><p>The price of the subscription that will be billed, in US dollars.</p></div>
+<div class="subelement argument">
+<h4>$currency</h4>
+<code>string</code><p>The monetary unit in which pricing information is displayed.</p></div>
+<div class="subelement argument">
+<h4>$frequency</h4>
+<code>string</code><p>How often the subscription is renewed automatically.</p></div>
+<div class="subelement argument">
+<h4>$optional_args</h4>
+<code>array</code><p>Array with optional parameters. See API docs for details.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Updated user subscription info.</div>
+</div></div>
+</div>
 <a id="method_build_request"></a><div class="element clickable method protected method_build_request " data-toggle="collapse" data-target=".method_build_request .collapse" title="protected">
 <h2>Prepares API request.</h2>
-<pre>build_request(string $route, array $args<code> = array()</code>, $method<code> = 'GET'</code>) : \CloudFlareAPI</pre>
+<pre>build_request(string $route, array $args<code> = array()</code>, array $method<code> = 'GET'</code>) : \CloudFlareAPI</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -342,7 +737,9 @@
 <div class="subelement argument">
 <h4>$args</h4>
 <code>array</code><p>Arguments to pass into the API call.</p></div>
-<div class="subelement argument"><h4>$method</h4></div>
+<div class="subelement argument">
+<h4>$method</h4>
+<code>array</code><p>HTTP Method to use for request.</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>\CloudFlareAPI</code>Returns an instance of itself so it can be chained to the fetch method.</div>
@@ -455,7 +852,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.8.5</a> and<br>
-            generated on 2017-08-01T17:16:51-07:00.<br></footer></div>
+            generated on 2017-08-02T17:43:41-07:00.<br></footer></div>
 </div>
 </body>
 </html>
