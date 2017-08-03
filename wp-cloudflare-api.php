@@ -882,6 +882,267 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			return $this->build_request( "zones/$id/settings/opportunistic_encryption" )->fetch();
 		}
 
+		/**
+     * Get Polish setting.
+     *
+     * Strips metadata and compresses your images for faster page load times. Basic (Lossless): Reduce the size of PNG,
+     * JPEG, and GIF files - no impact on visual quality. Basic + JPEG (Lossy): Further reduce the size of JPEG files
+     * for faster image loading. Larger JPEGs are converted to progressive images, loading a lower-resolution image
+     * first and ending in a higher-resolution version. Not recommended for hi-res photography sites.
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-polish-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Polish setting info.
+     */
+		public function get_zone_settings_polish( $id ){
+			return $this->build_request( "zones/$id/settings/polish" )->fetch();
+		}
+
+		/**
+     * Get WebP setting.
+     *
+     * When the client requesting the image supports the WebP image codec, Cloudflare will serve a WebP version of the
+     * image when WebP offers a performance advantage over the original image format.
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-webp-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      WebP setting info.
+     */
+		public function get_zone_settings_webp( $id ){
+			return $this->build_request( "zones/$id/settings/webp" )->fetch();
+		}
+
+		/**
+     * Get Prefetch Preload setting.
+     *
+     * Cloudflare will prefetch any URLs that are included in the response headers. This is limited to Enterprise Zones.
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-prefetch-preload-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Prefetch Preload setting info.
+     */
+		public function get_zone_settings_prefetch_preload( $id ){
+			return $this->build_request( "zones/$id/settings/prefetch_preload" )->fetch();
+		}
+
+		/**
+		 * TODO: Complete.
+		 */
+		public function get_zone_settings_response_buffering(){}
+
+		/**
+     * Get Rocket Loader setting.
+     *
+     * Rocket Loader is a general-purpose asynchronous JavaScript loader coupled with a lightweight virtual browser
+     * which can safely run any JavaScript code after window.onload. Turning on Rocket Loader will immediately improve
+     * a web page's window.onload time (assuming there is JavaScript on the page), which can have a positive impact on
+     * your Google search ranking. Automatic Mode: Rocket Loader will automatically run on the JavaScript resources on
+     * your site, with no configuration required after turning on automatic mode. Manual Mode: In order to have Rocket
+     * Loader execute for a particular script, you must add the following attribute to the script tag: "data-cfasync='true'".
+     * As your page passes through Cloudflare, we'll enable Rocket Loader for that particular script. All other
+     * JavaScript will continue to execute without Cloudflare touching the script.
+     * (https://support.cloudflare.com/hc/en-us/articles/200168056).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-rocket-loader-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Rocket Loader setting info.
+     */
+		public function get_zone_settings_rocket_loader( $id ){
+			return $this->build_request( "zones/$id/settings/rocket_loader" )->fetch();
+		}
+
+		/**
+     * Get Security Header (HSTS) setting.
+     *
+     * Cloudflare security header for a zone.
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-security-header-hsts-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Security header setting info.
+     */
+		public function get_zone_settings_security_header( $id ){
+			return $this->build_request( "zones/$id/settings/security_header" )->fetch();
+		}
+
+		/**
+     * Get Security Level setting.
+     *
+     * Choose the appropriate security profile for your website, which will automatically adjust each of the security
+     * settings. If you choose to customize an individual security setting, the profile will become Custom.
+     * (https://support.cloudflare.com/hc/en-us/articles/200170056).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-security-level-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Security level setting info.
+     */
+		public function get_zone_settings_security_level( $id ){
+			return $this->build_request( "zones/$id/settings/security_level" )->fetch();
+		}
+
+		/**
+     * Get Server Side Exclude setting.
+     *
+     * If there is sensitive content on your website that you want visible to real visitors, but that you want to hide
+     * from suspicious visitors, all you have to do is wrap the content with Cloudflare SSE tags. Wrap any content that
+     * you want to be excluded from suspicious visitors in the following SSE tags: <!--sse--><!--/sse-->.
+     * For example: <!--sse--> Bad visitors won't see my phone number, 555-555-5555 <!--/sse-->.
+     * Note: SSE only will work with HTML. If you have HTML minification enabled, you won't see the SSE tags in your
+     * HTML source when it's served through Cloudflare. SSE will still function in this case, as Cloudflare's HTML
+     * minification and SSE functionality occur on-the-fly as the resource moves through our network to the visitor's
+     * computer. (https://support.cloudflare.com/hc/en-us/articles/200170036).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-server-side-exclude-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Server side exclude setting info.
+     */
+		public function get_zone_settings_server_side_exclude( $id ){
+			return $this->build_request( "zones/$id/settings/server_side_exclude" )->fetch();
+		}
+
+		/**
+		 * TODO: Complete
+		 */
+		public function get_zone_settings_sort_query_string_for_cache(){}
+
+		/**
+     * Get SSL setting.
+     *
+     * SSL encrypts your visitor's connection and safeguards credit card numbers and other personal data to and from
+     * your website. SSL can take up to 5 minutes to fully activate. Requires Cloudflare active on your root domain or
+     * www domain. Off: no SSL between the visitor and Cloudflare, and no SSL between Cloudflare and your web server
+     * (all HTTP traffic). Flexible: SSL between the visitor and Cloudflare -- visitor sees HTTPS on your site, but no
+     * SSL between Cloudflare and your web server. You don't need to have an SSL cert on your web server, but your
+     * vistors will still see the site as being HTTPS enabled. Full: SSL between the visitor and Cloudflare -- visitor
+     * sees HTTPS on your site, and SSL between Cloudflare and your web server. You'll need to have your own SSL cert or
+     * self-signed cert at the very least. Full (Strict): SSL between the visitor and Cloudflare -- visitor sees HTTPS
+     * on your site, and SSL between Cloudflare and your web server. You'll need to have a valid SSL certificate
+     * installed on your web server. This certificate must be signed by a certificate authority, have an expiration
+     * date in the future, and respond for the request domain name (hostname).
+     * (https://support.cloudflare.com/hc/en-us/articles/200170416).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-ssl-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      SSL setting info.
+     */
+		public function get_zone_settings_ssl( $id ){
+			return $this->build_request( "zones/$id/settings/ssl" )->fetch();
+    }
+
+		/**
+		 * TODO: Complete
+		 */
+		public function get_zone_settings_tls_1_2_only(){}
+
+		/**
+     * Get Zone Enable TLS 1.3 setting.
+     *
+     * Enable Crypto TLS 1.3 feature for this zone.
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-zone-enable-tls-1.3-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      TLS 1.3 setting info.
+     */
+		public function get_zone_settings_tls_1_3( $id ){
+			return $this->build_request( "zones/$id/settings/tls_1_3" )->fetch();
+    }
+
+		/**
+     * Get TLS Client Auth setting.
+     *
+     * TLS Client Auth requires Cloudflare to connect to your origin server using a client certificate (Enterprise Only).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-tls-client-auth-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      TLS Client Auth setting info.
+     */
+		public function get_zone_settings_tls_client_auth( $id ){
+			return $this->build_request( "zones/$id/settings/tls_client_auth" )->fetch();
+    }
+
+		/**
+		 * TODO: Complete
+		 */
+		public function get_zone_settings_true_client_ip_header(){}
+
+		/**
+     * Get Web Application Firewall (WAF) setting.
+     *
+     * The WAF examines HTTP requests to your website. It inspects both GET and POST requests and applies rules to help
+     * filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses
+     * or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then
+     * the WAF will ‘challenge’ the web visitor with a page that asks them to submit a CAPTCHA successfully to continue
+     * their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare’s WAF
+     * will block any traffic identified as illegitimate before it reaches your origin web server.
+     * (https://support.cloudflare.com/hc/en-us/articles/200172016).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-web-application-firewall-waf-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Web application firewall setting info.
+     */
+		public function get_zone_settings_waf( $id ){
+			return $this->build_request( "zones/$id/settings/waf" )->fetch();
+    }
+
+		/**
+     * Get HTTP2 setting.
+     *
+     * Value of the HTTP2 setting.
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-http2-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      HTTP2 setting info.
+     */
+		public function get_zone_settings_http2( $id ){
+			return $this->build_request( "zones/$id/settings/http2" )->fetch();
+    }
+
+		/**
+     * Get pseudo_ipv4 setting.
+     *
+     * Value of the pseudo_ipv4 setting.
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-pseudo_ipv4-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Pseudo ipv4 setting info.
+     */
+		public function get_zone_settings_pseudo_ipv4( $id ){
+			return $this->build_request( "zones/$id/settings/pseudo_ipv4" )->fetch();
+    }
+
+		/**
+     * Get WebSockets setting.
+     *
+     * WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets
+     * connection, the client and the origin can pass data back and forth without having to reestablish sessions. This
+     * makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time applications
+     * such as live chat and gaming.
+     * (https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+     *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-settings-get-websockets-setting Documentation
+		 * @param  string $id Zone ID.
+     * @return array      Websockets setting info.
+     */
+		public function get_zone_settings_websockets( $id ){
+			return $this->build_request( "zones/$id/settings/websockets" )->fetch();
+    }
+
+
+
+
 
 
 
