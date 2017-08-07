@@ -117,6 +117,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return array|WP_Error Request results or WP_Error on request failure.
 		 */
 		protected function fetch() {
+			_error_log( $this->route );
 			_error_log( $this->args );
 			// Make the request.
 			$response = wp_remote_request( $this->base_uri . $this->route, $this->args );
@@ -1675,6 +1676,601 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			);
 			return $this->build_request( "zones/$id/settings/ssl", $args, 'PATCH' )->fetch();
 		}
+
+		/**
+		 * TODO: Complete.
+		 */
+		public function update_zone_settings_tls_client_auth(){}
+
+		/**
+		 * TODO: Complete.
+		 */
+		public function update_zone_settings_true_client_ip_header(){}
+
+		/**
+		 * TODO: Complete.
+		 */
+		public function update_zone_settings_tls_1_2_only(){}
+
+		/**
+		 * Change TLS 1.3 setting.
+		 *
+		 * Enable Crypto TLS 1.3 feature for this zone.
+		 *
+		 * @api PATCH
+		 * @see https://api.cloudflare.com/#zone-settings-change-tls-1.3-setting Documentation
+		 * @param  string $id  Zone ID.
+		 * @param  bool   $on  True to turn on, false to turn off.
+		 * @return array       Updated zone setting info.
+		 */
+		public function update_zone_settings_tls_1_3( string $id, bool $on ) {
+			$args = array(
+				'value' => ( true === $on ) ? 'on' : 'off',
+			);
+			return $this->build_request( "zones/$id/settings/tls_1_3", $args, 'PATCH' )->fetch();
+		}
+
+		/**
+		 * Change Web Application Firewall (WAF) setting.
+		 *
+		 * The WAF examines HTTP requests to your website. It inspects both GET and POST requests and applies rules to help
+		 * filter out illegitimate traffic from legitimate website visitors. The Cloudflare WAF inspects website addresses
+		 * or URLs to detect anything out of the ordinary. If the Cloudflare WAF determines suspicious user behavior, then
+		 * the WAF will ‘challenge’ the web visitor with a page that asks them to submit a CAPTCHA successfully to continue
+		 * their action. If the challenge is failed, the action will be stopped. What this means is that Cloudflare’s WAF
+		 * will block any traffic identified as illegitimate before it reaches your origin web server.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200172016).
+		 *
+		 * @api PATCH
+		 * @see https://api.cloudflare.com/#zone-settings-change-web-application-firewall-waf-setting Documentation
+		 * @param  string $id  Zone ID.
+		 * @param  bool   $on  True to turn on, false to turn off.
+		 * @return array       Updated zone setting info.
+		 */
+		public function update_zone_settings_waf( string $id, bool $on ) {
+			$args = array(
+				'value' => ( true === $on ) ? 'on' : 'off',
+			);
+			return $this->build_request( "zones/$id/settings/waf", $args, 'PATCH' )->fetch();
+		}
+
+		/**
+		 * Change HTTP2 setting.
+		 *
+		 * Value of the HTTP2 setting.
+		 *
+		 * @api PATCH
+		 * @see https://api.cloudflare.com/#zone-settings-change-web-application-firewall-waf-setting Documentation
+		 * @param  string $id  Zone ID.
+		 * @param  bool   $on  True to turn on, false to turn off.
+		 * @return array       Updated zone setting info.
+		 */
+		public function update_zone_settings_http2( string $id, bool $on ) {
+			$args = array(
+				'value' => ( true === $on ) ? 'on' : 'off',
+			);
+			return $this->build_request( "zones/$id/settings/http2", $args, 'PATCH' )->fetch();
+		}
+
+		/**
+		 * Change pseudo_ipv4 setting.
+		 *
+		 * Value of the pseudo_ipv4 setting.
+		 *
+		 * @api PATCH
+		 * @see https://api.cloudflare.com/#zone-settings-change-pseudo_ipv4-setting Documentation
+		 * @param  string $id  Zone ID.
+		 * @param  bool   $on  True to turn on, false to turn off.
+		 * @return array       Updated zone setting info.
+		 */
+		public function update_zone_settings_pseudo_ipv4( string $id, bool $on ) {
+			$args = array(
+				'value' => ( true === $on ) ? 'on' : 'off',
+			);
+			return $this->build_request( "zones/$id/settings/pseudo_ipv4", $args, 'PATCH' )->fetch();
+		}
+
+		/**
+		 * Change WebSockets setting.
+		 *
+		 * WebSockets are open connections sustained between the client and the origin server. Inside a WebSockets
+		 * connection, the client and the origin can pass data back and forth without having to reestablish sessions.
+		 * This makes exchanging data within a WebSockets connection fast. WebSockets are often used for real-time
+		 * applications such as live chat and gaming.
+		 * (https://support.cloudflare.com/hc/en-us/articles/200169466-Can-I-use-Cloudflare-with-WebSockets-).
+		 *
+		 * @api PATCH
+		 * @see https://api.cloudflare.com/#zone-settings-change-websockets-setting Documentation
+		 * @param  string $id  Zone ID.
+		 * @param  bool   $on  True to turn on, false to turn off.
+		 * @return array       Updated zone setting info.
+		 */
+		public function update_zone_settings_websockets( string $id, bool $on ) {
+			$args = array(
+				'value' => ( true === $on ) ? 'on' : 'off',
+			);
+			return $this->build_request( "zones/$id/settings/websockets", $args, 'PATCH' )->fetch();
+		}
+
+		/**
+		 * Create DNS record.
+		 *
+		 * Create a new DNS record for a zone. See the record object definitions for required attributes for each record type.
+		 *
+		 * @api POST
+		 * @see https://api.cloudflare.com/#dns-records-for-a-zone-create-dns-record Documentation
+		 * @param  string $id      Zone ID.
+		 * @param  string $type    DNS record type, i.e "A".
+		 * @param  string $name    DNS record name, i.e "example.com".
+		 * @param  string $content DNS record content, i.e "127.0.0.1".
+		 * @param  int    $ttl     Time to live for DNS record. Value of 1 is 'automatic'.
+		 * @param  bool   $proxied Whether the record is receiving the performance and security benefits of Cloudflare.
+		 * @return array           The new DNS record
+		 */
+		public function create_zone_dns_record( string $id, string $type, string $name, string $content, int $ttl = null, bool $proxied = null ) {
+			$args = array(
+				'type'  => $type,
+				'name'  => $name,
+				'content'  => $content,
+			);
+
+			if( null !== $ttl ){
+				$args['ttl'] = $ttl;
+			}
+			if( null !== $proxied ){
+				$args['proxied'] = $proxied;
+			}
+
+			return $this->build_request( "zones/$id/dns_records", $args, 'POST' )->fetch();
+		}
+
+		/**
+		 * List DNS Records.
+		 *
+		 * Search, sort, and filter IP/country access rules.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#dns-records-for-a-zone-list-dns-records Documentation
+		 * @param  string $id    Zone ID.
+		 * @param  array  $args  Array with optional parameters. See API docs for details.
+		 * @return array         List of DNS records.
+		 */
+		public function get_zone_dns_records( string $id, array $args = array() ) {
+			return $this->build_request( "zones/$id/dns_records", $args )->fetch();
+		}
+
+		/**
+		 * DNS record details.
+		 *
+		 * Get details of a single DNS record.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#dns-records-for-a-zone-dns-record-details Documentation
+		 * @param  string $id      Zone ID.
+		 * @param  string $dns_id  DNS record ID.
+		 * @return array           Array of DNS record info.
+		 */
+		public function get_zone_dns_record_details( string $id, string $dns_id ) {
+			return $this->build_request( "zones/$id/dns_records/$dns_id", $args )->fetch();
+		}
+
+		/**
+		 * Update DNS record.
+		 *
+		 * @api PUT
+		 * @see https://api.cloudflare.com/#dns-records-for-a-zone-create-dns-record Documentation
+		 * @param  string $id      Zone ID.
+		 * @param  string $dns_id  DNS record ID.
+		 * @param  string $type    DNS record type, i.e "A".
+		 * @param  string $name    DNS record name, i.e "example.com".
+		 * @param  string $content DNS record content, i.e "127.0.0.1".
+		 * @param  int    $ttl     Time to live for DNS record. Value of 1 is 'automatic'.
+		 * @param  bool   $proxied Whether the record is receiving the performance and security benefits of Cloudflare.
+		 * @return array           The updated DNS record
+		 */
+		public function update_zone_dns_record( string $id, string $dns_id, string $type, string $name, string $content, int $ttl = null, bool $proxied = null ) {
+			$args = array(
+				'type'  => $type,
+				'name'  => $name,
+				'content'  => $content,
+			);
+
+			if( null !== $ttl ){
+				$args['ttl'] = $ttl;
+			}
+			if( null !== $proxied ){
+				$args['proxied'] = $proxied;
+			}
+
+			return $this->build_request( "zones/$id/dns_records/$dns_id", $args, 'PUT' )->fetch();
+		}
+
+		/**
+		 * Delete DNS record.
+		 *
+		 * @api DELETE
+		 * @see https://api.cloudflare.com/#dns-records-for-a-zone-delete-dns-record Documentation
+		 * @param  string $id      Zone ID.
+		 * @param  string $dns_id  DNS record ID.
+		 * @return array           Array of results.
+		 */
+		public function delete_zone_dns_record( string $id, string $dns_id ) {
+			return $this->build_request( "zones/$id/dns_records/$dns_id", $args, 'DELETE' )->fetch();
+		}
+
+		/**
+		 * Import DNS records.
+		 *
+		 * You can upload your BIND config through this endpoint. It assumes that cURL is called from a location with
+		 * bind_config.txt (valid BIND config) present.
+		 *
+		 * @api POST
+		 * @see https://api.cloudflare.com/#dns-records-for-a-zone-import-dns-records Documentation
+		 * @see https://en.wikipedia.org/wiki/Zone_file BIND file format
+		 * @param  string $id      Zone ID.
+		 * @param  string $file    BIND config to upload, i.e. "@bind_config.txt".
+		 * @return array           Request details.
+		 */
+		public function import_zone_dns_records( string $id, string $file ) {
+			$args = array(
+				'file'  => $file,
+			);
+
+			return $this->build_request( "zones/$id/dns_records/import", $args, 'POST' )->fetch();
+		}
+
+		/**
+		 * TODO: Complete
+		 */
+		public function get_zone_railguns() {}
+
+		/**
+		 * TODO: Complete
+		 */
+		public function get_zone_railgun_details() {}
+
+		/**
+		 * TODO: Complete
+		 */
+		public function test_zone_railguns() {}
+
+		/**
+		 * TODO: Complete
+		 */
+		public function connect_zone_railguns() {}
+
+		/**
+		 * Dashboard.
+		 *
+		 * The dashboard view provides both totals and timeseries data for the given zone and time period across the entire
+		 * Cloudflare network.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-analytics-dashboard Documentation
+		 * @param  string $id    Zone ID.
+		 * @param  array  $args  Array with optional parameters. See API docs for details.
+		 * @return array         List of zone analytics.
+		 */
+		public function get_zone_analytics_dashboard( string $id, array $args = array() ) {
+			return $this->build_request( "zones/$id/analytics/dashboard", $args )->fetch();
+		}
+
+		/**
+		 * TODO: Complete
+		 */
+		public function get_zone_analytics_colocations() {}
+
+		/**
+		 * DNS Analytics report.
+		 *
+		 * Retrieves a list of summarised aggregate metrics over a given time period.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#dns-analytics-table Documentation
+		 * @param  string $id         Zone ID.
+		 * @param  array  $dimensions Array of dimensions
+		 * @param  array  $metrics    Array of metrics
+		 * @param  string $since      Start date and time of requesting data period in the ISO8601 format
+		 * @param  string $until      End date and time of requesting data period in the ISO8601 format
+		 * @param  array  $sort       Array of dimensions to sort by, each dimension may be prefixed by - (descending) or + (ascending)
+		 * @param  array  $filters    Segmentation filter in 'attribute operator value' format
+		 * @param  array  $limit      Limit number of returned metrics, default is 100
+		 * @return array              DNS analytics report.
+		 */
+		public function get_zone_dns_analytics( string $id, array $dimensions, array $metrics, string $since, string $until, array $sort = null, string $filters = null, int $limit = null ) {
+			$args = array(
+				'dimensions' => $dimensions,
+				'metrics' => $metrics,
+				'since' => $since,
+				'until' => $until,
+			);
+
+			if( null !== $sort ){
+				$args['sort'] = $sort;
+			}
+			if( null !== $filters ){
+				$args['filters'] = $filters;
+			}
+			if( null !== $limit ){
+				$args['limit'] = $limit;
+			}
+
+			return $this->build_request( "zones/$id/dns_analytics/report", $args )->fetch();
+		}
+
+		/**
+		 * DNS Analytics by time.
+		 *
+		 * Retrieves a list of aggregate metrics grouped by time interval.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#dns-analytics-by-time Documentation
+		 * @param  string $id         Zone ID.
+		 * @param  array  $dimensions Array of dimensions
+		 * @param  array  $metrics    Array of metrics
+		 * @param  string $since      Start date and time of requesting data period in the ISO8601 format
+		 * @param  string $until      End date and time of requesting data period in the ISO8601 format
+		 * @param  array  $sort       Array of dimensions to sort by, each dimension may be prefixed by - (descending) or + (ascending)
+		 * @param  array  $filters    Segmentation filter in 'attribute operator value' format
+		 * @param  array  $limit      Limit number of returned metrics, default is 100
+		 * @param  array  $time_delta Unit of time to group data by. Valid values: all, auto, year, quarter, month, week,
+		 *                            day, hour, dekaminute, minute.
+		 * @return array              DNS analytics report by time.
+		 */
+		public function get_zone_dns_analytics_bytime( string $id, array $dimensions = null, array $metrics = null, string $since = null, string $until = null, array $sort = null, string $filters = null, int $limit = null, string $time_delta = null ) {
+			$args = array();
+
+			if( null !== $dimensions ){
+				$args['dimensions'] = $dimensions;
+			}
+			if( null !== $metrics ){
+				$args['metrics'] = $metrics;
+			}
+			if( null !== $since ){
+				$args['since'] = $since;
+			}
+			if( null !== $until ){
+				$args['until'] = $until;
+			}
+			if( null !== $sort ){
+				$args['sort'] = $sort;
+			}
+			if( null !== $filters ){
+				$args['filters'] = $filters;
+			}
+			if( null !== $limit ){
+				$args['limit'] = $limit;
+			}
+			if( null !== $time_delta ){
+				$args['time_delta'] = $time_delta;
+			}
+
+			return $this->build_request( "zones/$id/dns_analytics/report/bytime", $args )->fetch();
+		}
+
+		/* TODO: Complete Railgun routes */
+
+
+		/**
+		 * Available Custom Pages.
+		 *
+		 * A list of available Custom Pages the zone can use.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#custom-pages-for-a-zone-available-custom-pages Documentation
+		 * @param  string $id      Zone ID.
+		 * @return array           Array of custom pages.
+		 */
+		public function get_zone_custom_pages( string $id ) {
+			return $this->build_request( "zones/$id/custom_pages", $args )->fetch();
+		}
+
+		/**
+		 * Custom Page details.
+		 *
+		 * Details about a specific Custom page details.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#custom-pages-for-a-zone-custom-page-details Documentation
+		 * @param  string $id      Zone ID.
+		 * @param  string $page_id Custom page ID.
+		 * @return array           Custom page info.
+		 */
+		public function get_zone_custom_page_details( string $id, string $page_id, string $url, string $state ) {
+			return $this->build_request( "zones/$id/custom_pages/$page_id", $args )->fetch();
+		}
+
+
+		/**
+		 * Update Custom page URL.
+		 *
+		 * @api PUT
+		 * @see https://api.cloudflare.com/#custom-pages-for-a-zone-update-custom-page-url Documentation
+		 * @param  string $id      Zone ID.
+		 * @param  string $page_id Custom page ID.
+		 * @param  string $url     A URL that is associated with the Custom Page.
+		 * @param  string $state   The Custom Page state. Valid values: default, customized.
+		 * @return array           Custom page info.
+		 */
+		public function update_zone_custom_page_details( string $id, string $page_id, string $url, string $state ) {
+			$args = array(
+				'url' => $url,
+				'state' => $state,
+			);
+
+			return $this->build_request( "zones/$id/custom_pages/$page_id", $args, 'PUT' )->fetch();
+		}
+
+		/* TODO: Complete Custom SSL for a Zone section */
+
+		/* TODO: Complete Custom Hostname for a Zone section */
+
+		/* TODO: Complete Keyless SSL for a Zone section */
+
+		/**
+		 * Create a page rule.
+		 *
+		 * @api POST
+		 * @see https://api.cloudflare.com/#page-rules-for-a-zone-create-a-page-rule Documentation
+		 * @param  string $id       Zone ID.
+		 * @param  array  $targets  Targets to evaluate on a request. See API docs for details.
+		 * @param  array  $actions  The set of actions to perform if the targets of this rule match the request. Actions
+		 *                          can redirect the url to another url or override settings (but not both).
+		 * @param  int    $priority A number that indicates the preference for a page rule over another. In the case where
+		 *                          you may have a catch-all page rule (e.g., #1: '/images/') but want a rule that is more
+		 *                          specific to take precedence (e.g., #2: '/images/special/'), you'll want to specify a
+		 *                          higher priority on the latter (#2) so it will override the first. Default: 1.
+		 * @param  string $status   Status of the page rule. Default: disabled. Valid Values: active, disabled.
+		 * @return array            Page rule info.
+		 */
+		public function create_zone_pagerules( string $id, array $targets, array $actions, int $priority = null, string $status = null ) {
+			$args = array(
+				'targets' => $targets,
+				'actions' => $actions,
+			);
+
+			if( null !== $priority ){
+				$args['priority'] = $priority;
+			}
+			if( null !== $status ){
+				$args['status'] = $status;
+			}
+
+			return $this->build_request( "zones/$id/pagerules", $args, 'POST' )->fetch();
+		}
+
+		/**
+		 * List page rules.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#page-rules-for-a-zone-list-page-rules Documentation
+		 * @param  string $id        Zone ID.
+		 * @param  string $status    Status of the page rule. Default: disabled. Valid values: active, disabled.
+		 * @param  string $order     Field to order page rules by. Default: priority. Valid values: status, priority.
+		 * @param  string $direction Direction to order page rules. Default: desc. Valid values: asc, desc.
+		 * @param  string $match     Whether to match all search requirements or at least one (any). Default: all. Valid values: any, all.
+		 * @return array             List of page rules.
+		 */
+		public function get_zone_pagerules( string $id, string $status = null, string $order = null, string $direction = null, string $match = null ) {
+			$args = array();
+
+			if( null !== $status ){
+				$args['status'] = $status;
+			}
+			if( null !== $order ){
+				$args['order'] = $order;
+			}
+			if( null !== $direction ){
+				$args['direction'] = $direction;
+			}
+			if( null !== $match ){
+				$args['match'] = $match;
+			}
+
+			return $this->build_request( "zones/$id/pagerules", $args )->fetch();
+		}
+
+		/**
+		 * Page rule details.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#page-rules-for-a-zone-page-rule-details Documentation
+		 * @param  string $id      Zone ID.
+		 * @param  string $pr_id   Page rule ID.
+		 * @return array           Page rule info.
+		 */
+		public function get_zone_pagerule_details( string $id, string $pr_id ) {
+			return $this->build_request( "zones/$id/pagerules/$pr_id", $args )->fetch();
+		}
+
+		/**
+		 * Change a page rule.
+		 *
+		 * @api PATCH
+		 * @see https://api.cloudflare.com/#page-rules-for-a-zone-change-a-page-rule Documentation
+		 * @param  string $id       Zone ID.
+		 * @param  string $pr_id    Page rule ID.
+		 * @param  array  $targets  Targets to evaluate on a request. See API docs for details.
+		 * @param  array  $actions  The set of actions to perform if the targets of this rule match the request. Actions
+		 *                          can redirect the url to another url or override settings (but not both).
+		 * @param  int    $priority A number that indicates the preference for a page rule over another. In the case where
+		 *                          you may have a catch-all page rule (e.g., #1: '/images/') but want a rule that is more
+		 *                          specific to take precedence (e.g., #2: '/images/special/'), you'll want to specify a
+		 *                          higher priority on the latter (#2) so it will override the first. Default: 1.
+		 * @param  string $status   Status of the page rule. Default: disabled. Valid Values: active, disabled.
+		 * @return array            Page rule info.
+		 */
+		public function change_zone_pagerule( string $id, string $pr_id, array $targets = null, array $actions = null, int $priority = null, string $status = null ) {
+			$args = array();
+
+			if( null !== $targets ){
+				$args['targets'] = $targets;
+			}
+			if( null !== $actions ){
+				$args['actions'] = $actions;
+			}
+			if( null !== $priority ){
+				$args['priority'] = $priority;
+			}
+			if( null !== $status ){
+				$args['status'] = $status;
+			}
+
+			return $this->build_request( "zones/$id/pagerules/$pr_id", $args, 'PATCH' )->fetch();
+		}
+
+		/**
+		 * Update a page rule.
+		 *
+		 * @api PUT
+		 * @see https://api.cloudflare.com/#page-rules-for-a-zone-update-a-page-rule Documentation
+		 * @param  string $id       Zone ID.
+		 * @param  string $pr_id    Page rule ID.
+		 * @param  array  $targets  Targets to evaluate on a request. See API docs for details.
+		 * @param  array  $actions  The set of actions to perform if the targets of this rule match the request. Actions
+		 *                          can redirect the url to another url or override settings (but not both).
+		 * @param  int    $priority A number that indicates the preference for a page rule over another. In the case where
+		 *                          you may have a catch-all page rule (e.g., #1: '/images/') but want a rule that is more
+		 *                          specific to take precedence (e.g., #2: '/images/special/'), you'll want to specify a
+		 *                          higher priority on the latter (#2) so it will override the first. Default: 1.
+		 * @param  string $status   Status of the page rule. Default: disabled. Valid Values: active, disabled.
+		 * @return array            Page rule info.
+		 */
+		public function update_zone_pagerule( string $id, string $pr_id, array $targets, array $actions, int $priority = null, string $status = null ) {
+			$args = array(
+				'targets' => $targets,
+				'actions' => $actions,
+			);
+
+			if( null !== $priority ){
+				$args['priority'] = $priority;
+			}
+			if( null !== $status ){
+				$args['status'] = $status;
+			}
+
+			return $this->build_request( "zones/$id/pagerules/$pr_id", $args, 'PUT' )->fetch();
+		}
+
+		/**
+		 * Delete a page rule.
+		 *
+		 * @api DELETE
+		 * @see https://api.cloudflare.com/#page-rules-for-a-zone-delete-a-page-rule Documentation
+		 * @param  string $id       Zone ID.
+		 * @param  string $pr_id    Page rule ID.
+		 * @return array            Delted page rule.
+		 */
+		public function delete_zone_pagerule( string $id, string $pr_id ) {
+			return $this->build_request( "zones/$id/pagerules/$pr_id", $args, 'DELETE' )->fetch();
+		}
+
+
+
+
+
+
+
 
 
 
