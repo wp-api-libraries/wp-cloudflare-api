@@ -2076,7 +2076,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  string $page_id Custom page ID.
 		 * @return array           Custom page info.
 		 */
-		public function get_zone_custom_page_details( string $id, string $page_id, string $url, string $state ) {
+		public function get_zone_custom_page_details( string $id, string $page_id ) {
 			return $this->build_request( "zones/$id/custom_pages/$page_id", $args )->fetch();
 		}
 
