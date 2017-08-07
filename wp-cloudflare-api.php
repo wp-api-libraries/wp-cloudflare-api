@@ -117,8 +117,6 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return array|WP_Error Request results or WP_Error on request failure.
 		 */
 		protected function fetch() {
-			_error_log( $this->route );
-			_error_log( $this->args );
 			// Make the request.
 			$response = wp_remote_request( $this->base_uri . $this->route, $this->args );
 
@@ -126,7 +124,6 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			$code = wp_remote_retrieve_response_code( $response );
 			$body = json_decode( wp_remote_retrieve_body( $response ) );
 
-			_error_log( $body );
 			// Return WP_Error if request is not successful.
 			if ( ! $this->is_status_ok( $code ) ) {
 				return new WP_Error( 'response-error', sprintf( __( 'Status: %d', 'wp-postmark-api' ), $code ), $body );
@@ -2263,6 +2260,35 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 */
 		public function delete_zone_pagerule( string $id, string $pr_id ) {
 			return $this->build_request( "zones/$id/pagerules/$pr_id", $args, 'DELETE' )->fetch();
+		}
+
+		/**
+		 * List rate limits.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#rate-limits-for-a-zone-list-rate-limits Documentation
+		 * @param  string $id        Zone ID.
+		 * @param  string $page      Page number of paginated results.
+		 * @param  string $per_page  Number of rate limits per page.
+		 * @return array             List of page rules.
+		 */
+		public function get_zone_rate_limits( string $id, string $page = null, string $per_page = null ) {
+			$args = array();
+
+			if( null !== $status ){
+				$args['status'] = $status;
+			}
+			if( null !== $order ){
+				$args['order'] = $order;
+			}
+			if( null !== $direction ){
+				$args['direction'] = $direction;
+			}
+			if( null !== $match ){
+				$args['match'] = $match;
+			}
+
+			return $this->build_request( "zones/$id/rate_limits", $args )->fetch();
 		}
 
 
