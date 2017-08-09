@@ -38,21 +38,21 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *
 		 * @var string
 		 */
-		static private $api_key;
+		static protected $api_key;
 
 		/**
 		 * Auth Email
 		 *
 		 * @var string
 		 */
-		static private $auth_email;
+		static protected $auth_email;
 
 		/**
 		 * User Service Key
 		 *
 		 * @var string
 		 */
-		static private $user_service_key;
+		static protected $user_service_key;
 
 		/**
 		 * CloudFlare BaseAPI Endpoint
