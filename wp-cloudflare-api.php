@@ -2291,6 +2291,50 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			return $this->build_request( "zones/$id/rate_limits", $args )->fetch();
 		}
 
+		/* TODO: Complete Rate Limits for a Zone */
+
+		/**
+		 * Get AML Settings.
+		 *
+		 * Fetch AML configuration for a zone.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#aml-get-aml-settings Documentation
+		 * @param  string $id   Zone ID.
+		 * @return array        Accelerated mobile link settings.
+		 */
+		public function get_zone_aml_settings( string $id ) {
+			return $this->build_request( "zones/$id/amp/viewer" )->fetch();
+		}
+
+		/**
+		 * Update AML Settings.
+		 *
+		 * Update AML configuration for a zone.
+		 *
+		 * @api PUT
+		 * @see https://api.cloudflare.com/#aml-update-aml-settings Documentation
+		 * @param  string $id                 Zone ID.
+		 * @param  bool   $enabled            Enable Accelerated Mobile Links on mobile browsers.
+		 * @param  array  $subdomains         List of subdomains to apply AML to. If value is empty, AML will apply to
+		 *                                    entire zone.
+		 * @param  string $prepend_links_with Prepend AML links with a string. If value is null, links are prepended with
+		 *                                    AMP symbol.
+		 * @return array                      Updated accelerated mobile link settings.
+		 */
+		public function update_zone_aml_settings( string $id, bool $enabled, array $subdomains, string $prepend_links_with = null ) {
+			$args = array(
+				'enabled' => $enabled,
+				'subdomains' => $subdomains,
+			);
+
+			if( null !== $prepend_links_with ){
+				$args['prepend_links_with'] = $prepend_links_with;
+			}
+
+			return $this->build_request( "zones/$id/amp/viewer", $args, 'PUT' )->fetch();
+		}
+
 
 
 
