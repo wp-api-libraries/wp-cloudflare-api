@@ -124,11 +124,12 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			$code = wp_remote_retrieve_response_code( $response );
 			$body = json_decode( wp_remote_retrieve_body( $response ) );
 
+			$this->clear();
+
 			// Return WP_Error if request is not successful.
 			if ( ! $this->is_status_ok( $code ) ) {
 				return new WP_Error( 'response-error', sprintf( __( 'Status: %d', 'wp-postmark-api' ), $code ), $body );
 			}
-			$this->clear();
 
 			return $body;
 		}
@@ -1796,19 +1797,21 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *
 		 * @api POST
 		 * @see https://api.cloudflare.com/#dns-records-for-a-zone-create-dns-record Documentation
-		 * @param  string $id      Zone ID.
-		 * @param  string $type    DNS record type, i.e "A".
-		 * @param  string $name    DNS record name, i.e "example.com".
-		 * @param  string $content DNS record content, i.e "127.0.0.1".
-		 * @param  int    $ttl     Time to live for DNS record. Value of 1 is 'automatic'.
-		 * @param  bool   $proxied Whether the record is receiving the performance and security benefits of Cloudflare.
-		 * @return array           The new DNS record
+		 * @param  string $id       Zone ID.
+		 * @param  string $type     DNS record type, i.e "A".
+		 * @param  string $name     DNS record name, i.e "example.com".
+		 * @param  string $content  DNS record content, i.e "127.0.0.1".
+		 * @param  string $priority DNS record priority.
+		 * @param  int    $ttl      Time to live for DNS record. Value of 1 is 'automatic'.
+		 * @param  bool   $proxied  Whether the record is receiving the performance and security benefits of Cloudflare.
+		 * @return array            The new DNS record
 		 */
-		public function create_zone_dns_record( string $id, string $type, string $name, string $content, int $ttl = null, bool $proxied = null ) {
+		public function create_zone_dns_record( string $id, string $type, string $name, string $content, int $priority = 10,  int $ttl = null, bool $proxied = null ) {
 			$args = array(
 				'type'  => $type,
 				'name'  => $name,
 				'content'  => $content,
+				'priority' => $priority,
 			);
 
 			if( null !== $ttl ){
