@@ -125,7 +125,6 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			$body = json_decode( wp_remote_retrieve_body( $response ) );
 
 			$this->clear();
-
 			// Return WP_Error if request is not successful.
 			if ( ! $this->is_status_ok( $code ) ) {
 				return new WP_Error( 'response-error', sprintf( __( 'Status: %d', 'wp-postmark-api' ), $code ), $body );
