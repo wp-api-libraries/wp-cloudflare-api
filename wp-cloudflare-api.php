@@ -512,6 +512,21 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		}
 
 		/**
+		 * Zone details.
+		 *
+		 * @api GET
+		 * @see https://api.cloudflare.com/#zone-zone-details Documentation
+		 * @param  array $args  Query args to send in to API call. See API docs for details.
+		 * @return array        Zone details.
+		 */
+		public function get_zone_details( string $id ) {
+			if( empty( $id ) ){
+				return new WP_Error( 'data-error',  __( 'Error: ID field is empty' ) );
+			}
+			return $this->build_request( "zones/$id" )->fetch();
+		}
+
+		/**
 		 * Edit Zone Properties.
 		 *
 		 * Only one zone property can be changed at a time.
