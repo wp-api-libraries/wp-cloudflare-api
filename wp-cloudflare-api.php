@@ -478,9 +478,13 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		public function create_zone( $domain, $jump_start = '', $org = array() ) {
 			$args = array(
 				'name' => $domain,
-				'jump_start' => $jump_start,
+				// 'jump_start' => $jump_start,
 				'org' => $org,
 			);
+
+			if( $jump_start ){
+				$args['jump_start'] = $jump_start;
+			}
 
 			return $this->build_request( 'zones', $args, 'POST' )->fetch();
 		}
