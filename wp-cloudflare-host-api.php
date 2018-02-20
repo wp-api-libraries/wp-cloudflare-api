@@ -25,12 +25,42 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 	class CloudFlareHostAPI {
 		
 		/**
+		 * API Key.
+		 *
+		 * @var string
+		 */
+		static protected $host_api_key;
+
+		
+		/**
 		 * CloudFlare Host Base API Endpoint
 		 *
 		 * @var string
 		 * @access protected
 		 */
 		protected $base_uri = 'https://api.cloudflare.com/host-gw.html';
+		
+		
+		/**
+		 * Route being called.
+		 *
+		 * @var string
+		 */
+		protected $route = '';
+		
+		/**
+		 * Class constructor.
+		 *
+		 * @param string $host_api_key          Cloudflare Host API Key.
+		 * @param string $auth_email            Email associated to the account.
+		 * @param string $user_service_key      User Service key.
+		 */
+		public function __construct( $host_api_key, $auth_email, $user_service_key = '' ) {
+			static::$api_key = $api_key;
+			static::$auth_email = $auth_email;
+			static::$user_service_key = $user_service_key;
+		}
+
 		
 		
 		/**
@@ -181,6 +211,9 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 				break;
 				case 106:
 					$msg = __( 'Invalid clobber_unique_id. Must be 0 or 1.', 'wp-cloudflare-api' );
+				break;
+				case 107:
+					$msg = __( 'That action requires either cloudflare_email or unique_id to be defined.', 'wp-cloudflare-api' );
 				break;
 			}
 			
