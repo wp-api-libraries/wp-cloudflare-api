@@ -5,7 +5,7 @@
  * Let it be noted, that there is also an API for client access, rather than partners:
  * https://www.cloudflare.com/docs/railgun/api/client_api.html
  *
- * @link https://www.cloudflare.com/docs/host-api/#s3.2.1/ API Documentation
+ * @link https://www.cloudflare.com/docs/railgun/api/partner_api.html API Documentation
  * @link https://partners.cloudflare.com Parners Control Panel Login
  * @package WP-API-Libraries\WP-IDX-Cloudflare-API
  */
@@ -20,9 +20,9 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 	 * A WordPress API library for accessing the Cloudflare Railgun API as a partner.
 	 *
 	 * @version 1.1.0
-	 * @link https://www.cloudflare.com/docs/host-api/#s3.2.1/ API Documentation
+	 * @link https://www.cloudflare.com/docs/railgun/api/partner_api.html API Documentation
 	 * @package WP-API-Libraries\WP-IDX-Cloudflare-API
-	 * @author Santiago Garza <https://github.com/sfgarza>
+	 * @author Bradley Moore <https://github.com/bradleymoore111>
 	 * @author imFORZA <https://github.com/imforza>
 	 */
 	class CloudFlareRailgunAPI {
@@ -30,12 +30,17 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		/**
 		 * Build request function: prepares the class for a fetch request.
 		 *
-		 * @param  string $route    URL to be accessed.
-		 * @param  array  $args     Arguments to pass in. If the method is GET, will be passed as query arguments attached to the route. If the method is not get, but the content type as defined in headers is 'application/json', then the body of the request will be set to a json_encode of $args. Otherwise, they will be passed as the body.
+		 * @param  string $route  URL to be accessed.
+		 * @param  array  $args   Arguments to pass in. If the method is GET, will be
+		 *                        passed as query arguments attached to the route. If
+		 *                        the method is not get, but the content type as
+		 *                        defined in headers is 'application/json', then the
+		 *                        body of the request will be set to a json_encode of
+		 *                        $args. Otherwise, they will be passed as the body.
 		 * @param  string $method (Default: 'GET') The method.
-		 * @return [type]           The return of the function.
+		 * @return object         The return of theThe response.
 		 */
-		protected function build_request( $route, $body = array(), $method = 'GET' ) {
+		private function build_request( $route, $body = array(), $method = 'GET' ) {
 			$this->set_headers();
 			// Sets method.
 			$this->args['method'] = $method;
@@ -58,7 +63,13 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 			}
 			return $this;
 		}
-		protected function fetch() {
+
+		/**
+		 * Execute the prepared call.
+		 *
+		 * @return object The response.
+		 */
+		private function fetch() {
 
 			$response = wp_remote_request( $this->base_uri . $this->route, $this->args );
 
@@ -77,8 +88,10 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 
 		/**
 		 * Returns whether status is in [ 200, 300 ).
+		 *
+		 * @return bool ^.
 		 */
-		protected function is_status_ok( $code ) {
+		private function is_status_ok( $code ) {
 			return ( 200 <= $code && 300 > $code );
 		}
 
@@ -86,15 +99,24 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * API Key.
 		 *
 		 * @var string
+		 * @access private
 		 */
 		private $api_key;
 
-		private $auth_email;
-
-		private $user_service_key;
-
+		/**
+		 * The total arguments for the call.
+		 *
+		 * @var array
+		 * @access private
+		 */
 		private $args;
 
+		/**
+		 * Whether in development mode or not.
+		 *
+		 * @var bool
+		 * @access private
+		 */
 		private $is_debug;
 
 
@@ -102,22 +124,27 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * CloudFlare Host Base API Endpoint
 		 *
 		 * @var string
-		 * @access protected
+		 * @access private
 		 */
 		private $base_uri = 'https://api.cloudflare.com/api/v2/railgun/';
 
 		/**
 		 * Class constructor.
 		 *
-		 * @param string $host_api_key          Cloudflare Host API Key.
-		 * @param string $auth_email            Email associated to the account.
-		 * @param string $user_service_key      User Service key.
+		 * @param string $host_api_key  Cloudflare Host API Key.
+		 * @param bool   $debug         Email associated to the account.
+		 * @return CloudflareRailgunAPI $this.
 		 */
 		public function __construct( $host_api_key, $debug = false ) {
 			$this->api_key = $host_api_key;
 			$this->debug = false;
 		}
 
+		/**
+		 * Set headers for the outgoing call.
+		 *
+		 * @return void
+		 */
 		private function set_headers(){
 			$this->args['headers'] = array(
 				'Accept'       => '*/*',
@@ -127,16 +154,37 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 
 		/**
 		 * Function to be overwritten, gets called after the request has been made (if status code was ok). Should be used to reset headers.
+		 *
+		 * @access private
+		 * @return void
 		 */
 		private function clear(){
 			$this->args = array();
 		}
 
+		/**
+		 * Wrapper for build_request()->fetch().
+		 *
+		 * Also adds host_key, so kinda helpful.
+		 *
+		 * @param  string $route  The route to execute calls on.
+		 * @param  array  $args   Additional arguments to pass.
+		 * @param  string $method (Default: 'POST') The method.
+		 * @return object         The response.
+		 */
 		private function run( $route, $args = array(), $method = 'POST' ){
 			$args['host_key'] = $this->api_key;
 			return $this->build_request( $route, $args, $method )->fetch();
 		}
 
+		/**
+		 * Go through an associative array of key => vals, and only keep that which
+		 * do not have a null value.
+		 *
+		 * @param  array  $args  The arguments to pass.
+		 * @param  array  $merge (Default: array()) Additional arguments to merge with.
+		 * @return array         The merged/parsed arguments.
+		 */
 		private function parse_args( $args, $merge = array() ){
 	    $results = array();
 
@@ -173,7 +221,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * rtkn is removed from the account and set to deleted status (D).
 		 *
 		 * @param  string $token The railgun token.
-		 * @return [type]        [description]
+		 * @return object        The response.
 		 */
 		public function delete_railgun( $token ){
 			return $this->run( 'delete', array( 'rtkn' => $token ) );
@@ -184,7 +232,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * one or more Railguns assigned to an account. These calls are sometimes
 		 * needed to determine the unique rtkn or id assigned to a Railgun.
 		 *
-		 * @return [type] [description]
+		 * @return object The response.
 		 */
 		public function list_railguns(){
 			return $this->run( 'host_get_all', array(), 'GET' );
@@ -194,7 +242,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * List all active Railgun connections for a domain.
 		 *
 		 * @param  string $domain The domain to check for railguns under.
-		 * @return [type]         [description]
+		 * @return object         The response.
 		 */
 		public function list_railguns_by_domain( $domain ){
 			return $this->run( 'zone_conn_get_active', array( 'z' => $domain ), 'GET' );
@@ -222,7 +270,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @param string $token        The Railgun token.
 		 * @param bool   $auto_enabled (Default: null) Railgun operation mode.
 		 *                             1 for active, 0 for inactive.
-		 * @return
+		 * @return object              The response.
 		 */
 		public function suggestion_set( $domain, $token, $auto_enabled = null ){
 			$args = array(
@@ -246,7 +294,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @param string $domain The domain name.
 		 * @param string $token  The railgun token.
 		 * @param bool   $mode   ailgun operation mode, 1 for active 0 for inactive.
-		 * @return
+		 * @return object The response       .
 		 */
 		public function connection_set( $domain, $token, $mode ){
 			$args = array(
@@ -264,7 +312,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 *
 		 * @param string $domain The domain name.
 		 * @param string $token  The railgun token.
-		 * @return
+		 * @return object The response       .
 		 */
 		public function enable_connection_set( $domain, $token ){
 			$args = array(
@@ -281,7 +329,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 *
 		 * @param string $domain The domain name.
 		 * @param string $token  The railgun token.
-		 * @return
+		 * @return object        The response.
 		 */
 		public function disable_connection_set( $domain, $token ){
 			$args = array(
@@ -300,7 +348,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 *
 		 * @param  string $domain The domain name.
 		 * @param  string $token  The railgun token.
-		 * @return [type]         [description]
+		 * @return object         The response.
 		 */
 		public function delete_connection( $domain, $token ){
 			$args = array(
@@ -336,6 +384,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 *                          you can pass an array of IP ranges, and we will json_encode
 		 *                          them for you, along with attempt to validate them (TODO).
 		 * @param boolean $allow_me (Default: true) Whether to attempt to validate the $ipr format.
+		 * @return object           The response.
 		 */
 		public function set_ip_range( $token, $ipr, $allow_me = true ){
 			if( $allow_me && is_array( $ipr ) || strpos( $ipr, '[' ) !== false ){

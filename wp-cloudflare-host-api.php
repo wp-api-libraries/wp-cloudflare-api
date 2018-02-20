@@ -19,7 +19,7 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 	 * @version 1.1.0
 	 * @link https://www.cloudflare.com/docs/host-api/#s3.2.1/ API Documentation
 	 * @package WP-API-Libraries\WP-IDX-Cloudflare-API
-	 * @author Santiago Garza <https://github.com/sfgarza>
+	 * @author Bradley Moore <https://github.com/bradleymoore111>
 	 * @author imFORZA <https://github.com/imforza>
 	 */
 	class CloudFlareHostAPI {
