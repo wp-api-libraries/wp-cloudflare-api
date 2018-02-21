@@ -70,7 +70,6 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @return object The response.
 		 */
 		private function fetch() {
-
 			$response = wp_remote_request( $this->base_uri . $this->route, $this->args );
 
 			// Retrieve status code and body.
@@ -126,7 +125,9 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @var string
 		 * @access private
 		 */
-		private $base_uri = 'https://api.cloudflare.com/api/v2/railgun/';
+		private $base_uri = 'https://www.cloudflare.com/api/v2/railgun/';
+
+		private $route = '';
 
 		/**
 		 * Class constructor.
