@@ -1824,7 +1824,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  bool   $proxied  Whether the record is receiving the performance and security benefits of Cloudflare.
 		 * @return array            The new DNS record
 		 */
-		public function create_zone_dns_record( string $id, string $type, string $name, string $content, int $priority = 10,  int $ttl = null, bool $proxied = null ) {
+		public function create_zone_dns_record( string $id, string $type, string $name, string $content, int $priority = 0,  int $ttl = null, bool $proxied = null ) {
 			$args = array(
 				'type'  => $type,
 				'name'  => $name,
@@ -1877,20 +1877,23 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *
 		 * @api PUT
 		 * @see https://api.cloudflare.com/#dns-records-for-a-zone-create-dns-record Documentation
-		 * @param  string $id      Zone ID.
-		 * @param  string $dns_id  DNS record ID.
-		 * @param  string $type    DNS record type, i.e "A".
-		 * @param  string $name    DNS record name, i.e "example.com".
-		 * @param  string $content DNS record content, i.e "127.0.0.1".
-		 * @param  int    $ttl     Time to live for DNS record. Value of 1 is 'automatic'.
-		 * @param  bool   $proxied Whether the record is receiving the performance and security benefits of Cloudflare.
-		 * @return array           The updated DNS record
+		 * @param  string $id       Zone ID.
+		 * @param  string $dns_id   DNS record ID.
+		 * @param  string $type     DNS record type, i.e "A".
+		 * @param  string $name     DNS record name, i.e "example.com".
+		 * @param  string $content  DNS record content, i.e "127.0.0.1".
+		 * @param  int    $ttl      Time to live for DNS record. Value of 1 is 'automatic'.
+		 * @param  int    $priority The order that this record should be attempted in
+		 *                          (in case there's multiple records, ie. MX records).
+		 * @param  bool   $proxied  Whether the record is receiving the performance and security benefits of Cloudflare.
+		 * @return array            The updated DNS record
 		 */
-		public function update_zone_dns_record( string $id, string $dns_id, string $type, string $name, string $content, int $ttl = null, bool $proxied = null ) {
+		public function update_zone_dns_record( string $id, string $dns_id, string $type, string $name, string $content, int $ttl = null, int $priority = 0, bool $proxied = null ) {
 			$args = array(
-				'type'  => $type,
-				'name'  => $name,
+				'type'     => $type,
+				'name'     => $name,
 				'content'  => $content,
+				'priority' => $priority
 			);
 
 			if( null !== $ttl ){
@@ -1913,7 +1916,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return array           Array of results.
 		 */
 		public function delete_zone_dns_record( string $id, string $dns_id ) {
-			return $this->build_request( "zones/$id/dns_records/$dns_id", $args, 'DELETE' )->fetch();
+			return $this->build_request( "zones/$id/dns_records/$dns_id", array(), 'DELETE' )->fetch();
 		}
 
 		/**
