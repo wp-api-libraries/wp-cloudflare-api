@@ -106,6 +106,8 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				$this->args['body'] = $args;
 			}
 
+			$this->args['timeout'] = 20;
+
 			return $this;
 		}
 
@@ -118,7 +120,9 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 */
 		protected function fetch() {
 			// Make the request.
+			// pp( $this->base_uri . $this->route, $this->args );
 			$response = wp_remote_request( $this->base_uri . $this->route, $this->args );
+			// pp( $response );
 
 			// Retrieve Status code & body.
 			$code = wp_remote_retrieve_response_code( $response );
@@ -475,15 +479,15 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 *                            must pass at least the ID of the organization.
 		 * @return array              New zone details.
 		 */
-		public function create_zone( $domain, $jump_start = '', $org = array() ) {
+		public function create_zone( $domain, bool $jump_start = true, $org = array() ) {
 			$args = array(
 				'name' => $domain,
-				// 'jump_start' => $jump_start,
-				'org' => $org,
+				'jump_start' => $jump_start,
+				// 'organization' => $org,
 			);
 
-			if( $jump_start ){
-				$args['jump_start'] = $jump_start;
+			if( ! empty( $org ) ){
+				$args['organization'] = $org;
 			}
 
 			return $this->build_request( 'zones', $args, 'POST' )->fetch();
