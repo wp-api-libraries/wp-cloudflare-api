@@ -47,10 +47,10 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 			// Sets route.
 			$this->route = $route;
 
-      // Merge bodies.
-      if( isset( $this->args['body'] ) ){
-        $body = array_merge( $this->args['body'], $body );
-      }
+			// Merge bodies.
+			if ( isset( $this->args['body'] ) ) {
+					$body = array_merge( $this->args['body'], $body );
+			}
 			// If method is get, then there is no body.
 			if ( 'GET' === $method ) {
 				$this->route = add_query_arg( array_filter( $body ), $route );
@@ -146,10 +146,10 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 *
 		 * @return void
 		 */
-		private function set_headers(){
+		private function set_headers() {
 			$this->args['headers'] = array(
 				'Accept'       => '*/*',
-				'Content-Type' => 'application/x-www-form-urlencoded'
+				'Content-Type' => 'application/x-www-form-urlencoded',
 			);
 		}
 
@@ -159,7 +159,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @access private
 		 * @return void
 		 */
-		private function clear(){
+		private function clear() {
 			$this->args = array();
 		}
 
@@ -173,7 +173,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @param  string $method (Default: 'POST') The method.
 		 * @return object         The response.
 		 */
-		private function run( $route, $args = array(), $method = 'POST' ){
+		private function run( $route, $args = array(), $method = 'POST' ) {
 			$args['host_key'] = $this->api_key;
 			return $this->build_request( $route, $args, $method )->fetch();
 		}
@@ -182,23 +182,23 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * Go through an associative array of key => vals, and only keep that which
 		 * do not have a null value.
 		 *
-		 * @param  array  $args  The arguments to pass.
-		 * @param  array  $merge (Default: array()) Additional arguments to merge with.
+		 * @param  array $args  The arguments to pass.
+		 * @param  array $merge (Default: array()) Additional arguments to merge with.
 		 * @return array         The merged/parsed arguments.
 		 */
-		private function parse_args( $args, $merge = array() ){
-	    $results = array();
+		private function parse_args( $args, $merge = array() ) {
+			$results = array();
 
-	    foreach( $args as $key => $val ){
-	      if( $val !== null ){
-	        $results[$key] = $val;
-	      }else if( is_array( $val ) && ! empty( $val ) ){
-	        $results[$key] = $val;
-	      }
-	    }
+			foreach ( $args as $key => $val ) {
+				if ( $val !== null ) {
+					$results[ $key ] = $val;
+				} elseif ( is_array( $val ) && ! empty( $val ) ) {
+					$results[ $key ] = $val;
+				}
+			}
 
-	    return array_merge( $merge, $results );
-	  }
+			return array_merge( $merge, $results );
+		}
 
 		/**
 		 * Create a Railgun. If request is successful, a new Railgun is added to a user
@@ -208,10 +208,10 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @param  string $pubname (Default: null) Name of Railgun shown to users.
 		 * @return object          The return object.
 		 */
-		public function init_railgun( $name = null, $pubname = null ){
+		public function init_railgun( $name = null, $pubname = null ) {
 			$args = $this->parse_args(array(
 				'name' => $name,
-				'pubname' => $pubname
+				'pubname' => $pubname,
 			));
 
 			return $this->run( 'init', $args );
@@ -224,7 +224,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @param  string $token The railgun token.
 		 * @return object        The response.
 		 */
-		public function delete_railgun( $token ){
+		public function delete_railgun( $token ) {
 			return $this->run( 'delete', array( 'rtkn' => $token ) );
 		}
 
@@ -235,7 +235,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 *
 		 * @return object The response.
 		 */
-		public function list_railguns(){
+		public function list_railguns() {
 			return $this->run( 'host_get_all', array(), 'GET' );
 		}
 
@@ -245,7 +245,7 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @param  string $domain The domain to check for railguns under.
 		 * @return object         The response.
 		 */
-		public function list_railguns_by_domain( $domain ){
+		public function list_railguns_by_domain( $domain ) {
 			return $this->run( 'zone_conn_get_active', array( 'z' => $domain ), 'GET' );
 		}
 
@@ -273,13 +273,13 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 *                             1 for active, 0 for inactive.
 		 * @return object              The response.
 		 */
-		public function suggestion_set( $domain, $token, $auto_enabled = null ){
+		public function suggestion_set( $domain, $token, $auto_enabled = null ) {
 			$args = array(
 				'z'    => $domain,
-				'rtkn' => $token
+				'rtkn' => $token,
 			);
 
-			if( null !== $auto_enabled ){
+			if ( null !== $auto_enabled ) {
 				$args['auto_enabled'] = abs( intval( $auto_enabled ) ) % 2; // Little bit of data validation...
 			}
 
@@ -297,11 +297,11 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @param bool   $mode   ailgun operation mode, 1 for active 0 for inactive.
 		 * @return object The response       .
 		 */
-		public function connection_set( $domain, $token, $mode ){
+		public function connection_set( $domain, $token, $mode ) {
 			$args = array(
 				'z'    => $domain,
 				'rtkn' => $token,
-				'mode' => abs( intval( $mode ) ) % 2
+				'mode' => abs( intval( $mode ) ) % 2,
 			);
 
 			return $this->run( 'conn_set', $args );
@@ -315,10 +315,10 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @param string $token  The railgun token.
 		 * @return object The response       .
 		 */
-		public function enable_connection_set( $domain, $token ){
+		public function enable_connection_set( $domain, $token ) {
 			$args = array(
 				'z'    => $domain,
-				'rtkn' => $token
+				'rtkn' => $token,
 			);
 
 			return $this->run( 'conn_setmode_enabled', $args );
@@ -332,10 +332,10 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @param string $token  The railgun token.
 		 * @return object        The response.
 		 */
-		public function disable_connection_set( $domain, $token ){
+		public function disable_connection_set( $domain, $token ) {
 			$args = array(
 				'z'    => $domain,
-				'rtkn' => $token
+				'rtkn' => $token,
 			);
 
 			return $this->run( 'conn_setmode_disabled', $args );
@@ -351,10 +351,10 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @param  string $token  The railgun token.
 		 * @return object         The response.
 		 */
-		public function delete_connection( $domain, $token ){
+		public function delete_connection( $domain, $token ) {
 			$args = array(
 				'z'    => $domain,
-				'rtkn' => $token
+				'rtkn' => $token,
 			);
 
 			return $this->run( 'conn_delete', $args );
@@ -387,14 +387,14 @@ if ( ! class_exists( 'CloudFlareRailgunAPI' ) ) {
 		 * @param boolean $allow_me (Default: true) Whether to attempt to validate the $ipr format.
 		 * @return object           The response.
 		 */
-		public function set_ip_range( $token, $ipr, $allow_me = true ){
-			if( $allow_me && is_array( $ipr ) || strpos( $ipr, '[' ) !== false ){
+		public function set_ip_range( $token, $ipr, $allow_me = true ) {
+			if ( $allow_me && is_array( $ipr ) || strpos( $ipr, '[' ) !== false ) {
 				$ipr = wp_json_encode( $ipr );
 			}
 
 			$args = array(
 				'rtkn' => $token,
-				'ipr'  => $ipr
+				'ipr'  => $ipr,
 			);
 
 			return $this->run( 'ipr_set', $args );

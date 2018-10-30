@@ -123,7 +123,6 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 			// pp( $this->base_uri . $this->route, $this->args );
 			$response = wp_remote_request( $this->base_uri . $this->route, $this->args );
 			// pp( $response );
-
 			// Retrieve Status code & body.
 			$code = wp_remote_retrieve_response_code( $response );
 			$body = json_decode( wp_remote_retrieve_body( $response ) );
@@ -486,7 +485,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				// 'organization' => $org,
 			);
 
-			if( ! empty( $org ) ){
+			if ( ! empty( $org ) ) {
 				$args['organization'] = $org;
 			}
 
@@ -528,7 +527,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @return array        Zone details.
 		 */
 		public function get_zone_details( string $id ) {
-			if( empty( $id ) ){
+			if ( empty( $id ) ) {
 				return new WP_Error( 'data-error',  __( 'Error: ID field is empty' ) );
 			}
 			return $this->build_request( "zones/$id" )->fetch();
@@ -1208,7 +1207,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @api PATCH
 		 * @see https://api.cloudflare.com/#zone-settings-change-always-use-https-setting Documentation
 		 * @param  string $id  Zone ID.
-		 * @param  bool  $on  True to turn on, false to turn off.
+		 * @param  bool   $on  True to turn on, false to turn off.
 		 * @return array       Updated zone setting info.
 		 */
 		public function update_zone_settings_always_use_https( string $id, bool $on ) {
@@ -1453,7 +1452,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 					'css'  => ( true === $on ) ? 'on' : 'off',
 					'html' => ( true === $on ) ? 'on' : 'off',
 					'js'   => ( true === $on ) ? 'on' : 'off',
-				)
+				),
 			);
 			return $this->build_request( "zones/$id/settings/minify", $args, 'PATCH' )->fetch();
 		}
@@ -1478,7 +1477,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 					'status'  => ( true === $on ) ? 'on' : 'off',
 					'mobile_subdomain' => $mobile_subdomain,
 					'strip_uri'   => $strip_uri,
-				)
+				),
 			);
 			return $this->build_request( "zones/$id/settings/mobile_redirect", $args, 'PATCH' )->fetch();
 		}
@@ -1618,7 +1617,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 					'max_age' => $max_age,
 					'enabled' => $include_subdomains,
 					'enabled' => $no_sniff,
-				)
+				),
 			);
 			return $this->build_request( "zones/$id/settings/security_header", $args, 'PATCH' )->fetch();
 		}
@@ -1828,7 +1827,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		 * @param  bool   $proxied  Whether the record is receiving the performance and security benefits of Cloudflare.
 		 * @return array            The new DNS record
 		 */
-		public function create_zone_dns_record( string $id, string $type, string $name, string $content, int $priority = 0,  int $ttl = null, bool $proxied = null ) {
+		public function create_zone_dns_record( string $id, string $type, string $name, string $content, int $priority = 0, int $ttl = null, bool $proxied = null ) {
 			$args = array(
 				'type'  => $type,
 				'name'  => $name,
@@ -1836,10 +1835,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				'priority' => $priority,
 			);
 
-			if( null !== $ttl ){
+			if ( null !== $ttl ) {
 				$args['ttl'] = $ttl;
 			}
-			if( null !== $proxied ){
+			if ( null !== $proxied ) {
 				$args['proxied'] = $proxied;
 			}
 
@@ -1897,13 +1896,13 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				'type'     => $type,
 				'name'     => $name,
 				'content'  => $content,
-				'priority' => $priority
+				'priority' => $priority,
 			);
 
-			if( null !== $ttl ){
+			if ( null !== $ttl ) {
 				$args['ttl'] = $ttl;
 			}
-			if( null !== $proxied ){
+			if ( null !== $proxied ) {
 				$args['proxied'] = $proxied;
 			}
 
@@ -2010,13 +2009,13 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				'until' => $until,
 			);
 
-			if( null !== $sort ){
+			if ( null !== $sort ) {
 				$args['sort'] = $sort;
 			}
-			if( null !== $filters ){
+			if ( null !== $filters ) {
 				$args['filters'] = $filters;
 			}
-			if( null !== $limit ){
+			if ( null !== $limit ) {
 				$args['limit'] = $limit;
 			}
 
@@ -2045,28 +2044,28 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		public function get_zone_dns_analytics_bytime( string $id, array $dimensions = null, array $metrics = null, string $since = null, string $until = null, array $sort = null, string $filters = null, int $limit = null, string $time_delta = null ) {
 			$args = array();
 
-			if( null !== $dimensions ){
+			if ( null !== $dimensions ) {
 				$args['dimensions'] = $dimensions;
 			}
-			if( null !== $metrics ){
+			if ( null !== $metrics ) {
 				$args['metrics'] = $metrics;
 			}
-			if( null !== $since ){
+			if ( null !== $since ) {
 				$args['since'] = $since;
 			}
-			if( null !== $until ){
+			if ( null !== $until ) {
 				$args['until'] = $until;
 			}
-			if( null !== $sort ){
+			if ( null !== $sort ) {
 				$args['sort'] = $sort;
 			}
-			if( null !== $filters ){
+			if ( null !== $filters ) {
 				$args['filters'] = $filters;
 			}
-			if( null !== $limit ){
+			if ( null !== $limit ) {
 				$args['limit'] = $limit;
 			}
-			if( null !== $time_delta ){
+			if ( null !== $time_delta ) {
 				$args['time_delta'] = $time_delta;
 			}
 
@@ -2154,10 +2153,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				'actions' => $actions,
 			);
 
-			if( null !== $priority ){
+			if ( null !== $priority ) {
 				$args['priority'] = $priority;
 			}
-			if( null !== $status ){
+			if ( null !== $status ) {
 				$args['status'] = $status;
 			}
 
@@ -2179,16 +2178,16 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		public function get_zone_pagerules( string $id, string $status = null, string $order = null, string $direction = null, string $match = null ) {
 			$args = array();
 
-			if( null !== $status ){
+			if ( null !== $status ) {
 				$args['status'] = $status;
 			}
-			if( null !== $order ){
+			if ( null !== $order ) {
 				$args['order'] = $order;
 			}
-			if( null !== $direction ){
+			if ( null !== $direction ) {
 				$args['direction'] = $direction;
 			}
-			if( null !== $match ){
+			if ( null !== $match ) {
 				$args['match'] = $match;
 			}
 
@@ -2228,16 +2227,16 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		public function change_zone_pagerule( string $id, string $pr_id, array $targets = null, array $actions = null, int $priority = null, string $status = null ) {
 			$args = array();
 
-			if( null !== $targets ){
+			if ( null !== $targets ) {
 				$args['targets'] = $targets;
 			}
-			if( null !== $actions ){
+			if ( null !== $actions ) {
 				$args['actions'] = $actions;
 			}
-			if( null !== $priority ){
+			if ( null !== $priority ) {
 				$args['priority'] = $priority;
 			}
-			if( null !== $status ){
+			if ( null !== $status ) {
 				$args['status'] = $status;
 			}
 
@@ -2267,10 +2266,10 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				'actions' => $actions,
 			);
 
-			if( null !== $priority ){
+			if ( null !== $priority ) {
 				$args['priority'] = $priority;
 			}
-			if( null !== $status ){
+			if ( null !== $status ) {
 				$args['status'] = $status;
 			}
 
@@ -2303,16 +2302,16 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 		public function get_zone_rate_limits( string $id, string $page = null, string $per_page = null ) {
 			$args = array();
 
-			if( null !== $status ){
+			if ( null !== $status ) {
 				$args['status'] = $status;
 			}
-			if( null !== $order ){
+			if ( null !== $order ) {
 				$args['order'] = $order;
 			}
-			if( null !== $direction ){
+			if ( null !== $direction ) {
 				$args['direction'] = $direction;
 			}
-			if( null !== $match ){
+			if ( null !== $match ) {
 				$args['match'] = $match;
 			}
 
@@ -2356,7 +2355,7 @@ if ( ! class_exists( 'CloudFlareAPI' ) ) {
 				'subdomains' => $subdomains,
 			);
 
-			if( null !== $prepend_links_with ){
+			if ( null !== $prepend_links_with ) {
 				$args['prepend_links_with'] = $prepend_links_with;
 			}
 

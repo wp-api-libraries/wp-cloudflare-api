@@ -38,10 +38,10 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 			// Sets route.
 			$this->route = $route;
 
-      // Merge bodies.
-      if( isset( $this->args['body'] ) ){
-        $body = array_merge( $this->args['body'], $body );
-      }
+			// Merge bodies.
+			if ( isset( $this->args['body'] ) ) {
+					$body = array_merge( $this->args['body'], $body );
+			}
 			// If method is get, then there is no body.
 			if ( 'GET' === $method ) {
 				$this->route = add_query_arg( array_filter( $body ), $route );
@@ -117,29 +117,29 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 		/**
 		 * Function to be overwritten, gets called after the request has been made (if status code was ok). Should be used to reset headers.
 		 */
-		private function clear(){
+		private function clear() {
 			$this->args = array();
 		}
 
-		private function run( $act, $args = array() ){
+		private function run( $act, $args = array() ) {
 			$args['act'] = $act;
 			$args['host_key'] = $this->api_key;
 			return $this->build_request( '', $args, 'POST' )->fetch();
 		}
 
-		private function parse_args( $args, $merge = array() ){
-	    $results = array();
+		private function parse_args( $args, $merge = array() ) {
+			$results = array();
 
-	    foreach( $args as $key => $val ){
-	      if( $val !== null ){
-	        $results[$key] = $val;
-	      }else if( is_array( $val ) && ! empty( $val ) ){
-	        $results[$key] = $val;
-	      }
-	    }
+			foreach ( $args as $key => $val ) {
+				if ( $val !== null ) {
+					$results[ $key ] = $val;
+				} elseif ( is_array( $val ) && ! empty( $val ) ) {
+					$results[ $key ] = $val;
+				}
+			}
 
-	    return array_merge( $merge, $results );
-	  }
+			return array_merge( $merge, $results );
+		}
 
 		/**
 		 * Create a Cloudflare account mapped to your user (required).
@@ -190,9 +190,9 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 			$args = $this->parse_args(array(
 				'cloudflare_email'    => $cloudflare_email,
 				'cloudflare_pass'     => $cloudflare_pass,
-	      'cloudflare_username' => $cloudflare_username,
+				'cloudflare_username' => $cloudflare_username,
 				'unique_id'           => $unique_id,
-				'clobber_unique_id'   => $clobber_unique_id
+				'clobber_unique_id'   => $clobber_unique_id,
 			));
 
 			return $this->run( 'user_create', $args );
@@ -260,7 +260,7 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 		 *                           www.someexample.com.  900  IN  CNAME  www.someexample.com.cdn.cloudflare.net.
 		 */
 		public function zone_set( $user_key, $zone_name, $resolve_to, $subdomains ) {
-			if( is_array( $subdomains ) ){
+			if ( is_array( $subdomains ) ) {
 				$subdomains = implode( ',', $subdomains );
 			}
 
@@ -302,7 +302,7 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 		public function full_zone_set( $user_key, $zone_name ) {
 			$args = array(
 				'user_key' => $user_key,
-				'zone_name' => $zone_name
+				'zone_name' => $zone_name,
 			);
 
 			return $this->run( 'full_zone_set', $args );
@@ -369,7 +369,7 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 				'cloudflare_email'  => $cloudflare_email,
 				'cloudflare_pass'   => $cloudflare_pass,
 				'unique_id'         => $unique_id,
-				'clobber_unique_id' => $clobber_unique_id
+				'clobber_unique_id' => $clobber_unique_id,
 			));
 
 			return $this->run( 'user_auth', $args );
@@ -403,7 +403,7 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 		public function zone_lookup( $user_key, $zone_name ) {
 			$args = array(
 				'user_key'  => $user_key,
-				'zone_name' => $zone_name
+				'zone_name' => $zone_name,
 			);
 
 			return $this->run( 'zone_lookup', $args );
@@ -420,8 +420,8 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 		 * @access public
 		 * @docs https://www.cloudflare.com/docs/host-api/#s3.2.7
 		 * @param  string $user_key  The unique 32 hex character auth string, identifying the
- 		 *                           user's Cloudflare Account. Generated from a user_create
- 		 *                           (Section 3.2.1) or user_auth (Section 3.2.2).
+		 *                           user's Cloudflare Account. Generated from a user_create
+		 *                           (Section 3.2.1) or user_auth (Section 3.2.2).
 		 * @param  string $zone_name The zone you'd like to delete, e.g. "example.com".
 		 * @return object            If the information to lookup the status of a Cloudflare
 		 *                           account is valid and no errors occur, the "zone_delete"
@@ -431,7 +431,7 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 		public function zone_delete( $zone_name ) {
 			$args = array(
 				'user_key'  => $user_key,
-				'zone_name' => $zone_name
+				'zone_name' => $zone_name,
 			);
 
 			return $this->run( 'zone_delete', $args );
@@ -488,7 +488,7 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 				'zone_name'   => $zone_name,
 				'sub_id'      => $sub_id,
 				'zone_status' => $zone_status,
-				'sub_status'  => $sub_status
+				'sub_status'  => $sub_status,
 			));
 
 			return $this->run( 'zone_list', $args );
@@ -524,7 +524,6 @@ if ( ! class_exists( 'CloudFlareHostAPI' ) ) {
 					$msg = __( 'That action requires either cloudflare_email or unique_id to be defined.', 'wp-cloudflare-api' );
 				break;
 			}
-
 
 		}
 
